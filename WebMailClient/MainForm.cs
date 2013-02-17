@@ -15,5 +15,12 @@ namespace WebMailClient
         {
             InitializeComponent();
         }
+
+        private void 通讯录ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            // show contact dialog
+            Contact contact = new Contact();
+            contact.ShowDialog();
+        }
     }
 }

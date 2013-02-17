@@ -100,27 +100,36 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
-    <None Include="webmaildbDataSet.xsc">
-      <DependentUpon>webmaildbDataSet.xsd</DependentUpon>
+    <None Include="webmaildbDataSet1.xsc">
+      <DependentUpon>webmaildbDataSet1.xsd</DependentUpon>
     </None>
-    <None Include="webmaildbDataSet.xsd">
+    <None Include="webmaildbDataSet1.xsd">
       <Generator>MSDataSetGenerator</Generator>
-      <LastGenOutput>webmaildbDataSet.Designer.cs</LastGenOutput>
+      <LastGenOutput>webmaildbDataSet1.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </None>
-    <None Include="webmaildbDataSet.xss">
-      <DependentUpon>webmaildbDataSet.xsd</DependentUpon>
+    <None Include="webmaildbDataSet1.xss">
+      <DependentUpon>webmaildbDataSet1.xsd</DependentUpon>
     </None>
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <Compile Include="webmaildbDataSet.Designer.cs">
+    <Compile Include="webmaildbDataSet1.cs">
+      <DependentUpon>webmaildbDataSet1.xsd</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="webmaildbDataSet1.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>webmaildbDataSet.xsd</DependentUpon>
+      <DependentUpon>webmaildbDataSet1.xsd</DependentUpon>
     </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="webmaildb.mdb">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
