@@ -18,10 +18,9 @@ namespace WebMailClient
 
         private void OnLogin(object sender, EventArgs e)
         {
-            // show main dialog
-            //this.Close();
-            MainForm mainForm = new MainForm();
-            mainForm.ShowDialog();
+            // set login result
+            this.DialogResult = DialogResult.OK;
+            this.Close();
         }
 
         private void button3_Click(object sender, EventArgs e)

@@ -15,7 +15,13 @@ namespace WebMailClient
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Login());
+            Login loginForm = new Login();
+            loginForm.ShowDialog();
+            if (loginForm.DialogResult == DialogResult.OK)
+            {
+                Application.Run(new MainForm());
+            }
+            
         }
     }
 }

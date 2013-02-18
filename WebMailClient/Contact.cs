@@ -18,8 +18,7 @@ namespace WebMailClient
 
         private void Contact_Load(object sender, EventArgs e)
         {
-            // TODO: This line of code loads data into the 'webmaildbDataSet1.Contact' table. You can move, or remove it, as needed.
-            this.contactTableAdapter1.Fill(this.webmaildbDataSet1.Contact);
+
         }
 
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
