@@ -23,9 +23,20 @@ namespace WebMailClient
             this.Close();
         }
 
-        private void button3_Click(object sender, EventArgs e)
+        private void OnRegister(object sender, EventArgs e)
         {
+            Register regForm = new Register();
+            regForm.ShowDialog();
+            if (regForm.DialogResult == DialogResult.OK)
+            {
+                // store register information
+            }
+        }
 
+        private void OnReset(object sender, EventArgs e)
+        {
+            textBoxUserName.Text = "";
+            textBoxPassword.Text = "";
         }
     }
 }
