@@ -30,15 +30,15 @@
         {
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this.label3 = new System.Windows.Forms.Label();
             this.textBoxUserName = new System.Windows.Forms.TextBox();
             this.textBoxPassword = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
+            this.textBoxReEnterPassword = new System.Windows.Forms.TextBox();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             this.buttonConfirm = new System.Windows.Forms.Button();
             this.buttonCancel = new System.Windows.Forms.Button();
-            this.label3 = new System.Windows.Forms.Label();
-            this.textBoxReEnterPassword = new System.Windows.Forms.TextBox();
             this.tableLayoutPanel2.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
             this.flowLayoutPanel1.SuspendLayout();
@@ -83,6 +83,16 @@
             this.tableLayoutPanel1.Size = new System.Drawing.Size(293, 162);
             this.tableLayoutPanel1.TabIndex = 0;
             // 
+            // label3
+            // 
+            this.label3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(3, 127);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(81, 13);
+            this.label3.TabIndex = 4;
+            this.label3.Text = "重新输入";
+            // 
             // textBoxUserName
             // 
             this.textBoxUserName.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
@@ -120,6 +130,15 @@
             this.label1.TabIndex = 0;
             this.label1.Text = "用户名";
             // 
+            // textBoxReEnterPassword
+            // 
+            this.textBoxReEnterPassword.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.textBoxReEnterPassword.Location = new System.Drawing.Point(90, 124);
+            this.textBoxReEnterPassword.Name = "textBoxReEnterPassword";
+            this.textBoxReEnterPassword.Size = new System.Drawing.Size(200, 20);
+            this.textBoxReEnterPassword.TabIndex = 5;
+            this.textBoxReEnterPassword.UseSystemPasswordChar = true;
+            // 
             // flowLayoutPanel1
             // 
             this.flowLayoutPanel1.Anchor = System.Windows.Forms.AnchorStyles.None;
@@ -140,6 +159,7 @@
             this.buttonConfirm.TabIndex = 1;
             this.buttonConfirm.Text = "确定";
             this.buttonConfirm.UseVisualStyleBackColor = true;
+            this.buttonConfirm.Click += new System.EventHandler(this.buttonConfirm_Click);
             // 
             // buttonCancel
             // 
@@ -149,25 +169,6 @@
             this.buttonCancel.TabIndex = 2;
             this.buttonCancel.Text = "清除";
             this.buttonCancel.UseVisualStyleBackColor = true;
-            // 
-            // label3
-            // 
-            this.label3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(3, 127);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(81, 13);
-            this.label3.TabIndex = 4;
-            this.label3.Text = "重新输入";
-            // 
-            // textBoxReEnterPassword
-            // 
-            this.textBoxReEnterPassword.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBoxReEnterPassword.Location = new System.Drawing.Point(90, 124);
-            this.textBoxReEnterPassword.Name = "textBoxReEnterPassword";
-            this.textBoxReEnterPassword.Size = new System.Drawing.Size(200, 20);
-            this.textBoxReEnterPassword.TabIndex = 5;
-            this.textBoxReEnterPassword.UseSystemPasswordChar = true;
             // 
             // Register
             // 

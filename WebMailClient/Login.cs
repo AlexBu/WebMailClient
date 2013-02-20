@@ -30,6 +30,12 @@ namespace WebMailClient
             if (regForm.DialogResult == DialogResult.OK)
             {
                 // store register information
+                string connectionStr = "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=..\\..\\webmaildb.mdb";
+                string insertStr = null;
+                StringBuilder builder = new StringBuilder();
+                builder.AppendFormat("INSERT INTO User VALUES ('{0}', '{1}')", regForm.GetUsername(), regForm.GetPassword());
+                insertStr = builder.ToString();
+                DBAccess.CreateConnection(connectionStr, insertStr);
             }
         }
 

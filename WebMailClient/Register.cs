@@ -15,5 +15,21 @@ namespace WebMailClient
         {
             InitializeComponent();
         }
+
+        public string GetUsername()
+        {
+            return textBoxUserName.Text;
+        }
+
+        public string GetPassword()
+        {
+            return textBoxPassword.Text;
+        }
+
+        private void buttonConfirm_Click(object sender, EventArgs e)
+        {
+            this.DialogResult = DialogResult.OK;
+            this.Close();
+        }
     }
 }
