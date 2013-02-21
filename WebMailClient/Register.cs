@@ -23,13 +23,20 @@ namespace WebMailClient
 
         public string GetPassword()
         {
-            return textBoxPassword.Text;
+            return MD5Crypt.getMd5Hash(textBoxPassword.Text);
         }
 
         private void buttonConfirm_Click(object sender, EventArgs e)
         {
-            this.DialogResult = DialogResult.OK;
-            this.Close();
+            if(textBoxPassword.Text != textBoxReEnterPassword.Text)
+            {
+                MessageBox.Show("密码不一致!", "Webmail", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+            }
+            else
+            {
+                this.DialogResult = DialogResult.OK;
+                this.Close();
+            }
         }
     }
 }

@@ -18,9 +18,22 @@ namespace WebMailClient
 
         private void OnLogin(object sender, EventArgs e)
         {
-            // set login result
-            this.DialogResult = DialogResult.OK;
-            this.Close();
+            string connectionStr = "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=..\\..\\webmaildb.mdb";
+            string queryStr = null;
+            StringBuilder builder = new StringBuilder();
+            builder.AppendFormat("SELECT * FROM [User] WHERE [Username] = '{0}' AND [Password] = '{1}'", textBoxUserName.Text, MD5Crypt.getMd5Hash(textBoxPassword.Text));
+            queryStr = builder.ToString();
+            if (DBAccess.QuerySingleRow(connectionStr, queryStr))
+            {
+                MessageBox.Show("登录成功!", "Webmail", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+                // set login result
+                this.DialogResult = DialogResult.OK;
+                this.Close();
+            }
+            else
+            {
+                MessageBox.Show("登录失败!", "Webmail", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+            }
         }
 
         private void OnRegister(object sender, EventArgs e)
@@ -33,9 +46,16 @@ namespace WebMailClient
                 string connectionStr = "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=..\\..\\webmaildb.mdb";
                 string insertStr = null;
                 StringBuilder builder = new StringBuilder();
-                builder.AppendFormat("INSERT INTO User VALUES ('{0}', '{1}')", regForm.GetUsername(), regForm.GetPassword());
+                builder.AppendFormat("INSERT INTO [User] ([Username], [Password]) VALUES ('{0}', '{1}')", regForm.GetUsername(), regForm.GetPassword());
                 insertStr = builder.ToString();
-                DBAccess.CreateConnection(connectionStr, insertStr);
+                if (DBAccess.ExecuteSQL(connectionStr, insertStr))
+                {
+                    MessageBox.Show("注册成功!", "Webmail", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+                }
+                else
+                {
+                    MessageBox.Show("注册失败!", "Webmail", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+                }
             }
         }
 

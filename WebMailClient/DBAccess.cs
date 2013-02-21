@@ -2,13 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Data;
 using System.Data.OleDb;
 
 namespace WebMailClient
 {
     public class DBAccess
     {
-        static public bool CreateConnection(string ConnectionString, string SQLCommand)
+        static public bool ExecuteSQL(string ConnectionString, string SQLCommand)
         {
             OleDbConnection MdbConnection = null;
             OleDbCommand AccessCommand = null;
@@ -16,8 +17,8 @@ namespace WebMailClient
             try
             {
                 MdbConnection = new OleDbConnection(ConnectionString);
-                AccessCommand = new OleDbCommand(SQLCommand, MdbConnection);
                 MdbConnection.Open();
+                AccessCommand = new OleDbCommand(SQLCommand, MdbConnection);
                 affectedRow = AccessCommand.ExecuteNonQuery();
             }
             catch (System.Exception)
@@ -29,12 +30,36 @@ namespace WebMailClient
                 MdbConnection.Close();
             }
             
-            return true;
+            if(affectedRow != 0)
+                return true;
+            return false;
         }
 
-        static int Insert()
+        static public bool QuerySingleRow(string ConnectionString, string SQLCommand)
         {
-            return 0;
+            OleDbConnection MdbConnection = null;
+            OleDbCommand AccessCommand = null;
+            OleDbDataReader reader = null;
+            bool queryResult = false;
+            try
+            {
+                MdbConnection = new OleDbConnection(ConnectionString);
+                MdbConnection.Open();
+                AccessCommand = new OleDbCommand(SQLCommand, MdbConnection);
+                reader = AccessCommand.ExecuteReader(CommandBehavior.SingleRow);
+            }
+            catch (System.Exception)
+            {
+
+            }
+            finally
+            {
+                queryResult = reader.HasRows;
+                reader.Close();
+                MdbConnection.Close();
+            }
+
+            return queryResult;
         }
     }
 }
