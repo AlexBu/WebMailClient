@@ -18,12 +18,10 @@ namespace WebMailClient
 
         private void Contact_Load(object sender, EventArgs e)
         {
-
-        }
-
-        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
-
+            // load  contact data
+            string connectionStr = "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=..\\..\\webmaildb.mdb";
+            string queryStr = "SELECT * FROM [Contact]";
+            DBAccess.FillDataSet(connectionStr, queryStr, ref dataSetContact);
         }
     }
 }
