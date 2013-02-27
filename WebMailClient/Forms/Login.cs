@@ -16,7 +16,7 @@ namespace WebMailClient
             InitializeComponent();
         }
 
-        private void OnLogin(object sender, EventArgs e)
+        private void buttonLogin_Click(object sender, EventArgs e)
         {
             string connectionStr = "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=..\\..\\webmaildb.mdb";
             string queryStr = null;
@@ -27,8 +27,8 @@ namespace WebMailClient
             {
                 MessageBox.Show("登录成功!", "Webmail", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
                 // set login result
-                this.DialogResult = DialogResult.OK;
-                this.Close();
+                DialogResult = DialogResult.OK;
+                Close();
             }
             else
             {
@@ -36,7 +36,7 @@ namespace WebMailClient
             }
         }
 
-        private void OnRegister(object sender, EventArgs e)
+        private void buttonRegister_Click(object sender, EventArgs e)
         {
             Register regForm = new Register();
             regForm.ShowDialog();
@@ -59,7 +59,7 @@ namespace WebMailClient
             }
         }
 
-        private void OnReset(object sender, EventArgs e)
+        private void buttonReset_Click(object sender, EventArgs e)
         {
             textBoxUserName.Text = "";
             textBoxPassword.Text = "";

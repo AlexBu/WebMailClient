@@ -30,6 +30,7 @@
         {
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.文件ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.通讯录ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.编辑ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.查看ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.帮助ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -38,7 +39,6 @@
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.treeView1 = new System.Windows.Forms.TreeView();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            this.通讯录ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -64,8 +64,15 @@
             this.文件ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.通讯录ToolStripMenuItem});
             this.文件ToolStripMenuItem.Name = "文件ToolStripMenuItem";
-            this.文件ToolStripMenuItem.Size = new System.Drawing.Size(43, 20);
-            this.文件ToolStripMenuItem.Text = "文件";
+            this.文件ToolStripMenuItem.Size = new System.Drawing.Size(57, 20);
+            this.文件ToolStripMenuItem.Text = "文件(&F)";
+            // 
+            // 通讯录ToolStripMenuItem
+            // 
+            this.通讯录ToolStripMenuItem.Name = "通讯录ToolStripMenuItem";
+            this.通讯录ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.通讯录ToolStripMenuItem.Text = "通讯录(&C)";
+            this.通讯录ToolStripMenuItem.Click += new System.EventHandler(this.通讯录ToolStripMenuItem_Click);
             // 
             // 编辑ToolStripMenuItem
             // 
@@ -134,13 +141,6 @@
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.Size = new System.Drawing.Size(583, 496);
             this.dataGridView1.TabIndex = 0;
-            // 
-            // 通讯录ToolStripMenuItem
-            // 
-            this.通讯录ToolStripMenuItem.Name = "通讯录ToolStripMenuItem";
-            this.通讯录ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.通讯录ToolStripMenuItem.Text = "通讯录";
-            this.通讯录ToolStripMenuItem.Click += new System.EventHandler(this.通讯录ToolStripMenuItem_Click);
             // 
             // MainForm
             // 

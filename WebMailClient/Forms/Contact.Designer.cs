@@ -29,9 +29,6 @@
         private void InitializeComponent()
         {
             this.dataGridViewContact = new System.Windows.Forms.DataGridView();
-            this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.buttonAdd = new System.Windows.Forms.Button();
             this.buttonDelete = new System.Windows.Forms.Button();
             this.buttonSearch = new System.Windows.Forms.Button();
@@ -48,35 +45,14 @@
             this.dataGridViewContact.AllowUserToDeleteRows = false;
             this.dataGridViewContact.BackgroundColor = System.Drawing.SystemColors.Window;
             this.dataGridViewContact.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridViewContact.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.Column1,
-            this.Column2,
-            this.Column3});
             this.dataGridViewContact.Location = new System.Drawing.Point(12, 50);
             this.dataGridViewContact.Name = "dataGridViewContact";
             this.dataGridViewContact.ReadOnly = true;
             this.dataGridViewContact.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dataGridViewContact.Size = new System.Drawing.Size(447, 366);
             this.dataGridViewContact.TabIndex = 0;
-            // 
-            // Column1
-            // 
-            this.Column1.HeaderText = "邮件地址";
-            this.Column1.Name = "Column1";
-            this.Column1.ReadOnly = true;
-            // 
-            // Column2
-            // 
-            this.Column2.HeaderText = "姓名";
-            this.Column2.Name = "Column2";
-            this.Column2.ReadOnly = true;
-            // 
-            // Column3
-            // 
-            this.Column3.HeaderText = "备注";
-            this.Column3.Name = "Column3";
-            this.Column3.ReadOnly = true;
-            this.Column3.Width = 200;
+            this.dataGridViewContact.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.dataGridViewContact_MouseDoubleClick);
+            this.dataGridViewContact.CellContentDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridViewContact_CellContentDoubleClick);
             // 
             // buttonAdd
             // 
@@ -86,6 +62,7 @@
             this.buttonAdd.TabIndex = 1;
             this.buttonAdd.Text = "添加";
             this.buttonAdd.UseVisualStyleBackColor = true;
+            this.buttonAdd.Click += new System.EventHandler(this.buttonAdd_Click);
             // 
             // buttonDelete
             // 
@@ -95,6 +72,7 @@
             this.buttonDelete.TabIndex = 2;
             this.buttonDelete.Text = "删除";
             this.buttonDelete.UseVisualStyleBackColor = true;
+            this.buttonDelete.Click += new System.EventHandler(this.buttonDelete_Click);
             // 
             // buttonSearch
             // 
@@ -152,9 +130,6 @@
         private System.Windows.Forms.Button buttonAdd;
         private System.Windows.Forms.Button buttonDelete;
         private System.Windows.Forms.Button buttonSearch;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column1;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column2;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column3;
         private System.Windows.Forms.Button buttonSend;
         private System.Windows.Forms.TextBox textBoxSearch;
         private System.Data.DataSet dataSetContact;

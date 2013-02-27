@@ -34,8 +34,8 @@ namespace WebMailClient
             }
             else
             {
-                this.DialogResult = DialogResult.OK;
-                this.Close();
+                DialogResult = DialogResult.OK;
+                Close();
             }
         }
     }

@@ -67,13 +67,14 @@ namespace WebMailClient
             OleDbConnection MdbConnection = null;
             OleDbCommand AccessCommand = null;
             OleDbDataAdapter MdbDataAdapter = null;
+            int addedRow = 0;
             try
             {
                 MdbConnection = new OleDbConnection(ConnectionString);
                 MdbConnection.Open();
                 AccessCommand = new OleDbCommand(SQLCommand, MdbConnection);
                 MdbDataAdapter = new OleDbDataAdapter(AccessCommand);
-                MdbDataAdapter.Fill(dataset);
+                addedRow = MdbDataAdapter.Fill(dataset);
             }
             catch (System.Exception)
             {

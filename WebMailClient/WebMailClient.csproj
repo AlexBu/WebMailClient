@@ -55,6 +55,12 @@
       <DependentUpon>Contact.cs</DependentUpon>
     </Compile>
     <Compile Include="Classes\DBAccess.cs" />
+    <Compile Include="Forms\EditContact.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\EditContact.Designer.cs">
+      <DependentUpon>EditContact.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\EditMail.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -78,6 +84,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Forms\Contact.resx">
       <DependentUpon>Contact.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\EditContact.resx">
+      <DependentUpon>EditContact.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\EditMail.resx">
       <DependentUpon>EditMail.cs</DependentUpon>

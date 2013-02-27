@@ -107,17 +107,18 @@
             this.buttonLogin.TabIndex = 1;
             this.buttonLogin.Text = "登录";
             this.buttonLogin.UseVisualStyleBackColor = true;
-            this.buttonLogin.Click += new System.EventHandler(this.OnLogin);
+            this.buttonLogin.Click += new System.EventHandler(this.buttonLogin_Click);
             // 
             // buttonReset
             // 
+            this.buttonReset.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.buttonReset.Location = new System.Drawing.Point(84, 3);
             this.buttonReset.Name = "buttonReset";
             this.buttonReset.Size = new System.Drawing.Size(75, 23);
             this.buttonReset.TabIndex = 2;
             this.buttonReset.Text = "清除";
             this.buttonReset.UseVisualStyleBackColor = true;
-            this.buttonReset.Click += new System.EventHandler(this.OnReset);
+            this.buttonReset.Click += new System.EventHandler(this.buttonReset_Click);
             // 
             // buttonRegister
             // 
@@ -127,7 +128,7 @@
             this.buttonRegister.TabIndex = 3;
             this.buttonRegister.Text = "注册";
             this.buttonRegister.UseVisualStyleBackColor = true;
-            this.buttonRegister.Click += new System.EventHandler(this.OnRegister);
+            this.buttonRegister.Click += new System.EventHandler(this.buttonRegister_Click);
             // 
             // tableLayoutPanel2
             // 
@@ -161,6 +162,7 @@
             // 
             // Login
             // 
+            this.AcceptButton = this.buttonLogin;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(557, 249);
