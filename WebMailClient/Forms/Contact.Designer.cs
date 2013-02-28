@@ -51,8 +51,7 @@
             this.dataGridViewContact.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dataGridViewContact.Size = new System.Drawing.Size(447, 366);
             this.dataGridViewContact.TabIndex = 0;
-            this.dataGridViewContact.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.dataGridViewContact_MouseDoubleClick);
-            this.dataGridViewContact.CellContentDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridViewContact_CellContentDoubleClick);
+            this.dataGridViewContact.CellMouseDoubleClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dataGridViewContact_CellMouseDoubleClick);
             // 
             // buttonAdd
             // 

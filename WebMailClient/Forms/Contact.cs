@@ -39,6 +39,37 @@ namespace WebMailClient
             dataGridViewContact.Columns[3].HeaderText = "备注";
         }
 
+        private void EditContact(int row)
+        {
+            // edit record
+            EditContact editContact = new EditContact();
+            editContact.ID = dataGridViewContact.Rows[row].Cells[0].Value.ToString();
+            editContact.EmailAddress = dataGridViewContact.Rows[row].Cells[1].Value.ToString();
+            editContact.ContactName = dataGridViewContact.Rows[row].Cells[2].Value.ToString();
+            editContact.Comment = dataGridViewContact.Rows[row].Cells[3].Value.ToString();
+            editContact.ShowDialog();
+            if (editContact.DialogResult == DialogResult.OK)
+            {
+                // add record
+                string connectionStr = "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=..\\..\\webmaildb.mdb";
+                string updateStr = null;
+                StringBuilder builder = new StringBuilder();
+                builder.AppendFormat("UPDATE [Contact] SET [Email Address] = '{0}', [Name] = '{1}', [comment] = '{2}' WHERE [ID] = {3}",
+                    editContact.EmailAddress, editContact.ContactName, editContact.Comment, editContact.ID);
+                updateStr = builder.ToString();
+                if (DBAccess.ExecuteSQL(connectionStr, updateStr))
+                {
+                    MessageBox.Show("更新联系人成功!", "Webmail", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+                }
+                else
+                {
+                    MessageBox.Show("更新联系人失败!", "Webmail", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+                }
+
+                LoadContact();
+            }
+        }
+
         private void buttonAdd_Click(object sender, EventArgs e)
         {
             EditContact editContact = new EditContact();
@@ -65,41 +96,6 @@ namespace WebMailClient
             }
         }
 
-        private void dataGridViewContact_CellContentDoubleClick(object sender, DataGridViewCellEventArgs e)
-        {
-            if (e.RowIndex == -1)
-            {
-                return;
-            }
-            // edit record
-            EditContact editContact = new EditContact();
-            editContact.ID = dataGridViewContact.Rows[e.RowIndex].Cells[0].Value.ToString();
-            editContact.EmailAddress = dataGridViewContact.Rows[e.RowIndex].Cells[1].Value.ToString();
-            editContact.ContactName = dataGridViewContact.Rows[e.RowIndex].Cells[2].Value.ToString();
-            editContact.Comment = dataGridViewContact.Rows[e.RowIndex].Cells[3].Value.ToString();
-            editContact.ShowDialog();
-            if (editContact.DialogResult == DialogResult.OK)
-            {
-                // add record
-                string connectionStr = "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=..\\..\\webmaildb.mdb";
-                string updateStr = null;
-                StringBuilder builder = new StringBuilder();
-                builder.AppendFormat("UPDATE [Contact] SET [Email Address] = '{0}', [Name] = '{1}', [comment] = '{2}' WHERE [ID] = {3}",
-                    editContact.EmailAddress, editContact.ContactName, editContact.Comment, editContact.ID);
-                updateStr = builder.ToString();
-                if (DBAccess.ExecuteSQL(connectionStr, updateStr))
-                {
-                    MessageBox.Show("更新联系人成功!", "Webmail", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
-                }
-                else
-                {
-                    MessageBox.Show("更新联系人失败!", "Webmail", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
-                }
-
-                LoadContact();
-            }
-        }
-
         private void buttonDelete_Click(object sender, EventArgs e)
         {
             // delete record
@@ -107,7 +103,13 @@ namespace WebMailClient
             string insertStr = null;
             StringBuilder builder = new StringBuilder();
             // need to process multi rows
-            builder.AppendFormat("DELETE FROM [Contact] WHERE [ID] = {0}", dataGridViewContact.SelectedRows[0].Cells[0].Value.ToString());
+            builder.AppendFormat("DELETE FROM [Contact] WHERE ");
+            foreach (DataGridViewRow row in dataGridViewContact.SelectedRows)
+            {
+                builder.AppendFormat("[ID] = {0} OR ", row.Cells[0].Value.ToString());
+            }
+            builder.AppendFormat("0");  // meaningless
+
             insertStr = builder.ToString();
             if (DBAccess.ExecuteSQL(connectionStr, insertStr))
             {
@@ -121,9 +123,13 @@ namespace WebMailClient
             LoadContact();
         }
 
-        private void dataGridViewContact_MouseDoubleClick(object sender, MouseEventArgs e)
+        private void dataGridViewContact_CellMouseDoubleClick(object sender, DataGridViewCellMouseEventArgs e)
         {
-
+            if (e.RowIndex == -1)
+            {
+                return;
+            }
+            EditContact(e.RowIndex);
         }
     }
 }
