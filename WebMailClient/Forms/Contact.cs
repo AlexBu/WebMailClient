@@ -131,5 +131,12 @@ namespace WebMailClient
             }
             EditContact(e.RowIndex);
         }
+
+        private void buttonSend_Click(object sender, EventArgs e)
+        {
+            // display edit mail dialog
+            EditMail editMail = new EditMail();
+            editMail.ShowDialog();
+        }
     }
 }

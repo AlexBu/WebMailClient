@@ -28,30 +28,30 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.richTextBox1 = new System.Windows.Forms.RichTextBox();
+            this.richTextBoxContent = new System.Windows.Forms.RichTextBox();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            this.textBox2 = new System.Windows.Forms.TextBox();
-            this.textBox3 = new System.Windows.Forms.TextBox();
-            this.textBox4 = new System.Windows.Forms.TextBox();
-            this.button1 = new System.Windows.Forms.Button();
-            this.button2 = new System.Windows.Forms.Button();
+            this.textBoxReceive = new System.Windows.Forms.TextBox();
+            this.textBoxCC = new System.Windows.Forms.TextBox();
+            this.textBoxBCC = new System.Windows.Forms.TextBox();
+            this.textBoxTitle = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
-            this.textBox5 = new System.Windows.Forms.TextBox();
+            this.textBoxAttachment = new System.Windows.Forms.TextBox();
+            this.buttonSendMail = new System.Windows.Forms.Button();
+            this.buttonSaveDraft = new System.Windows.Forms.Button();
             this.tableLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
-            // richTextBox1
+            // richTextBoxContent
             // 
-            this.richTextBox1.Location = new System.Drawing.Point(43, 222);
-            this.richTextBox1.Name = "richTextBox1";
-            this.richTextBox1.Size = new System.Drawing.Size(641, 293);
-            this.richTextBox1.TabIndex = 0;
-            this.richTextBox1.Text = "";
+            this.richTextBoxContent.Location = new System.Drawing.Point(43, 222);
+            this.richTextBoxContent.Name = "richTextBoxContent";
+            this.richTextBoxContent.Size = new System.Drawing.Size(641, 293);
+            this.richTextBoxContent.TabIndex = 0;
+            this.richTextBoxContent.Text = "";
             // 
             // tableLayoutPanel1
             // 
@@ -62,12 +62,12 @@
             this.tableLayoutPanel1.Controls.Add(this.label2, 0, 1);
             this.tableLayoutPanel1.Controls.Add(this.label3, 0, 2);
             this.tableLayoutPanel1.Controls.Add(this.label4, 0, 3);
-            this.tableLayoutPanel1.Controls.Add(this.textBox1, 1, 0);
-            this.tableLayoutPanel1.Controls.Add(this.textBox2, 1, 1);
-            this.tableLayoutPanel1.Controls.Add(this.textBox3, 1, 2);
-            this.tableLayoutPanel1.Controls.Add(this.textBox4, 1, 3);
+            this.tableLayoutPanel1.Controls.Add(this.textBoxReceive, 1, 0);
+            this.tableLayoutPanel1.Controls.Add(this.textBoxCC, 1, 1);
+            this.tableLayoutPanel1.Controls.Add(this.textBoxBCC, 1, 2);
+            this.tableLayoutPanel1.Controls.Add(this.textBoxTitle, 1, 3);
             this.tableLayoutPanel1.Controls.Add(this.label5, 0, 4);
-            this.tableLayoutPanel1.Controls.Add(this.textBox5, 1, 4);
+            this.tableLayoutPanel1.Controls.Add(this.textBoxAttachment, 1, 4);
             this.tableLayoutPanel1.Location = new System.Drawing.Point(43, 19);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 5;
@@ -86,7 +86,7 @@
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(34, 13);
             this.label1.TabIndex = 0;
-            this.label1.Text = "发送:";
+            this.label1.Text = "收件:";
             // 
             // label2
             // 
@@ -115,51 +115,33 @@
             this.label4.TabIndex = 3;
             this.label4.Text = "主题:";
             // 
-            // textBox1
+            // textBoxReceive
             // 
-            this.textBox1.Location = new System.Drawing.Point(325, 3);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(100, 20);
-            this.textBox1.TabIndex = 4;
+            this.textBoxReceive.Location = new System.Drawing.Point(325, 3);
+            this.textBoxReceive.Name = "textBoxReceive";
+            this.textBoxReceive.Size = new System.Drawing.Size(100, 20);
+            this.textBoxReceive.TabIndex = 4;
             // 
-            // textBox2
+            // textBoxCC
             // 
-            this.textBox2.Location = new System.Drawing.Point(325, 30);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(100, 20);
-            this.textBox2.TabIndex = 5;
+            this.textBoxCC.Location = new System.Drawing.Point(325, 30);
+            this.textBoxCC.Name = "textBoxCC";
+            this.textBoxCC.Size = new System.Drawing.Size(100, 20);
+            this.textBoxCC.TabIndex = 5;
             // 
-            // textBox3
+            // textBoxBCC
             // 
-            this.textBox3.Location = new System.Drawing.Point(325, 67);
-            this.textBox3.Name = "textBox3";
-            this.textBox3.Size = new System.Drawing.Size(100, 20);
-            this.textBox3.TabIndex = 6;
+            this.textBoxBCC.Location = new System.Drawing.Point(325, 67);
+            this.textBoxBCC.Name = "textBoxBCC";
+            this.textBoxBCC.Size = new System.Drawing.Size(100, 20);
+            this.textBoxBCC.TabIndex = 6;
             // 
-            // textBox4
+            // textBoxTitle
             // 
-            this.textBox4.Location = new System.Drawing.Point(325, 101);
-            this.textBox4.Name = "textBox4";
-            this.textBox4.Size = new System.Drawing.Size(100, 20);
-            this.textBox4.TabIndex = 7;
-            // 
-            // button1
-            // 
-            this.button1.Location = new System.Drawing.Point(582, 531);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
-            this.button1.TabIndex = 2;
-            this.button1.Text = "发送";
-            this.button1.UseVisualStyleBackColor = true;
-            // 
-            // button2
-            // 
-            this.button2.Location = new System.Drawing.Point(492, 531);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(75, 23);
-            this.button2.TabIndex = 3;
-            this.button2.Text = "保存为草稿";
-            this.button2.UseVisualStyleBackColor = true;
+            this.textBoxTitle.Location = new System.Drawing.Point(325, 101);
+            this.textBoxTitle.Name = "textBoxTitle";
+            this.textBoxTitle.Size = new System.Drawing.Size(100, 20);
+            this.textBoxTitle.TabIndex = 7;
             // 
             // label5
             // 
@@ -170,22 +152,41 @@
             this.label5.TabIndex = 8;
             this.label5.Text = "附件";
             // 
-            // textBox5
+            // textBoxAttachment
             // 
-            this.textBox5.Location = new System.Drawing.Point(325, 140);
-            this.textBox5.Name = "textBox5";
-            this.textBox5.Size = new System.Drawing.Size(100, 20);
-            this.textBox5.TabIndex = 9;
+            this.textBoxAttachment.Location = new System.Drawing.Point(325, 140);
+            this.textBoxAttachment.Name = "textBoxAttachment";
+            this.textBoxAttachment.Size = new System.Drawing.Size(100, 20);
+            this.textBoxAttachment.TabIndex = 9;
+            // 
+            // buttonSendMail
+            // 
+            this.buttonSendMail.Location = new System.Drawing.Point(582, 531);
+            this.buttonSendMail.Name = "buttonSendMail";
+            this.buttonSendMail.Size = new System.Drawing.Size(75, 23);
+            this.buttonSendMail.TabIndex = 2;
+            this.buttonSendMail.Text = "发送";
+            this.buttonSendMail.UseVisualStyleBackColor = true;
+            this.buttonSendMail.Click += new System.EventHandler(this.buttonSendMail_Click);
+            // 
+            // buttonSaveDraft
+            // 
+            this.buttonSaveDraft.Location = new System.Drawing.Point(492, 531);
+            this.buttonSaveDraft.Name = "buttonSaveDraft";
+            this.buttonSaveDraft.Size = new System.Drawing.Size(75, 23);
+            this.buttonSaveDraft.TabIndex = 3;
+            this.buttonSaveDraft.Text = "保存为草稿";
+            this.buttonSaveDraft.UseVisualStyleBackColor = true;
             // 
             // EditMail
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(826, 594);
-            this.Controls.Add(this.button2);
-            this.Controls.Add(this.button1);
+            this.ClientSize = new System.Drawing.Size(729, 572);
+            this.Controls.Add(this.buttonSaveDraft);
+            this.Controls.Add(this.buttonSendMail);
             this.Controls.Add(this.tableLayoutPanel1);
-            this.Controls.Add(this.richTextBox1);
+            this.Controls.Add(this.richTextBoxContent);
             this.Name = "EditMail";
             this.Text = "邮件编写";
             this.tableLayoutPanel1.ResumeLayout(false);
@@ -196,19 +197,19 @@
 
         #endregion
 
-        private System.Windows.Forms.RichTextBox richTextBox1;
+        private System.Windows.Forms.RichTextBox richTextBoxContent;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.TextBox textBox1;
-        private System.Windows.Forms.TextBox textBox2;
-        private System.Windows.Forms.TextBox textBox3;
-        private System.Windows.Forms.TextBox textBox4;
-        private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.TextBox textBoxReceive;
+        private System.Windows.Forms.TextBox textBoxCC;
+        private System.Windows.Forms.TextBox textBoxBCC;
+        private System.Windows.Forms.TextBox textBoxTitle;
+        private System.Windows.Forms.Button buttonSendMail;
+        private System.Windows.Forms.Button buttonSaveDraft;
         private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.TextBox textBox5;
+        private System.Windows.Forms.TextBox textBoxAttachment;
     }
 }

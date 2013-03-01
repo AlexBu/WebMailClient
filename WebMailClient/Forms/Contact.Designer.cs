@@ -90,6 +90,7 @@
             this.buttonSend.TabIndex = 7;
             this.buttonSend.Text = "发送邮件";
             this.buttonSend.UseVisualStyleBackColor = true;
+            this.buttonSend.Click += new System.EventHandler(this.buttonSend_Click);
             // 
             // textBoxSearch
             // 
