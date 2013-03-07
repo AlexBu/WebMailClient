@@ -29,6 +29,7 @@ namespace WebMailClient
                 hiddenID = value;
             }
         }
+
         public string EmailAddress
         {
             get

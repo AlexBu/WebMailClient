@@ -21,7 +21,6 @@ namespace WebMailClient
             {
                 Application.Run(new MainForm());
             }
-            
         }
     }
 }

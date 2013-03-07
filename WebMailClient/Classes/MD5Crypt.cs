@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using System.Security.Cryptography;
 
-
 namespace WebMailClient
 {
     public class MD5Crypt

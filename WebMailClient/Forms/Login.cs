@@ -23,16 +23,25 @@ namespace WebMailClient
             StringBuilder builder = new StringBuilder();
             builder.AppendFormat("SELECT * FROM [User] WHERE [Username] = '{0}' AND [Password] = '{1}'", textBoxUserName.Text, MD5Crypt.getMd5Hash(textBoxPassword.Text));
             queryStr = builder.ToString();
-            if (DBAccess.QuerySingleRow(connectionStr, queryStr))
+            int queryResult = (int)DBAccess.QuerySingleItem(connectionStr, queryStr);
+            if (queryResult > 0)
             {
                 MessageBox.Show("登录成功!", "Webmail", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
                 // set login result
                 DialogResult = DialogResult.OK;
+                // save session
+                Session.LoginName = textBoxUserName.Text;
+                Session.LoginID = queryResult;
                 Close();
             }
             else
             {
                 MessageBox.Show("登录失败!", "Webmail", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+                // save session
+                Session.LoginName = null;
+                Session.LoginID = -1;
+                // reset input
+                ResetInput();
             }
         }
 
@@ -60,6 +69,11 @@ namespace WebMailClient
         }
 
         private void buttonReset_Click(object sender, EventArgs e)
+        {
+            ResetInput();
+        }
+
+        private void ResetInput()
         {
             textBoxUserName.Text = "";
             textBoxPassword.Text = "";
