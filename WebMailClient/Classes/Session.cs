@@ -9,7 +9,9 @@ namespace WebMailClient
     {
         private static string username;
         private static int userid;
-        private static List<string> accountlist = new List<string>();
+        private static int accountid;
+        private static string accountname;
+        private static string accountpass;
 
         public static string LoginName
         {
@@ -35,15 +37,39 @@ namespace WebMailClient
             }
         }
 
-        public static List<string> AccountNames
+        public static int AccountID
         {
             get
             {
-                return accountlist;
+                return accountid;
             }
             set
             {
-                accountlist = value;
+                accountid = value;
+            }
+        }
+
+        public static string AccountName
+        {
+            get
+            {
+                return accountname;
+            }
+            set
+            {
+                accountname = value;
+            }
+        }
+
+        public static string AccountPass
+        {
+            get
+            {
+                return accountpass;
+            }
+            set
+            {
+                accountpass = value;
             }
         }
     }

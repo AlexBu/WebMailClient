@@ -35,17 +35,20 @@ namespace WebMailClient
             return false;
         }
 
-        static public object QuerySingleItem(string ConnectionString, string SQLCommand)
+        static public object QuerySingleItem(string ConnectionString, string SQLCommand, int index)
         {
             OleDbConnection MdbConnection = null;
             OleDbCommand AccessCommand = null;
-            object queryResult = -1;
+            OleDbDataReader DataReader = null;
+            object queryResult = null;
             try
             {
                 MdbConnection = new OleDbConnection(ConnectionString);
                 MdbConnection.Open();
                 AccessCommand = new OleDbCommand(SQLCommand, MdbConnection);
-                queryResult = AccessCommand.ExecuteScalar();
+                DataReader = AccessCommand.ExecuteReader(CommandBehavior.SingleRow);
+                if (DataReader.Read() == true)
+                    queryResult = DataReader.GetValue(index);
             }
             catch (System.Exception)
             {
@@ -53,6 +56,7 @@ namespace WebMailClient
             }
             finally
             {
+                DataReader.Close();
                 MdbConnection.Close();
             }
 

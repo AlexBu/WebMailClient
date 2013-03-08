@@ -11,6 +11,12 @@ namespace WebMailClient
 {
     public partial class MainForm : Form
     {
+        private DataTable datatableInbox;
+        private DataTable datatableOutbox;
+        private DataTable datatableDraft;
+        private DataTable datatableRecycle;
+        private DataTable datatableSentbox;
+
         public MainForm()
         {
             InitializeComponent();
@@ -33,30 +39,70 @@ namespace WebMailClient
 
         private void LoadTreeView()
         {
-            // add root node
-            TreeNode newNode = new TreeNode("Text for new node");
-            treeViewMailBox.Nodes.Add(newNode);
+            // add nodes to the tree view
+            TreeNode rootNode = new TreeNode(Session.AccountName);
+            treeViewMailBox.Nodes.Add(rootNode);
+            TreeNode inboxNode = new TreeNode("收件箱");
+            rootNode.Nodes.Add(inboxNode);
+            TreeNode outboxNode = new TreeNode("发件箱");
+            rootNode.Nodes.Add(outboxNode);
+            TreeNode draftNode = new TreeNode("草稿箱");
+            rootNode.Nodes.Add(draftNode);
+            TreeNode recycleNode = new TreeNode("回收站");
+            rootNode.Nodes.Add(recycleNode);
+            TreeNode sentboxNode = new TreeNode("已发送");
+            rootNode.Nodes.Add(sentboxNode);
+            rootNode.Expand();
         }
 
         private void LoadEmailDB()
         {
             string connectionStr = "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=..\\..\\webmaildb.mdb";
-            string queryStr = null;
+            string queryStr = String.Format("SELECT [ID], [Accountname], [Accountpass] FROM [Account] WHERE [UserID] = {0}", Session.LoginID);
             // get account
-            StringBuilder queryBuilder = new StringBuilder();
-            queryBuilder.AppendFormat("SELECT [Accountname] FROM [Account] WHERE [UserID] = {0}", Session.LoginID);
-            queryStr = queryBuilder.ToString();
-            string accountStr = (string)DBAccess.QuerySingleItem(connectionStr, queryStr);
-            if(accountStr != null)
-                Session.AccountNames.Add(accountStr);
+            Session.AccountID   =    (int)DBAccess.QuerySingleItem(connectionStr, queryStr, 0);
+            Session.AccountName = (string)DBAccess.QuerySingleItem(connectionStr, queryStr, 1);
+            Session.AccountPass = (string)DBAccess.QuerySingleItem(connectionStr, queryStr, 2);
+
+            if (Session.AccountName == null)
+                return;
 
             // get mail data
-            queryStr = @"SELECT 
-                [User.ID], [User.Username], [Account.ID], [Account.Accountname], 
-                [Mail.ID], [Mail.UIDL], [Mail.ReadFlag], [Mail.Folder] 
-                FROM [User], [Account], [Mail] 
-                WHERE [User.ID] = [Account.UserID] AND [Account.ID] = [Mail.AccountID]";
+            queryStr = String.Format(@"SELECT [Mail.ID], [Mail.UIDL], [Mail.ReadFlag], [Mail.Folder] 
+                FROM [Mail] WHERE [Mail.AccountID] = {0}", Session.AccountID);
             DBAccess.FillDataSet(connectionStr, queryStr, ref dataSetEmailLocal);
+
+            // load into different datatable
+            LoadInboxDB();
+            LoadOutboxDB();
+            LoadDraftDB();
+            LoadRecycleDB();
+            LoadSentboxDB();
+        }
+
+        private void LoadSentboxDB()
+        {
+            throw new NotImplementedException();
+        }
+
+        private void LoadRecycleDB()
+        {
+            throw new NotImplementedException();
+        }
+
+        private void LoadDraftDB()
+        {
+            throw new NotImplementedException();
+        }
+
+        private void LoadOutboxDB()
+        {
+            throw new NotImplementedException();
+        }
+
+        private void LoadInboxDB()
+        {
+            throw new NotImplementedException();
         }
 
         private void ContactToolStripMenuItem_Click(object sender, EventArgs e)

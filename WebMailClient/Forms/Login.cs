@@ -19,11 +19,8 @@ namespace WebMailClient
         private void buttonLogin_Click(object sender, EventArgs e)
         {
             string connectionStr = "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=..\\..\\webmaildb.mdb";
-            string queryStr = null;
-            StringBuilder builder = new StringBuilder();
-            builder.AppendFormat("SELECT * FROM [User] WHERE [Username] = '{0}' AND [Password] = '{1}'", textBoxUserName.Text, MD5Crypt.getMd5Hash(textBoxPassword.Text));
-            queryStr = builder.ToString();
-            int queryResult = (int)DBAccess.QuerySingleItem(connectionStr, queryStr);
+            string queryStr = String.Format("SELECT * FROM [User] WHERE [Username] = '{0}' AND [Password] = '{1}'", textBoxUserName.Text, MD5Crypt.getMd5Hash(textBoxPassword.Text));
+            int queryResult = (int)DBAccess.QuerySingleItem(connectionStr, queryStr, 0);
             if (queryResult > 0)
             {
                 MessageBox.Show("登录成功!", "Webmail", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
@@ -53,10 +50,7 @@ namespace WebMailClient
             {
                 // store register information
                 string connectionStr = "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=..\\..\\webmaildb.mdb";
-                string insertStr = null;
-                StringBuilder builder = new StringBuilder();
-                builder.AppendFormat("INSERT INTO [User] ([Username], [Password]) VALUES ('{0}', '{1}')", regForm.GetUsername(), regForm.GetPassword());
-                insertStr = builder.ToString();
+                string insertStr = String.Format("INSERT INTO [User] ([Username], [Password]) VALUES ('{0}', '{1}')", regForm.GetUsername(), regForm.GetPassword());
                 if (DBAccess.ExecuteSQL(connectionStr, insertStr))
                 {
                     MessageBox.Show("注册成功!", "Webmail", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);

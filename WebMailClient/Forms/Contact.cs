@@ -52,11 +52,8 @@ namespace WebMailClient
             {
                 // add record
                 string connectionStr = "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=..\\..\\webmaildb.mdb";
-                string updateStr = null;
-                StringBuilder builder = new StringBuilder();
-                builder.AppendFormat("UPDATE [Contact] SET [Email Address] = '{0}', [Name] = '{1}', [comment] = '{2}' WHERE [ID] = {3}",
+                string updateStr = String.Format("UPDATE [Contact] SET [Email Address] = '{0}', [Name] = '{1}', [comment] = '{2}' WHERE [ID] = {3}",
                     editContact.EmailAddress, editContact.ContactName, editContact.Comment, editContact.ID);
-                updateStr = builder.ToString();
                 if (DBAccess.ExecuteSQL(connectionStr, updateStr))
                 {
                     MessageBox.Show("更新联系人成功!", "Webmail", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
@@ -78,11 +75,8 @@ namespace WebMailClient
             {
                 // add record
                 string connectionStr = "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=..\\..\\webmaildb.mdb";
-                string insertStr = null;
-                StringBuilder builder = new StringBuilder();
-                builder.AppendFormat("INSERT INTO [Contact] ([Email Address], [Name], [comment]) VALUES ('{0}', '{1}', '{2}')", 
+                string insertStr = String.Format("INSERT INTO [Contact] ([Email Address], [Name], [comment]) VALUES ('{0}', '{1}', '{2}')", 
                     editContact.EmailAddress, editContact.ContactName, editContact.Comment);
-                insertStr = builder.ToString();
                 if (DBAccess.ExecuteSQL(connectionStr, insertStr))
                 {
                     MessageBox.Show("添加联系人成功!", "Webmail", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
