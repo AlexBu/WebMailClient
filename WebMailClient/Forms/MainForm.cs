@@ -70,14 +70,14 @@ namespace WebMailClient
             // get mail data
             queryStr = String.Format(@"SELECT [Mail.ID], [Mail.UIDL], [Mail.ReadFlag], [Mail.Folder] 
                 FROM [Mail] WHERE [Mail.AccountID] = {0}", Session.AccountID);
-            DBAccess.FillDataSet(connectionStr, queryStr, ref dataSetEmailLocal);
+            //DBAccess.FillDataSet(connectionStr, queryStr, ref dataSetEmailLocal);
 
             // load into different datatable
-            LoadInboxDB();
-            LoadOutboxDB();
-            LoadDraftDB();
-            LoadRecycleDB();
-            LoadSentboxDB();
+            //LoadInboxDB();
+            //LoadOutboxDB();
+            //LoadDraftDB();
+            //LoadRecycleDB();
+            //LoadSentboxDB();
         }
 
         private void LoadSentboxDB()
@@ -102,7 +102,10 @@ namespace WebMailClient
 
         private void LoadInboxDB()
         {
-            throw new NotImplementedException();
+            datatableInbox = new DataTable();
+//            queryStr = String.Format(@"SELECT [Mail.ID], [Mail.UIDL], [Mail.ReadFlag], [Mail.Folder] 
+//                FROM [Mail] WHERE [Mail.AccountID] = {0}", Session.AccountID);
+//            DBAccess.FillDataSet(connectionStr, queryStr, ref dataSetEmailLocal);
         }
 
         private void ContactToolStripMenuItem_Click(object sender, EventArgs e)

@@ -63,7 +63,7 @@ namespace WebMailClient
             return queryResult;
         }
 
-        static public void FillDataSet(string ConnectionString, string SQLCommand, ref DataSet dataset)
+        static public void FillDataSet(string ConnectionString, string SQLCommand, ref DataTable dataset)
         {
             OleDbConnection MdbConnection = null;
             OleDbCommand AccessCommand = null;

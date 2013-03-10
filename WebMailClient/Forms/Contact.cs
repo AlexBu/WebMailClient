@@ -27,10 +27,12 @@ namespace WebMailClient
             // load  contact data
             string connectionStr = "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=..\\..\\webmaildb.mdb";
             string queryStr = "SELECT * FROM [Contact]";
-            DBAccess.FillDataSet(connectionStr, queryStr, ref dataSetContact);
+            DataTable datatable = new DataTable();
+            dataSetContact.Tables.Add(datatable);
+            DBAccess.FillDataSet(connectionStr, queryStr, ref datatable);
 
             dataGridViewContact.AutoGenerateColumns = true;
-            dataGridViewContact.DataSource = dataSetContact.Tables[0];
+            dataGridViewContact.DataSource = datatable;//dataSetContact.Tables[0];
             dataGridViewContact.AutoResizeColumns();
             // hide the first column
             dataGridViewContact.Columns[0].Visible = false;
