@@ -35,6 +35,10 @@ namespace WebMailClient
         private void DownloadEmailData()
         {
             //throw new NotImplementedException();
+            Pop3 mailbox = new Pop3("pop3.163.com");
+            mailbox.Connect();
+            mailbox.Receive(Session.AccountName, Session.AccountPass);
+            mailbox.DisConnect();
         }
 
         private void LoadTreeView()
@@ -82,22 +86,22 @@ namespace WebMailClient
 
         private void LoadSentboxDB()
         {
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
         }
 
         private void LoadRecycleDB()
         {
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
         }
 
         private void LoadDraftDB()
         {
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
         }
 
         private void LoadOutboxDB()
         {
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
         }
 
         private void LoadInboxDB()

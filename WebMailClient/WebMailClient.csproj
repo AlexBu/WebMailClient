@@ -48,6 +48,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Classes\POP3.cs" />
     <Compile Include="Classes\Session.cs" />
     <Compile Include="Forms\Contact.cs">
       <SubType>Form</SubType>
