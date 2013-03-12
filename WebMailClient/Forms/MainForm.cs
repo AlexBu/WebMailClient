@@ -12,10 +12,10 @@ namespace WebMailClient
     public partial class MainForm : Form
     {
         private DataTable datatableInbox;
-        private DataTable datatableOutbox;
-        private DataTable datatableDraft;
-        private DataTable datatableRecycle;
-        private DataTable datatableSentbox;
+        //private DataTable datatableOutbox;
+        //private DataTable datatableDraft;
+        //private DataTable datatableRecycle;
+        //private DataTable datatableSentbox;
 
         public MainForm()
         {
@@ -34,7 +34,7 @@ namespace WebMailClient
 
         private void DownloadEmailData()
         {
-            //throw new NotImplementedException();
+            // download email data and fill into database
             Pop3 mailbox = new Pop3("pop3.163.com");
             mailbox.Connect();
             mailbox.Receive(Session.AccountName, Session.AccountPass);
@@ -74,7 +74,7 @@ namespace WebMailClient
             // get mail data
             queryStr = String.Format(@"SELECT [Mail.ID], [Mail.UIDL], [Mail.ReadFlag], [Mail.Folder] 
                 FROM [Mail] WHERE [Mail.AccountID] = {0}", Session.AccountID);
-            //DBAccess.FillDataSet(connectionStr, queryStr, ref dataSetEmailLocal);
+            //DBAccess.FillDataTable(connectionStr, queryStr, ref dataSetEmailLocal);
 
             // load into different datatable
             //LoadInboxDB();
@@ -109,7 +109,7 @@ namespace WebMailClient
             datatableInbox = new DataTable();
 //            queryStr = String.Format(@"SELECT [Mail.ID], [Mail.UIDL], [Mail.ReadFlag], [Mail.Folder] 
 //                FROM [Mail] WHERE [Mail.AccountID] = {0}", Session.AccountID);
-//            DBAccess.FillDataSet(connectionStr, queryStr, ref dataSetEmailLocal);
+//            DBAccess.FillDataTable(connectionStr, queryStr, ref dataSetEmailLocal);
         }
 
         private void ContactToolStripMenuItem_Click(object sender, EventArgs e)

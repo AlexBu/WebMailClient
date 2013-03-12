@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Net.Sockets;
 using System.IO;
+using System.Data.OleDb;
 
 namespace WebMailClient
 
@@ -85,7 +86,7 @@ namespace WebMailClient
 
  
 
-        #region 属性
+        #region Properties
 
         /// <summary>
 
@@ -127,7 +128,7 @@ namespace WebMailClient
 
  
 
-        #region 私有方法
+        #region Privates
 
         /// <summary>
 
@@ -258,11 +259,74 @@ namespace WebMailClient
 
         }
 
+        /// </returns>
+
+        private string[] ReceiveMail(string user, string password)
+        {
+
+            int iMailNumber = 0; //邮件数
+
+            if (USER(user).Equals("Error"))
+
+                throw new Exception("用户名不正确！");
+
+            if (PASS(password).Equals("Error"))
+
+                throw new Exception("用户口令不正确！");
+
+            if (STAT().Equals("Error"))
+
+                throw new Exception("准备接收邮件时发生错误！");
+
+            if (LIST().Equals("Error"))
+
+                throw new Exception("得到邮件列表时发生错误！");
+
+            try
+            {
+
+                iMailNumber = GetMailNumber(mstrStatMessage);
+
+                //没有新邮件
+
+                if (iMailNumber == 0)
+
+                    return null;
+
+                else
+                {
+
+                    string[] strMailContent = new string[iMailNumber];
+
+                    for (int i = 1; i <= iMailNumber; i++)
+                    {
+
+                        //读取邮件内容
+
+                        strMailContent[i - 1] = GetDecodeMailContent(RETR(i));
+
+                    }
+
+                    return strMailContent;
+
+                }
+
+            }
+
+            catch (Exception exc)
+            {
+
+                throw new Exception(exc.ToString());
+
+            }
+
+        }
+
         #endregion
 
 
 
-        #region Pop3命令
+        #region Pop3Command
 
         /// <summary>
 
@@ -480,74 +544,6 @@ namespace WebMailClient
 
         /// 内容：解码前的邮件内容
 
-        /// </returns>
-
-        private string[] ReceiveMail(string user, string password)
-
-        {
-
-            int iMailNumber = 0; //邮件数
-
-            if (USER(user).Equals("Error"))
-
-                throw new Exception("用户名不正确！");
-
-            if (PASS(password).Equals("Error"))
-
-                throw new Exception("用户口令不正确！");
-
-            if (STAT().Equals("Error"))
-
-                throw new Exception("准备接收邮件时发生错误！");
-
-            if (LIST().Equals("Error"))
-
-                throw new Exception("得到邮件列表时发生错误！");
-
-            try
-
-            {
-
-                iMailNumber = GetMailNumber(mstrStatMessage);
-
-                //没有新邮件
-
-                if (iMailNumber == 0)
-
-                    return null;
-
-                else
-
-                {
-
-                    string[] strMailContent = new string[iMailNumber];
-
-                    for (int i = 1; i <= iMailNumber; i++)
-
-                    {
-
-                        //读取邮件内容
-
-                        strMailContent[i - 1] = GetDecodeMailContent(RETR(i));
-
-                    }
-
-                    return strMailContent;
-
-                }
-
-            }
-
-            catch (Exception exc)
-
-            {
-
-                throw new Exception(exc.ToString());
-
-            }
-
-        }
-
         #endregion
 
         /// <summary>
@@ -719,6 +715,25 @@ namespace WebMailClient
 
         }
 
+        public bool IsEmailDownloaded(string uidl)
+        {
+            string connectionStr = "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=..\\..\\webmaildb.mdb";
+            string queryStr = String.Format("SELECT [ID] FROM [Mail] WHERE [UIDL] = {0}", uidl);
+            int id = (int)DBAccess.QuerySingleItem(connectionStr, queryStr, 0);
+            if (id > 0)
+                return true;
+            else
+                return false;
+        }
+
+        public bool SaveEmailViaUIDL(string uidl, byte[] emailStream)
+        {
+            string connectionStr = "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=..\\..\\webmaildb.mdb";
+            string queryStr = String.Format("INSERT INTO [Mail] ([AccountID], [UIDL], [ReadFlag], [Content], [Folder]) VALUES({0}, '{1}', {2}, @EmailData, {3})",
+                Session.AccountID, uidl, "Yes", 0);
+            OleDbParameter par = new OleDbParameter("@EmailData", emailStream);
+            return DBAccess.ExecuteSQL(connectionStr, queryStr, par);
+        }
     }
 
 }

@@ -29,7 +29,7 @@ namespace WebMailClient
             string queryStr = "SELECT * FROM [Contact]";
             DataTable datatable = new DataTable();
             dataSetContact.Tables.Add(datatable);
-            DBAccess.FillDataSet(connectionStr, queryStr, ref datatable);
+            DBAccess.FillDataTable(connectionStr, queryStr, ref datatable);
 
             dataGridViewContact.AutoGenerateColumns = true;
             dataGridViewContact.DataSource = datatable;//dataSetContact.Tables[0];
