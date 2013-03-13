@@ -234,29 +234,10 @@ namespace WebMailClient
 
         /// <remarks>得到解码后的邮件的内容</remarks>
 
-        private string GetDecodeMailContent(string encodingContent)
-
+        private string GetDecodeMailContent(List<string> encodingContent)
         {
-
-            string strContent = encodingContent.Trim();
-
-            string strEncode = null;
-
-            int iStart = strContent.IndexOf("Base64");
-
-            if (iStart == -1)
-
-                throw new Exception("邮件内容不是Base64编码，请检查");
-
-            else
-
-            {
-
-                strEncode = strContent.Substring(iStart + 6, strContent.Length - iStart - 6);
-
-                return strEncode;
-            }
-
+            // need implementation
+            return null;
         }
 
         /// </returns>
@@ -344,177 +325,118 @@ namespace WebMailClient
 
         /// </returns>
 
-        private string ExecuteCommand(string command)
-
+        private List<string> ExecuteCommand(string command)
         {
-
-            string strMessage = null; //执行Pop3命令后返回的消息
+            List<string> strMessage = new List<string>(); //执行Pop3命令后返回的消息
 
             try
-
             {
-
                 //发送命令
-
                 WriteToNetStream(ref mnetStream, command);
 
-                //读取多行
-
-                if (command.Substring(0, 4).Equals("LIST") || command.Substring(0, 4).Equals("RETR") || command.Substring(0, 4).Equals("UIDL")) //记录STAT后的消息（其中包含邮件数）
-
+                string strOneline = null;
+                while (true)
                 {
-
-                    strMessage = ReadMultiLine();
-
-                    if (command.Equals("LIST")) //记录LIST后的消息（其中包含邮件数）
-
-                        mstrStatMessage = strMessage;
-
+                    strOneline = m_stmReader.ReadLine();
+                    if (strOneline == "." || strOneline == null)
+                        break;
+                    strMessage.Add(strOneline);
                 }
 
-                //读取单行
-
-                else
-
-                    strMessage = m_stmReader.ReadLine();
+                //if (command.Equals("LIST")) //记录LIST后的消息（其中包含邮件数）
+                //    mstrStatMessage = strMessage;
 
                 //判断执行结果是否正确
-
-                if (CheckCorrect(strMessage, "+OK"))
-
+                if (CheckCorrect(strMessage[0], "+OK"))
                     return strMessage;
-
                 else
-
-                    return "Error";
-
+                    return null;
             }
 
             catch (IOException exc)
-
             {
-
                 throw new Exception(exc.ToString());
-
             }
-
         }
 
-        /// <summary>
-
-        /// 在Pop3命令中，LIST、RETR和UIDL命令的结果要返回多行，以点号（.）结尾，
-
-        /// 所以如果想得到正确的结果，必须读取多行
-
-        /// </summary>
-
-        /// <returns>
-
-        /// 类型：字符串
-
-        /// 内容：执行Pop3命令后的结果
-
-        /// </returns>
-
-        private string ReadMultiLine()
-
-        {
-
-            string strMessage = m_stmReader.ReadLine();
-
-            string strTemp = null;
-
-            while (strMessage != ".")
-
-            {
-
-                strTemp = strTemp + strMessage;
-
-                strMessage = m_stmReader.ReadLine();
-
-            }
-
-            return strTemp;
-
-        }
 
         //USER命令
 
-        private string USER(string user)
+        private List<string> USER(string user)
 
         {
 
-            return ExecuteCommand("USER " + user) + "\r\n";
+            return ExecuteCommand("USER " + user);
 
         }
 
         //PASS命令
 
-        private string PASS(string password)
+        private List<string> PASS(string password)
 
         {
 
-            return ExecuteCommand("PASS " + password) + "\r\n";
+            return ExecuteCommand("PASS " + password);
 
         }
 
         //LIST命令
 
-        private string LIST()
+        private List<string> LIST()
 
         {
 
-            return ExecuteCommand("LIST") + "\r\n";
+            return ExecuteCommand("LIST");
 
         }
 
         //UIDL命令
 
-        private string UIDL()
+        private List<string> UIDL()
 
         {
 
-            return ExecuteCommand("UIDL") + "\r\n";
+            return ExecuteCommand("UIDL");
 
         }
 
         //NOOP命令
 
-        private string NOOP()
+        private List<string> NOOP()
 
         {
 
-            return ExecuteCommand("NOOP") + "\r\n";
+            return ExecuteCommand("NOOP");
 
         }
 
         //STAT命令
 
-        private string STAT()
+        private List<string> STAT()
 
         {
 
-            return ExecuteCommand("STAT") + "\r\n";
+            return ExecuteCommand("STAT");
 
         }
 
         //RETR命令
 
-        private string RETR(int number)
+        private List<string> RETR(int number)
 
         {
 
-            return ExecuteCommand("RETR " + number.ToString()) + "\r\n";
+            return ExecuteCommand("RETR " + number.ToString());
 
         }
 
         //DELE命令
 
-        private string DELE(int number)
+        private List<string> DELE(int number)
 
         {
 
-            return ExecuteCommand("DELE " + number.ToString()) + "\r\n";
+            return ExecuteCommand("DELE " + number.ToString());
 
         }
 
