@@ -18,10 +18,9 @@ namespace WebMailClient
 
         private void buttonLogin_Click(object sender, EventArgs e)
         {
-            string connectionStr = "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=..\\..\\webmaildb.mdb";
             string queryStr = String.Format("SELECT * FROM [User] WHERE [Username] = '{0}' AND [Password] = '{1}'", textBoxUserName.Text, MD5Crypt.getMd5Hash(textBoxPassword.Text));
             object[] values = { null };
-            if(DBAccess.QuerySingleRecord(connectionStr, queryStr, ref values) == 1)
+            if(DBAccess.QuerySingleRecord(queryStr, ref values) == 1)
             {
                 MessageBox.Show("登录成功!", "Webmail", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
                 // set login result
@@ -49,9 +48,8 @@ namespace WebMailClient
             if (regForm.DialogResult == DialogResult.OK)
             {
                 // store register information
-                string connectionStr = "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=..\\..\\webmaildb.mdb";
                 string insertStr = String.Format("INSERT INTO [User] ([Username], [Password]) VALUES ('{0}', '{1}')", regForm.GetUsername(), regForm.GetPassword());
-                if (DBAccess.ExecuteSQL(connectionStr, insertStr))
+                if (DBAccess.ExecuteSQL(insertStr))
                 {
                     MessageBox.Show("注册成功!", "Webmail", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
                 }

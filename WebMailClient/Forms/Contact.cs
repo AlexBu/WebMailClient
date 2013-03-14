@@ -25,11 +25,10 @@ namespace WebMailClient
         {
             dataSetContact.Clear();
             // load  contact data
-            string connectionStr = "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=..\\..\\webmaildb.mdb";
             string queryStr = "SELECT * FROM [Contact]";
             DataTable datatable = new DataTable();
             dataSetContact.Tables.Add(datatable);
-            DBAccess.FillDataTable(connectionStr, queryStr, ref datatable);
+            DBAccess.FillDataTable(queryStr, ref datatable);
 
             dataGridViewContact.AutoGenerateColumns = true;
             dataGridViewContact.DataSource = datatable;//dataSetContact.Tables[0];
@@ -53,10 +52,9 @@ namespace WebMailClient
             if (editContact.DialogResult == DialogResult.OK)
             {
                 // add record
-                string connectionStr = "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=..\\..\\webmaildb.mdb";
                 string updateStr = String.Format("UPDATE [Contact] SET [Email Address] = '{0}', [Name] = '{1}', [comment] = '{2}' WHERE [ID] = {3}",
                     editContact.EmailAddress, editContact.ContactName, editContact.Comment, editContact.ID);
-                if (DBAccess.ExecuteSQL(connectionStr, updateStr))
+                if (DBAccess.ExecuteSQL(updateStr))
                 {
                     MessageBox.Show("更新联系人成功!", "Webmail", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
                 }
@@ -76,10 +74,9 @@ namespace WebMailClient
             if (editContact.DialogResult == DialogResult.OK)
             {
                 // add record
-                string connectionStr = "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=..\\..\\webmaildb.mdb";
                 string insertStr = String.Format("INSERT INTO [Contact] ([Email Address], [Name], [comment]) VALUES ('{0}', '{1}', '{2}')", 
                     editContact.EmailAddress, editContact.ContactName, editContact.Comment);
-                if (DBAccess.ExecuteSQL(connectionStr, insertStr))
+                if (DBAccess.ExecuteSQL(insertStr))
                 {
                     MessageBox.Show("添加联系人成功!", "Webmail", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
                 }
@@ -95,7 +92,6 @@ namespace WebMailClient
         private void buttonDelete_Click(object sender, EventArgs e)
         {
             // delete record
-            string connectionStr = "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=..\\..\\webmaildb.mdb";
             string insertStr = null;
             StringBuilder builder = new StringBuilder();
             // need to process multi rows
@@ -107,7 +103,7 @@ namespace WebMailClient
             builder.AppendFormat("0");  // meaningless
 
             insertStr = builder.ToString();
-            if (DBAccess.ExecuteSQL(connectionStr, insertStr))
+            if (DBAccess.ExecuteSQL(insertStr))
             {
                 MessageBox.Show("删除联系人成功!", "Webmail", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
             }

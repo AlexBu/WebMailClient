@@ -9,7 +9,8 @@ namespace WebMailClient
 {
     public class DBAccess
     {
-        static public bool ExecuteSQL(string ConnectionString, string SQLCommand)
+        static private string ConnectionString = "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=..\\..\\webmaildb.mdb";
+        static public bool ExecuteSQL(string SQLCommand)
         {
             OleDbConnection MdbConnection = null;
             OleDbCommand AccessCommand = null;
@@ -35,7 +36,7 @@ namespace WebMailClient
             return false;
         }
 
-        static public bool ExecuteSQL(string ConnectionString, string SQLCommand, OleDbParameter Parameter)
+        static public bool ExecuteSQL(string SQLCommand, OleDbParameter Parameter)
         {
             OleDbConnection MdbConnection = null;
             OleDbCommand AccessCommand = null;
@@ -62,7 +63,7 @@ namespace WebMailClient
             return false;
         }
 
-        static public object QuerySingleItem(string ConnectionString, string SQLCommand, int index)
+        static public object QuerySingleItem(string SQLCommand, int index)
         {
             OleDbConnection MdbConnection = null;
             OleDbCommand AccessCommand = null;
@@ -90,7 +91,7 @@ namespace WebMailClient
             return queryResult;
         }
 
-        static public int QuerySingleRecord(string ConnectionString, string SQLCommand, ref object[] Values)
+        static public int QuerySingleRecord(string SQLCommand, ref object[] Values)
         {
             OleDbConnection MdbConnection = null;
             OleDbCommand AccessCommand = null;
@@ -120,7 +121,7 @@ namespace WebMailClient
             return queryResult;
         }
 
-        static public void FillDataTable(string ConnectionString, string SQLCommand, ref DataTable dataset)
+        static public void FillDataTable(string SQLCommand, ref DataTable dataset)
         {
             OleDbConnection MdbConnection = null;
             OleDbCommand AccessCommand = null;

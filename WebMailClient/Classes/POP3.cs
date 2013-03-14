@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Net.Sockets;
 using System.IO;
+using System.Data;
 using System.Data.OleDb;
 
 namespace WebMailClient
@@ -148,16 +149,6 @@ namespace WebMailClient
             return true;
         }
 
-        private bool NOOP()
-        {
-            return ExecuteCommand("NOOP", 0);
-        }
-
-        private bool STAT()
-        {
-            return ExecuteCommand("STAT", 0);
-        }
-
         private bool RETR(int number)
         {
             return ExecuteCommand("RETR " + number.ToString(), 1);
@@ -173,28 +164,33 @@ namespace WebMailClient
             return ExecuteCommand("DELE " + number.ToString(), 0);
         }
 
-        private void Quit()
-        {
-            ExecuteCommand("STAT", 0);
-        }
-
         #endregion
 
-        public bool Connect()
+        public bool Connect(string user, string password)
         {
-            if (mstrHost == null)
-                throw new Exception("请提供SMTP主机名称或IP地址！");
-
-            if (mintPort == 0)
-                throw new Exception("请提供SMTP主机的端口号");
-
             try
             {
+                if (mstrHost == null)
+                    throw new Exception("请提供SMTP主机名称或IP地址！");
+                if (mintPort == 0)
+                    throw new Exception("请提供SMTP主机的端口号");
+                
                 mtcpClient = new TcpClient(mstrHost, mintPort);
                 mnetStream = mtcpClient.GetStream();
                 m_stmReader = new StreamReader(mnetStream);
                 string strMessage = m_stmReader.ReadLine();
-                return strMessage.StartsWith("+OK");
+
+                if (strMessage.StartsWith("+OK") == true)
+                {
+                    if (USER(user) == false)
+                        throw new Exception("用户名不正确！");
+                    if (PASS(password) == false)
+                        throw new Exception("用户口令不正确！");
+                    if (UIDL() == false)
+                        throw new Exception("得到邮件列表时发生错误！");
+                    return true;
+                }
+                return false;
             }
 
             catch (Exception ex)
@@ -207,7 +203,6 @@ namespace WebMailClient
         {
             try
             {
-                Quit();
                 if (m_stmReader != null)
                     m_stmReader.Close();
                 if (mnetStream != null)
@@ -222,85 +217,45 @@ namespace WebMailClient
             }
         }
 
-        public string[] RetrieveEmail(string user, string password)
-        {
-            try
-            {
-                if (USER(user) == false)
-                    throw new Exception("用户名不正确！");
-                if (PASS(password) == false)
-                    throw new Exception("用户口令不正确！");
-                if (STAT() == false)
-                    throw new Exception("准备接收邮件时发生错误！");
-                if (UIDL() == false)
-                    throw new Exception("得到邮件列表时发生错误！");
-                GetNewMail();
-                return null;
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.ToString());
-            }
-        }
-
-        private void GetNewMail()
+        public void RetrieveEmail(DataTable locallist)
         {
             foreach (string str in mailList)
             {
-                if (IsEmailDownloaded(str) == false)
-                    SaveEmailViaUIDL(str);
+                bool found = false;
+                foreach (DataRow row in locallist.Rows)
+                {
+                    if (row["UIDL"].Equals(str))
+                    {
+                        found = true;
+                        break;
+                    }
+                }
+                if (found == false)
+                {
+                    SaveEmailInfo(str);
+                }
             }
         }
-
-        /// <summary>
-
-        /// 删除邮件
-
-        /// </summary>
-
-        /// <param name="number">邮件号</param>
 
         public void DeleteMail(int number)
-
         {
-
             //删除邮件
-
             int iMailNumber = number + 1;
-
             if (DELE(iMailNumber).Equals("Error"))
-
                 throw new Exception("删除第" + iMailNumber.ToString() + "时出现错误！");
-
         }
 
-        public bool IsEmailDownloaded(string uidl)
+        public bool SaveEmailInfo(string uidl)
         {
-            string connectionStr = "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=..\\..\\webmaildb.mdb";
-            string queryStr = String.Format("SELECT [ID] FROM [Mail] WHERE [UIDL] = '{0}'", uidl);
-            object[] values = { null };
-            if (DBAccess.QuerySingleRecord(connectionStr, queryStr, ref values) == 1)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
-
-        public bool SaveEmailViaUIDL(string uidl)
-        {
-            string connectionStr = "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=..\\..\\webmaildb.mdb";
-            string queryStr = String.Format("INSERT INTO [Mail] ([AccountID], [UIDL], [ReadFlag], [Content], [Folder]) VALUES({0}, '{1}', {2}, @EmailData, {3})",
-                Session.AccountID, uidl, "Yes", 0);
-            byte[] emailStream = DownloadEmail(uidl);
-            OleDbParameter par = new OleDbParameter("@EmailData", emailStream);
-            return DBAccess.ExecuteSQL(connectionStr, queryStr, par);
+            string queryStr = String.Format("INSERT INTO [Mail] ([AccountID], [UIDL], [ReadFlag], [Folder]) VALUES({0}, '{1}', {2}, {3})",
+                Session.AccountID, uidl, "No", 0);
+            //byte[] emailStream = DownloadEmail(uidl);
+            return DBAccess.ExecuteSQL(queryStr);
         }
 
         private byte[] DownloadEmail(string uidl)
         {
+            // save email data into file
             RETR(uidl);
             string oneline = null;
             respondMsg.RemoveAt(0);

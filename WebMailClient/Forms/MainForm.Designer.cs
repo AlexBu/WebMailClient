@@ -38,14 +38,12 @@
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.treeViewMailBox = new System.Windows.Forms.TreeView();
-            this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            this.dataSetEmailLocal = new System.Data.DataSet();
+            this.dataGridViewBoxContent = new System.Windows.Forms.DataGridView();
             this.menuStrip1.SuspendLayout();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dataSetEmailLocal)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewBoxContent)).BeginInit();
             this.SuspendLayout();
             // 
             // menuStrip1
@@ -66,32 +64,32 @@
             this.FileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.ContactToolStripMenuItem});
             this.FileToolStripMenuItem.Name = "FileToolStripMenuItem";
-            this.FileToolStripMenuItem.Size = new System.Drawing.Size(53, 20);
+            this.FileToolStripMenuItem.Size = new System.Drawing.Size(57, 20);
             this.FileToolStripMenuItem.Text = "文件(&F)";
             // 
             // ContactToolStripMenuItem
             // 
             this.ContactToolStripMenuItem.Name = "ContactToolStripMenuItem";
-            this.ContactToolStripMenuItem.Size = new System.Drawing.Size(119, 22);
+            this.ContactToolStripMenuItem.Size = new System.Drawing.Size(126, 22);
             this.ContactToolStripMenuItem.Text = "通讯录(&C)";
             this.ContactToolStripMenuItem.Click += new System.EventHandler(this.ContactToolStripMenuItem_Click);
             // 
             // EditToolStripMenuItem
             // 
             this.EditToolStripMenuItem.Name = "EditToolStripMenuItem";
-            this.EditToolStripMenuItem.Size = new System.Drawing.Size(39, 20);
+            this.EditToolStripMenuItem.Size = new System.Drawing.Size(43, 20);
             this.EditToolStripMenuItem.Text = "编辑";
             // 
             // ViewToolStripMenuItem
             // 
             this.ViewToolStripMenuItem.Name = "ViewToolStripMenuItem";
-            this.ViewToolStripMenuItem.Size = new System.Drawing.Size(39, 20);
+            this.ViewToolStripMenuItem.Size = new System.Drawing.Size(43, 20);
             this.ViewToolStripMenuItem.Text = "查看";
             // 
             // AboutToolStripMenuItem
             // 
             this.AboutToolStripMenuItem.Name = "AboutToolStripMenuItem";
-            this.AboutToolStripMenuItem.Size = new System.Drawing.Size(39, 20);
+            this.AboutToolStripMenuItem.Size = new System.Drawing.Size(43, 20);
             this.AboutToolStripMenuItem.Text = "关于";
             // 
             // toolStrip1
@@ -122,7 +120,7 @@
             // 
             // splitContainer1.Panel2
             // 
-            this.splitContainer1.Panel2.Controls.Add(this.dataGridView1);
+            this.splitContainer1.Panel2.Controls.Add(this.dataGridViewBoxContent);
             this.splitContainer1.Size = new System.Drawing.Size(791, 496);
             this.splitContainer1.SplitterDistance = 204;
             this.splitContainer1.TabIndex = 3;
@@ -134,22 +132,19 @@
             this.treeViewMailBox.Name = "treeViewMailBox";
             this.treeViewMailBox.Size = new System.Drawing.Size(204, 496);
             this.treeViewMailBox.TabIndex = 0;
+            this.treeViewMailBox.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeViewMailBox_AfterSelect);
             // 
-            // dataGridView1
+            // dataGridViewBoxContent
             // 
-            this.dataGridView1.AllowUserToAddRows = false;
-            this.dataGridView1.AllowUserToDeleteRows = false;
-            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dataGridView1.Location = new System.Drawing.Point(0, 0);
-            this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.ReadOnly = true;
-            this.dataGridView1.Size = new System.Drawing.Size(583, 496);
-            this.dataGridView1.TabIndex = 0;
-            // 
-            // dataSetEmailLocal
-            // 
-            this.dataSetEmailLocal.DataSetName = "DataSetEmailLocal";
+            this.dataGridViewBoxContent.AllowUserToAddRows = false;
+            this.dataGridViewBoxContent.AllowUserToDeleteRows = false;
+            this.dataGridViewBoxContent.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridViewBoxContent.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dataGridViewBoxContent.Location = new System.Drawing.Point(0, 0);
+            this.dataGridViewBoxContent.Name = "dataGridViewBoxContent";
+            this.dataGridViewBoxContent.ReadOnly = true;
+            this.dataGridViewBoxContent.Size = new System.Drawing.Size(583, 496);
+            this.dataGridViewBoxContent.TabIndex = 0;
             // 
             // MainForm
             // 
@@ -169,8 +164,7 @@
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel2.ResumeLayout(false);
             this.splitContainer1.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dataSetEmailLocal)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewBoxContent)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -183,12 +177,11 @@
         private System.Windows.Forms.StatusStrip statusStrip1;
         private System.Windows.Forms.SplitContainer splitContainer1;
         private System.Windows.Forms.TreeView treeViewMailBox;
-        private System.Windows.Forms.DataGridView dataGridView1;
+        private System.Windows.Forms.DataGridView dataGridViewBoxContent;
         private System.Windows.Forms.ToolStripMenuItem FileToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem EditToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem ViewToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem AboutToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem ContactToolStripMenuItem;
-        private System.Data.DataSet dataSetEmailLocal;
     }
 }
