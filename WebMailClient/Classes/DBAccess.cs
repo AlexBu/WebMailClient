@@ -90,6 +90,36 @@ namespace WebMailClient
             return queryResult;
         }
 
+        static public int QuerySingleRecord(string ConnectionString, string SQLCommand, ref object[] Values)
+        {
+            OleDbConnection MdbConnection = null;
+            OleDbCommand AccessCommand = null;
+            OleDbDataReader DataReader = null;
+            int queryResult = 0;
+            try
+            {
+                MdbConnection = new OleDbConnection(ConnectionString);
+                MdbConnection.Open();
+                AccessCommand = new OleDbCommand(SQLCommand, MdbConnection);
+                DataReader = AccessCommand.ExecuteReader(CommandBehavior.SingleRow);
+                if (DataReader.Read() == true)
+                    queryResult = DataReader.GetValues(Values);
+                else
+                    queryResult = 0;
+            }
+            catch (System.Exception)
+            {
+
+            }
+            finally
+            {
+                DataReader.Close();
+                MdbConnection.Close();
+            }
+
+            return queryResult;
+        }
+
         static public void FillDataTable(string ConnectionString, string SQLCommand, ref DataTable dataset)
         {
             OleDbConnection MdbConnection = null;

@@ -37,7 +37,7 @@ namespace WebMailClient
             // download email data and fill into database
             Pop3 mailbox = new Pop3("pop3.163.com");
             mailbox.Connect();
-            mailbox.Receive(Session.AccountName, Session.AccountPass);
+            mailbox.RetrieveEmail(Session.AccountName, Session.AccountPass);
             mailbox.DisConnect();
         }
 
@@ -64,9 +64,13 @@ namespace WebMailClient
             string connectionStr = "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=..\\..\\webmaildb.mdb";
             string queryStr = String.Format("SELECT [ID], [Accountname], [Accountpass] FROM [Account] WHERE [UserID] = {0}", Session.LoginID);
             // get account
-            Session.AccountID   =    (int)DBAccess.QuerySingleItem(connectionStr, queryStr, 0);
-            Session.AccountName = (string)DBAccess.QuerySingleItem(connectionStr, queryStr, 1);
-            Session.AccountPass = (string)DBAccess.QuerySingleItem(connectionStr, queryStr, 2);
+            object[] values = {null, null, null};
+            if (DBAccess.QuerySingleRecord(connectionStr, queryStr, ref values) == 3)
+            {
+                Session.AccountID = (int)values[0];
+                Session.AccountName = (string)values[1];
+                Session.AccountPass = (string)values[2];
+            }
 
             if (Session.AccountName == null)
                 return;

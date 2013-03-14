@@ -20,15 +20,15 @@ namespace WebMailClient
         {
             string connectionStr = "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=..\\..\\webmaildb.mdb";
             string queryStr = String.Format("SELECT * FROM [User] WHERE [Username] = '{0}' AND [Password] = '{1}'", textBoxUserName.Text, MD5Crypt.getMd5Hash(textBoxPassword.Text));
-            int queryResult = (int)DBAccess.QuerySingleItem(connectionStr, queryStr, 0);
-            if (queryResult > 0)
+            object[] values = { null };
+            if(DBAccess.QuerySingleRecord(connectionStr, queryStr, ref values) == 1)
             {
                 MessageBox.Show("登录成功!", "Webmail", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
                 // set login result
                 DialogResult = DialogResult.OK;
                 // save session
                 Session.LoginName = textBoxUserName.Text;
-                Session.LoginID = queryResult;
+                Session.LoginID = (int)values[0];
                 Close();
             }
             else
