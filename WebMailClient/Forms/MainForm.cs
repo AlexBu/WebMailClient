@@ -40,6 +40,10 @@ namespace WebMailClient
             LoadTreeView();
             // receive email from web
             DownloadEmailData();
+            // reload inbox data
+            LoadInboxDB();
+            // reload datagrid
+            dataGridViewBoxContent.DataSource = datatableInbox;
         }
 
         private void LoadDataGridView()
@@ -106,7 +110,7 @@ namespace WebMailClient
         private void LoadSentboxDB()
         {
             datatableSentbox = new DataTable();
-            string queryStr = String.Format(@"SELECT [ID], [UIDL], [ReadFlag] 
+            string queryStr = String.Format(@"SELECT [UIDL], [ReadFlag] 
                 FROM [Mail] WHERE [AccountID] = {0} AND [Folder] = {1}", Session.AccountID, MAILBOXTYPE.Sentbox);
             DBAccess.FillDataTable(queryStr, ref datatableSentbox);
         }
@@ -114,7 +118,7 @@ namespace WebMailClient
         private void LoadRecycleDB()
         {
             datatableRecycle = new DataTable();
-            string queryStr = String.Format(@"SELECT [ID], [UIDL], [ReadFlag] 
+            string queryStr = String.Format(@"SELECT [UIDL], [ReadFlag] 
                 FROM [Mail] WHERE [AccountID] = {0} AND [Folder] = {1}", Session.AccountID, MAILBOXTYPE.Recycle);
             DBAccess.FillDataTable(queryStr, ref datatableRecycle);
         }
@@ -122,7 +126,7 @@ namespace WebMailClient
         private void LoadDraftDB()
         {
             datatableDraft = new DataTable();
-            string queryStr = String.Format(@"SELECT [ID], [UIDL], [ReadFlag] 
+            string queryStr = String.Format(@"SELECT [UIDL], [ReadFlag] 
                 FROM [Mail] WHERE [AccountID] = {0} AND [Folder] = {1}", Session.AccountID, MAILBOXTYPE.Draft);
             DBAccess.FillDataTable(queryStr, ref datatableDraft);
         }
@@ -130,7 +134,7 @@ namespace WebMailClient
         private void LoadOutboxDB()
         {
             datatableOutbox = new DataTable();
-            string queryStr = String.Format(@"SELECT [ID], [UIDL], [ReadFlag] 
+            string queryStr = String.Format(@"SELECT [UIDL], [ReadFlag] 
                 FROM [Mail] WHERE [AccountID] = {0} AND [Folder] = {1}", Session.AccountID, MAILBOXTYPE.Outbox);
             DBAccess.FillDataTable(queryStr, ref datatableOutbox);
         }
@@ -138,7 +142,7 @@ namespace WebMailClient
         private void LoadInboxDB()
         {
             datatableInbox = new DataTable();
-            string queryStr = String.Format(@"SELECT [ID], [UIDL], [ReadFlag] 
+            string queryStr = String.Format(@"SELECT [UIDL], [ReadFlag] 
                 FROM [Mail] WHERE [AccountID] = {0} AND [Folder] = {1}", Session.AccountID, (int)MAILBOXTYPE.Inbox);
             DBAccess.FillDataTable(queryStr, ref datatableInbox);
         }
@@ -148,29 +152,6 @@ namespace WebMailClient
             // show contact dialog
             Contact contact = new Contact();
             contact.ShowDialog();
-        }
-
-        public bool IsEmailDownloaded(string uidl)
-        {
-            string queryStr = String.Format("SELECT [ID] FROM [Mail] WHERE [UIDL] = '{0}'", uidl);
-            object[] values = { null };
-            if (DBAccess.QuerySingleRecord(queryStr, ref values) == 1)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
-
-        public bool SaveEmailViaUIDL(string uidl)
-        {
-            string queryStr = String.Format("INSERT INTO [Mail] ([AccountID], [UIDL], [ReadFlag], [Folder]) VALUES({0}, '{1}', {2}, {3})",
-                Session.AccountID, uidl, "Yes", 0);
-            //byte[] emailStream = DownloadEmail(uidl);
-            //OleDbParameter par = new OleDbParameter("@EmailData", emailStream);
-            return DBAccess.ExecuteSQL(queryStr);
         }
 
         private void treeViewMailBox_AfterSelect(object sender, TreeViewEventArgs e)

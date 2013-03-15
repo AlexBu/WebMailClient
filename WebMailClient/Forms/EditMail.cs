@@ -17,6 +17,18 @@ namespace WebMailClient
             InitializeComponent();
         }
 
+        public string Sender
+        {
+            get
+            {
+                return textBoxReceive.Text;
+            }
+            set
+            {
+                textBoxReceive.Text = value;
+            }
+        }
+
         private void buttonSendMail_Click(object sender, EventArgs e)
         {
             MailMessage msg = new MailMessage();
@@ -25,12 +37,40 @@ namespace WebMailClient
                 MessageBox.Show("收件地址不能为空!");
                 return;
             }
-            msg.To.Add(textBoxReceive.Text);
+            string[] addrlist = textBoxReceive.Text.Split(';');
+            foreach (string str in addrlist)
+            {
+                msg.To.Add(str);
+            }
+
             if (textBoxCC.Text.Length > 0)
-                msg.CC.Add(textBoxCC.Text);
+            {
+                addrlist = textBoxCC.Text.Split(';');
+                foreach (string str in addrlist)
+                {
+                    msg.CC.Add(str);
+                }
+            }
             if (textBoxBCC.Text.Length > 0)
-                msg.Bcc.Add(textBoxBCC.Text);
-            msg.From = new MailAddress("bspbsp000@163.com", "AlexBu", System.Text.Encoding.UTF8);
+            {
+                addrlist = textBoxBCC.Text.Split(';');
+                foreach (string str in addrlist)
+                {
+                    msg.Bcc.Add(str);
+                }
+            }
+            if (textBoxAttachment.Text.Length > 0)
+            {
+                addrlist = textBoxAttachment.Text.Split(';');
+                foreach (string str in addrlist)
+                {
+                    if(str == "")
+                        continue;
+                    Attachment attachment = new Attachment(str);
+                    msg.Attachments.Add(attachment);
+                }
+            }
+            msg.From = new MailAddress(Session.AccountName, Session.AccountName, System.Text.Encoding.UTF8);
             msg.Subject = textBoxTitle.Text;
             msg.SubjectEncoding = System.Text.Encoding.UTF8;
             msg.Body = richTextBoxContent.Text;
@@ -38,7 +78,7 @@ namespace WebMailClient
             msg.IsBodyHtml = true;
             msg.Priority = MailPriority.Normal;
             SmtpClient client = new SmtpClient();
-            client.Credentials = new System.Net.NetworkCredential("bspbsp000@163.com", "bsp2236");
+            client.Credentials = new System.Net.NetworkCredential(Session.AccountName, Session.AccountPass);
             client.Host = "smtp.163.com";
             client.EnableSsl = false;
             try
@@ -49,6 +89,49 @@ namespace WebMailClient
             catch (System.Net.Mail.SmtpException ex)
             {
                 MessageBox.Show(ex.Message, "发送邮件出错");
+            }
+        }
+
+        private void buttonAddAttachment_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog dialog = new OpenFileDialog();
+            dialog.Title = "添加附件";
+            dialog.Filter = "All files (*.*)|*.*";
+            dialog.Multiselect = true;
+            if (dialog.ShowDialog() == DialogResult.OK)
+            {
+                string[] oldAttatchList = textBoxAttachment.Text.Split(';');
+                List<string> tmplist = new List<string>();
+                foreach (string str in oldAttatchList)
+                {
+                    tmplist.Add(str);
+                }
+
+                foreach (string newstr in dialog.FileNames)
+                {
+                    bool found = false;
+                    foreach (string oldstr in oldAttatchList)
+                    {
+                        if(newstr == oldstr)
+                        {
+                            found = true;
+                            break;
+                        }
+                    }
+                    if(found == false)
+                    {
+                        // add to a tmp list
+                        tmplist.Add(newstr);
+                    }
+                }
+
+                textBoxAttachment.Text = "";
+                foreach (string str in tmplist)
+                {
+                    if(str == "")
+                        continue;
+                    textBoxAttachment.Text += str + ';';
+                }
             }
         }
     }

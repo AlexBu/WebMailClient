@@ -115,6 +115,7 @@
             this.Controls.Add(this.buttonAdd);
             this.Controls.Add(this.dataGridViewContact);
             this.Name = "Contact";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "联系人";
             this.Load += new System.EventHandler(this.Contact_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewContact)).EndInit();

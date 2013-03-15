@@ -128,6 +128,12 @@ namespace WebMailClient
         {
             // display edit mail dialog
             EditMail editMail = new EditMail();
+            string senderlist = null;
+            foreach (DataGridViewRow row in dataGridViewContact.SelectedRows)
+            {
+                senderlist += row.Cells[1].Value.ToString() + ';';
+            }
+            editMail.Sender = senderlist;
             editMail.ShowDialog();
         }
     }

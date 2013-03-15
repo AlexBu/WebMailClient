@@ -42,6 +42,7 @@
             this.textBoxAttachment = new System.Windows.Forms.TextBox();
             this.buttonSendMail = new System.Windows.Forms.Button();
             this.buttonSaveDraft = new System.Windows.Forms.Button();
+            this.buttonAddAttachment = new System.Windows.Forms.Button();
             this.tableLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -56,8 +57,8 @@
             // tableLayoutPanel1
             // 
             this.tableLayoutPanel1.ColumnCount = 2;
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 80F));
             this.tableLayoutPanel1.Controls.Add(this.label1, 0, 0);
             this.tableLayoutPanel1.Controls.Add(this.label2, 0, 1);
             this.tableLayoutPanel1.Controls.Add(this.label3, 0, 2);
@@ -71,11 +72,11 @@
             this.tableLayoutPanel1.Location = new System.Drawing.Point(43, 19);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 5;
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 42.55319F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 57.44681F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 34F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 39F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 35F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel1.Size = new System.Drawing.Size(644, 173);
             this.tableLayoutPanel1.TabIndex = 1;
             // 
@@ -84,79 +85,85 @@
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(3, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(34, 13);
+            this.label1.Size = new System.Drawing.Size(30, 13);
             this.label1.TabIndex = 0;
             this.label1.Text = "收件:";
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(3, 27);
+            this.label2.Location = new System.Drawing.Point(3, 34);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(34, 13);
+            this.label2.Size = new System.Drawing.Size(30, 13);
             this.label2.TabIndex = 1;
             this.label2.Text = "抄送:";
             // 
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(3, 64);
+            this.label3.Location = new System.Drawing.Point(3, 68);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(34, 13);
+            this.label3.Size = new System.Drawing.Size(30, 13);
             this.label3.TabIndex = 2;
             this.label3.Text = "密件:";
             // 
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(3, 98);
+            this.label4.Location = new System.Drawing.Point(3, 102);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(34, 13);
+            this.label4.Size = new System.Drawing.Size(30, 13);
             this.label4.TabIndex = 3;
             this.label4.Text = "主题:";
             // 
             // textBoxReceive
             // 
-            this.textBoxReceive.Location = new System.Drawing.Point(325, 3);
+            this.textBoxReceive.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.textBoxReceive.Location = new System.Drawing.Point(131, 3);
             this.textBoxReceive.Name = "textBoxReceive";
-            this.textBoxReceive.Size = new System.Drawing.Size(100, 20);
+            this.textBoxReceive.Size = new System.Drawing.Size(510, 20);
             this.textBoxReceive.TabIndex = 4;
             // 
             // textBoxCC
             // 
-            this.textBoxCC.Location = new System.Drawing.Point(325, 30);
+            this.textBoxCC.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.textBoxCC.Location = new System.Drawing.Point(131, 37);
             this.textBoxCC.Name = "textBoxCC";
-            this.textBoxCC.Size = new System.Drawing.Size(100, 20);
+            this.textBoxCC.Size = new System.Drawing.Size(510, 20);
             this.textBoxCC.TabIndex = 5;
             // 
             // textBoxBCC
             // 
-            this.textBoxBCC.Location = new System.Drawing.Point(325, 67);
+            this.textBoxBCC.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.textBoxBCC.Location = new System.Drawing.Point(131, 71);
             this.textBoxBCC.Name = "textBoxBCC";
-            this.textBoxBCC.Size = new System.Drawing.Size(100, 20);
+            this.textBoxBCC.Size = new System.Drawing.Size(510, 20);
             this.textBoxBCC.TabIndex = 6;
             // 
             // textBoxTitle
             // 
-            this.textBoxTitle.Location = new System.Drawing.Point(325, 101);
+            this.textBoxTitle.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.textBoxTitle.Location = new System.Drawing.Point(131, 105);
             this.textBoxTitle.Name = "textBoxTitle";
-            this.textBoxTitle.Size = new System.Drawing.Size(100, 20);
+            this.textBoxTitle.Size = new System.Drawing.Size(510, 20);
             this.textBoxTitle.TabIndex = 7;
             // 
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(3, 137);
+            this.label5.Location = new System.Drawing.Point(3, 136);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(31, 13);
+            this.label5.Size = new System.Drawing.Size(27, 13);
             this.label5.TabIndex = 8;
             this.label5.Text = "附件";
             // 
             // textBoxAttachment
             // 
-            this.textBoxAttachment.Location = new System.Drawing.Point(325, 140);
+            this.textBoxAttachment.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.textBoxAttachment.Location = new System.Drawing.Point(131, 139);
+            this.textBoxAttachment.Multiline = true;
             this.textBoxAttachment.Name = "textBoxAttachment";
-            this.textBoxAttachment.Size = new System.Drawing.Size(100, 20);
+            this.textBoxAttachment.Size = new System.Drawing.Size(510, 31);
             this.textBoxAttachment.TabIndex = 9;
             // 
             // buttonSendMail
@@ -178,16 +185,28 @@
             this.buttonSaveDraft.Text = "保存为草稿";
             this.buttonSaveDraft.UseVisualStyleBackColor = true;
             // 
+            // buttonAddAttachment
+            // 
+            this.buttonAddAttachment.Location = new System.Drawing.Point(396, 531);
+            this.buttonAddAttachment.Name = "buttonAddAttachment";
+            this.buttonAddAttachment.Size = new System.Drawing.Size(75, 23);
+            this.buttonAddAttachment.TabIndex = 4;
+            this.buttonAddAttachment.Text = "添加附件";
+            this.buttonAddAttachment.UseVisualStyleBackColor = true;
+            this.buttonAddAttachment.Click += new System.EventHandler(this.buttonAddAttachment_Click);
+            // 
             // EditMail
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(729, 572);
+            this.Controls.Add(this.buttonAddAttachment);
             this.Controls.Add(this.buttonSaveDraft);
             this.Controls.Add(this.buttonSendMail);
             this.Controls.Add(this.tableLayoutPanel1);
             this.Controls.Add(this.richTextBoxContent);
             this.Name = "EditMail";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "邮件编写";
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();
@@ -211,5 +230,6 @@
         private System.Windows.Forms.Button buttonSaveDraft;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.TextBox textBoxAttachment;
+        private System.Windows.Forms.Button buttonAddAttachment;
     }
 }

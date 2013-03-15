@@ -177,6 +177,7 @@
             this.ClientSize = new System.Drawing.Size(499, 281);
             this.Controls.Add(this.tableLayoutPanel2);
             this.Name = "Register";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Register";
             this.tableLayoutPanel2.ResumeLayout(false);
             this.tableLayoutPanel2.PerformLayout();

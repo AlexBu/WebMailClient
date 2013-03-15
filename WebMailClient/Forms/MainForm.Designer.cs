@@ -39,6 +39,7 @@
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.treeViewMailBox = new System.Windows.Forms.TreeView();
             this.dataGridViewBoxContent = new System.Windows.Forms.DataGridView();
+            this.DeleteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -64,33 +65,35 @@
             this.FileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.ContactToolStripMenuItem});
             this.FileToolStripMenuItem.Name = "FileToolStripMenuItem";
-            this.FileToolStripMenuItem.Size = new System.Drawing.Size(57, 20);
+            this.FileToolStripMenuItem.Size = new System.Drawing.Size(53, 20);
             this.FileToolStripMenuItem.Text = "文件(&F)";
             // 
             // ContactToolStripMenuItem
             // 
             this.ContactToolStripMenuItem.Name = "ContactToolStripMenuItem";
-            this.ContactToolStripMenuItem.Size = new System.Drawing.Size(126, 22);
+            this.ContactToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.ContactToolStripMenuItem.Text = "通讯录(&C)";
             this.ContactToolStripMenuItem.Click += new System.EventHandler(this.ContactToolStripMenuItem_Click);
             // 
             // EditToolStripMenuItem
             // 
+            this.EditToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.DeleteToolStripMenuItem});
             this.EditToolStripMenuItem.Name = "EditToolStripMenuItem";
-            this.EditToolStripMenuItem.Size = new System.Drawing.Size(43, 20);
-            this.EditToolStripMenuItem.Text = "编辑";
+            this.EditToolStripMenuItem.Size = new System.Drawing.Size(53, 20);
+            this.EditToolStripMenuItem.Text = "编辑(&E)";
             // 
             // ViewToolStripMenuItem
             // 
             this.ViewToolStripMenuItem.Name = "ViewToolStripMenuItem";
-            this.ViewToolStripMenuItem.Size = new System.Drawing.Size(43, 20);
-            this.ViewToolStripMenuItem.Text = "查看";
+            this.ViewToolStripMenuItem.Size = new System.Drawing.Size(53, 20);
+            this.ViewToolStripMenuItem.Text = "查看(&V)";
             // 
             // AboutToolStripMenuItem
             // 
             this.AboutToolStripMenuItem.Name = "AboutToolStripMenuItem";
-            this.AboutToolStripMenuItem.Size = new System.Drawing.Size(43, 20);
-            this.AboutToolStripMenuItem.Text = "关于";
+            this.AboutToolStripMenuItem.Size = new System.Drawing.Size(54, 20);
+            this.AboutToolStripMenuItem.Text = "关于(&A)";
             // 
             // toolStrip1
             // 
@@ -146,6 +149,12 @@
             this.dataGridViewBoxContent.Size = new System.Drawing.Size(583, 496);
             this.dataGridViewBoxContent.TabIndex = 0;
             // 
+            // DeleteToolStripMenuItem
+            // 
+            this.DeleteToolStripMenuItem.Name = "DeleteToolStripMenuItem";
+            this.DeleteToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.DeleteToolStripMenuItem.Text = "删除(&D)";
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -157,6 +166,7 @@
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "MainForm";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "主菜单";
             this.Load += new System.EventHandler(this.MainForm_Load);
             this.menuStrip1.ResumeLayout(false);
@@ -183,5 +193,6 @@
         private System.Windows.Forms.ToolStripMenuItem ViewToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem AboutToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem ContactToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem DeleteToolStripMenuItem;
     }
 }
