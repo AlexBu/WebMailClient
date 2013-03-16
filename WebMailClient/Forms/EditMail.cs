@@ -40,6 +40,8 @@ namespace WebMailClient
             string[] addrlist = textBoxReceive.Text.Split(';');
             foreach (string str in addrlist)
             {
+                if(str == "")
+                    continue;
                 msg.To.Add(str);
             }
 
@@ -48,6 +50,8 @@ namespace WebMailClient
                 addrlist = textBoxCC.Text.Split(';');
                 foreach (string str in addrlist)
                 {
+                    if (str == "")
+                        continue;
                     msg.CC.Add(str);
                 }
             }
@@ -56,6 +60,8 @@ namespace WebMailClient
                 addrlist = textBoxBCC.Text.Split(';');
                 foreach (string str in addrlist)
                 {
+                    if (str == "")
+                        continue;
                     msg.Bcc.Add(str);
                 }
             }
@@ -104,14 +110,20 @@ namespace WebMailClient
                 List<string> tmplist = new List<string>();
                 foreach (string str in oldAttatchList)
                 {
+                    if (str == "")
+                        continue;
                     tmplist.Add(str);
                 }
 
                 foreach (string newstr in dialog.FileNames)
                 {
+                    if (newstr == "")
+                        continue;
                     bool found = false;
                     foreach (string oldstr in oldAttatchList)
                     {
+                        if (oldstr == "")
+                            continue;
                         if(newstr == oldstr)
                         {
                             found = true;
