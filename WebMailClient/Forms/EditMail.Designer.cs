@@ -39,18 +39,19 @@
             this.textBoxBCC = new System.Windows.Forms.TextBox();
             this.textBoxTitle = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
-            this.textBoxAttachment = new System.Windows.Forms.TextBox();
             this.buttonSendMail = new System.Windows.Forms.Button();
             this.buttonSaveDraft = new System.Windows.Forms.Button();
             this.buttonAddAttachment = new System.Windows.Forms.Button();
+            this.buttonRemoveAttachment = new System.Windows.Forms.Button();
+            this.listBoxAttachment = new System.Windows.Forms.ListBox();
             this.tableLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // richTextBoxContent
             // 
-            this.richTextBoxContent.Location = new System.Drawing.Point(43, 222);
+            this.richTextBoxContent.Location = new System.Drawing.Point(43, 247);
             this.richTextBoxContent.Name = "richTextBoxContent";
-            this.richTextBoxContent.Size = new System.Drawing.Size(641, 293);
+            this.richTextBoxContent.Size = new System.Drawing.Size(641, 268);
             this.richTextBoxContent.TabIndex = 0;
             this.richTextBoxContent.Text = "";
             // 
@@ -68,15 +69,15 @@
             this.tableLayoutPanel1.Controls.Add(this.textBoxBCC, 1, 2);
             this.tableLayoutPanel1.Controls.Add(this.textBoxTitle, 1, 3);
             this.tableLayoutPanel1.Controls.Add(this.label5, 0, 4);
-            this.tableLayoutPanel1.Controls.Add(this.textBoxAttachment, 1, 4);
+            this.tableLayoutPanel1.Controls.Add(this.listBoxAttachment, 1, 4);
             this.tableLayoutPanel1.Location = new System.Drawing.Point(43, 19);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 5;
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 15F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 15F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 15F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 15F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 40F));
             this.tableLayoutPanel1.Size = new System.Drawing.Size(644, 173);
             this.tableLayoutPanel1.TabIndex = 1;
             // 
@@ -85,34 +86,34 @@
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(3, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(34, 13);
+            this.label1.Size = new System.Drawing.Size(30, 13);
             this.label1.TabIndex = 0;
             this.label1.Text = "收件:";
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(3, 34);
+            this.label2.Location = new System.Drawing.Point(3, 25);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(34, 13);
+            this.label2.Size = new System.Drawing.Size(30, 13);
             this.label2.TabIndex = 1;
             this.label2.Text = "抄送:";
             // 
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(3, 68);
+            this.label3.Location = new System.Drawing.Point(3, 50);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(34, 13);
+            this.label3.Size = new System.Drawing.Size(30, 13);
             this.label3.TabIndex = 2;
             this.label3.Text = "密件:";
             // 
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(3, 102);
+            this.label4.Location = new System.Drawing.Point(3, 75);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(34, 13);
+            this.label4.Size = new System.Drawing.Size(30, 13);
             this.label4.TabIndex = 3;
             this.label4.Text = "主题:";
             // 
@@ -127,7 +128,7 @@
             // textBoxCC
             // 
             this.textBoxCC.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.textBoxCC.Location = new System.Drawing.Point(131, 37);
+            this.textBoxCC.Location = new System.Drawing.Point(131, 28);
             this.textBoxCC.Name = "textBoxCC";
             this.textBoxCC.Size = new System.Drawing.Size(510, 20);
             this.textBoxCC.TabIndex = 5;
@@ -135,7 +136,7 @@
             // textBoxBCC
             // 
             this.textBoxBCC.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.textBoxBCC.Location = new System.Drawing.Point(131, 71);
+            this.textBoxBCC.Location = new System.Drawing.Point(131, 53);
             this.textBoxBCC.Name = "textBoxBCC";
             this.textBoxBCC.Size = new System.Drawing.Size(510, 20);
             this.textBoxBCC.TabIndex = 6;
@@ -143,7 +144,7 @@
             // textBoxTitle
             // 
             this.textBoxTitle.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.textBoxTitle.Location = new System.Drawing.Point(131, 105);
+            this.textBoxTitle.Location = new System.Drawing.Point(131, 78);
             this.textBoxTitle.Name = "textBoxTitle";
             this.textBoxTitle.Size = new System.Drawing.Size(510, 20);
             this.textBoxTitle.TabIndex = 7;
@@ -151,20 +152,11 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(3, 136);
+            this.label5.Location = new System.Drawing.Point(3, 100);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(31, 13);
+            this.label5.Size = new System.Drawing.Size(27, 13);
             this.label5.TabIndex = 8;
             this.label5.Text = "附件";
-            // 
-            // textBoxAttachment
-            // 
-            this.textBoxAttachment.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.textBoxAttachment.Location = new System.Drawing.Point(131, 139);
-            this.textBoxAttachment.Multiline = true;
-            this.textBoxAttachment.Name = "textBoxAttachment";
-            this.textBoxAttachment.Size = new System.Drawing.Size(510, 31);
-            this.textBoxAttachment.TabIndex = 9;
             // 
             // buttonSendMail
             // 
@@ -187,7 +179,7 @@
             // 
             // buttonAddAttachment
             // 
-            this.buttonAddAttachment.Location = new System.Drawing.Point(396, 531);
+            this.buttonAddAttachment.Location = new System.Drawing.Point(523, 218);
             this.buttonAddAttachment.Name = "buttonAddAttachment";
             this.buttonAddAttachment.Size = new System.Drawing.Size(75, 23);
             this.buttonAddAttachment.TabIndex = 4;
@@ -195,11 +187,32 @@
             this.buttonAddAttachment.UseVisualStyleBackColor = true;
             this.buttonAddAttachment.Click += new System.EventHandler(this.buttonAddAttachment_Click);
             // 
+            // buttonRemoveAttachment
+            // 
+            this.buttonRemoveAttachment.Location = new System.Drawing.Point(609, 218);
+            this.buttonRemoveAttachment.Name = "buttonRemoveAttachment";
+            this.buttonRemoveAttachment.Size = new System.Drawing.Size(75, 23);
+            this.buttonRemoveAttachment.TabIndex = 5;
+            this.buttonRemoveAttachment.Text = "删除附件";
+            this.buttonRemoveAttachment.UseVisualStyleBackColor = true;
+            this.buttonRemoveAttachment.Click += new System.EventHandler(this.buttonRemoveAttachment_Click);
+            // 
+            // listBoxAttachment
+            // 
+            this.listBoxAttachment.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.listBoxAttachment.FormattingEnabled = true;
+            this.listBoxAttachment.Location = new System.Drawing.Point(131, 103);
+            this.listBoxAttachment.Name = "listBoxAttachment";
+            this.listBoxAttachment.SelectionMode = System.Windows.Forms.SelectionMode.MultiSimple;
+            this.listBoxAttachment.Size = new System.Drawing.Size(510, 56);
+            this.listBoxAttachment.TabIndex = 9;
+            // 
             // EditMail
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(729, 572);
+            this.Controls.Add(this.buttonRemoveAttachment);
             this.Controls.Add(this.buttonAddAttachment);
             this.Controls.Add(this.buttonSaveDraft);
             this.Controls.Add(this.buttonSendMail);
@@ -229,7 +242,8 @@
         private System.Windows.Forms.Button buttonSendMail;
         private System.Windows.Forms.Button buttonSaveDraft;
         private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.TextBox textBoxAttachment;
         private System.Windows.Forms.Button buttonAddAttachment;
+        private System.Windows.Forms.Button buttonRemoveAttachment;
+        private System.Windows.Forms.ListBox listBoxAttachment;
     }
 }

@@ -12,6 +12,10 @@ namespace WebMailClient
 {
     public partial class EditMail : Form
     {
+        private MailMessage msg = null;
+
+        List<string> attachList = new List<string>();
+
         public EditMail()
         {
             InitializeComponent();
@@ -31,7 +35,22 @@ namespace WebMailClient
 
         private void buttonSendMail_Click(object sender, EventArgs e)
         {
-            MailMessage msg = new MailMessage();
+            SendMail();
+        }
+
+        private void buttonAddAttachment_Click(object sender, EventArgs e)
+        {
+            AddAttachment();
+        }
+
+        private void buttonRemoveAttachment_Click(object sender, EventArgs e)
+        {
+            RemoveAttachment();
+        }
+
+        private void SendMail()
+        {
+            msg = new MailMessage();
             if (textBoxReceive.Text.Length == 0)
             {
                 MessageBox.Show("收件地址不能为空!");
@@ -40,7 +59,7 @@ namespace WebMailClient
             string[] addrlist = textBoxReceive.Text.Split(';');
             foreach (string str in addrlist)
             {
-                if(str == "")
+                if (str == "")
                     continue;
                 msg.To.Add(str);
             }
@@ -65,17 +84,9 @@ namespace WebMailClient
                     msg.Bcc.Add(str);
                 }
             }
-            if (textBoxAttachment.Text.Length > 0)
-            {
-                addrlist = textBoxAttachment.Text.Split(';');
-                foreach (string str in addrlist)
-                {
-                    if(str == "")
-                        continue;
-                    Attachment attachment = new Attachment(str);
-                    msg.Attachments.Add(attachment);
-                }
-            }
+
+            LoadAttachmentList();
+
             msg.From = new MailAddress(Session.AccountName, Session.AccountName, System.Text.Encoding.UTF8);
             msg.Subject = textBoxTitle.Text;
             msg.SubjectEncoding = System.Text.Encoding.UTF8;
@@ -98,7 +109,16 @@ namespace WebMailClient
             }
         }
 
-        private void buttonAddAttachment_Click(object sender, EventArgs e)
+        private void LoadAttachmentList()
+        {
+            foreach (string str in attachList)
+            {
+                Attachment attachment = new Attachment(str);
+                msg.Attachments.Add(attachment);
+            }
+        }
+
+        private void AddAttachment()
         {
             OpenFileDialog dialog = new OpenFileDialog();
             dialog.Title = "添加附件";
@@ -106,43 +126,46 @@ namespace WebMailClient
             dialog.Multiselect = true;
             if (dialog.ShowDialog() == DialogResult.OK)
             {
-                string[] oldAttatchList = textBoxAttachment.Text.Split(';');
-                List<string> tmplist = new List<string>();
-                foreach (string str in oldAttatchList)
-                {
-                    if (str == "")
-                        continue;
-                    tmplist.Add(str);
-                }
-
                 foreach (string newstr in dialog.FileNames)
                 {
-                    if (newstr == "")
-                        continue;
                     bool found = false;
-                    foreach (string oldstr in oldAttatchList)
+                    foreach (string oldstr in attachList)
                     {
-                        if (oldstr == "")
-                            continue;
-                        if(newstr == oldstr)
+                        if (newstr == oldstr)
                         {
                             found = true;
                             break;
                         }
                     }
-                    if(found == false)
+                    if (found == false)
                     {
                         // add to a tmp list
-                        tmplist.Add(newstr);
+                        attachList.Add(newstr);
                     }
                 }
 
-                textBoxAttachment.Text = "";
-                foreach (string str in tmplist)
+                UpdateAttachmentList();
+            }
+        }
+
+        private void UpdateAttachmentList()
+        {
+            listBoxAttachment.Items.Clear();
+            foreach (string str in attachList)
+            {
+                listBoxAttachment.Items.Add(str);
+            }
+        }
+
+        private void RemoveAttachment()
+        {
+            // remove all the selected attachment
+            for (int i = listBoxAttachment.Items.Count - 1; i >= 0; i--)
+            {
+                if (listBoxAttachment.GetSelected(i) == true)
                 {
-                    if(str == "")
-                        continue;
-                    textBoxAttachment.Text += str + ';';
+                    listBoxAttachment.Items.RemoveAt(i);
+                    attachList.RemoveAt(i);
                 }
             }
         }

@@ -118,10 +118,11 @@ namespace WebMailClient
             }
         }
 
-        private bool SaveEmailInfo(string uidl)
+        private bool SaveEmailInfo(string uidl, string from, string timestamp, string subject, int filesize)
         {
-            string queryStr = String.Format("INSERT INTO [Mail] ([AccountID], [UIDL], [ReadFlag], [Folder]) VALUES({0}, '{1}', {2}, {3})",
-                Session.AccountID, uidl, "No", 0);
+            string queryStr = String.Format(@"INSERT INTO [Mail] ([AccountID], [UIDL], [ReadFlag], [Folder], [From], [Date], [Subject], [Size]) 
+                VALUES({0}, '{1}', {2}, {3}, '{4}', '{5}', '{6}', {7})",
+                Session.AccountID, uidl, "No", 0, from, timestamp, subject, filesize);
             return DBAccess.ExecuteSQL(queryStr);
         }
 
@@ -266,7 +267,6 @@ namespace WebMailClient
                     {
                         fs = new FileStream(str, FileMode.Create, FileAccess.Write, FileShare.Read);
                         writer = new StreamWriter(fs);
-                        SaveEmailInfo(str);
                         // pop3 uidl index starts from 1 not 0
                         DownloadEmail(i + 1, writer);
                         writer.Flush();
@@ -281,7 +281,11 @@ namespace WebMailClient
                         fs.Close();
                     }
 
-
+                    // parse email
+                    EML eml = new EML();
+                    eml.ParseEML(str);
+                    SaveEmailInfo(str, eml.From, eml.TimeStamp, eml.Subject, eml.Size);
+                    eml.Close();
                 }
             }
         }

@@ -50,7 +50,6 @@ namespace WebMailClient
         {
             dataGridViewBoxContent.AutoGenerateColumns = true;
             dataGridViewBoxContent.DataSource = null;
-            dataGridViewBoxContent.AutoResizeColumns();
         }
 
         private void DownloadEmailData()
@@ -110,7 +109,7 @@ namespace WebMailClient
         private void LoadSentboxDB()
         {
             datatableSentbox = new DataTable();
-            string queryStr = String.Format(@"SELECT [UIDL], [ReadFlag] 
+            string queryStr = String.Format(@"SELECT [UIDL], [ReadFlag], [From], [Date], [Subject], [Size] 
                 FROM [Mail] WHERE [AccountID] = {0} AND [Folder] = {1}", Session.AccountID, MAILBOXTYPE.Sentbox);
             DBAccess.FillDataTable(queryStr, ref datatableSentbox);
         }
@@ -118,7 +117,7 @@ namespace WebMailClient
         private void LoadRecycleDB()
         {
             datatableRecycle = new DataTable();
-            string queryStr = String.Format(@"SELECT [UIDL], [ReadFlag] 
+            string queryStr = String.Format(@"SELECT [UIDL], [ReadFlag], [From], [Date], [Subject], [Size] 
                 FROM [Mail] WHERE [AccountID] = {0} AND [Folder] = {1}", Session.AccountID, MAILBOXTYPE.Recycle);
             DBAccess.FillDataTable(queryStr, ref datatableRecycle);
         }
@@ -126,7 +125,7 @@ namespace WebMailClient
         private void LoadDraftDB()
         {
             datatableDraft = new DataTable();
-            string queryStr = String.Format(@"SELECT [UIDL], [ReadFlag] 
+            string queryStr = String.Format(@"SELECT [UIDL], [ReadFlag], [From], [Date], [Subject], [Size] 
                 FROM [Mail] WHERE [AccountID] = {0} AND [Folder] = {1}", Session.AccountID, MAILBOXTYPE.Draft);
             DBAccess.FillDataTable(queryStr, ref datatableDraft);
         }
@@ -134,7 +133,7 @@ namespace WebMailClient
         private void LoadOutboxDB()
         {
             datatableOutbox = new DataTable();
-            string queryStr = String.Format(@"SELECT [UIDL], [ReadFlag] 
+            string queryStr = String.Format(@"SELECT [UIDL], [ReadFlag], [From], [Date], [Subject], [Size] 
                 FROM [Mail] WHERE [AccountID] = {0} AND [Folder] = {1}", Session.AccountID, MAILBOXTYPE.Outbox);
             DBAccess.FillDataTable(queryStr, ref datatableOutbox);
         }
@@ -142,7 +141,7 @@ namespace WebMailClient
         private void LoadInboxDB()
         {
             datatableInbox = new DataTable();
-            string queryStr = String.Format(@"SELECT [UIDL], [ReadFlag] 
+            string queryStr = String.Format(@"SELECT [UIDL], [ReadFlag], [From], [Date], [Subject], [Size] 
                 FROM [Mail] WHERE [AccountID] = {0} AND [Folder] = {1}", Session.AccountID, (int)MAILBOXTYPE.Inbox);
             DBAccess.FillDataTable(queryStr, ref datatableInbox);
         }
@@ -187,6 +186,35 @@ namespace WebMailClient
             {
                 dataGridViewBoxContent.DataSource = null;
             }
+            // hide uidl and readflag column
+            if (dataGridViewBoxContent.ColumnCount >= 2)
+            {
+                dataGridViewBoxContent.Columns[0].Visible = false;
+                dataGridViewBoxContent.Columns[1].Visible = false;
+            }
+        }
+
+        private void dataGridViewBoxContent_CellMouseDoubleClick(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            if (e.RowIndex == -1)
+            {
+                return;
+            }
+            ViewMail(e.RowIndex);
+        }
+
+        private void ViewMail(int row)
+        {
+            ViewMail viewMail = new ViewMail();
+            viewMail.ID = dataGridViewBoxContent.Rows[row].Cells[0].Value.ToString();
+            viewMail.ShowDialog();
+        }
+
+        private void NewMailToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            // display edit mail dialog
+            EditMail editMail = new EditMail();
+            editMail.ShowDialog();
         }
     }
 }

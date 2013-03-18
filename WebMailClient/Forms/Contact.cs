@@ -126,6 +126,11 @@ namespace WebMailClient
 
         private void buttonSend_Click(object sender, EventArgs e)
         {
+            SendMail();
+        }
+
+        private void SendMail()
+        {
             // display edit mail dialog
             EditMail editMail = new EditMail();
             string senderlist = null;

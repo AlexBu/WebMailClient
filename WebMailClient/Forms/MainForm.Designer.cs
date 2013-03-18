@@ -32,6 +32,7 @@
             this.FileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ContactToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.EditToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.DeleteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ViewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.AboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
@@ -39,7 +40,7 @@
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.treeViewMailBox = new System.Windows.Forms.TreeView();
             this.dataGridViewBoxContent = new System.Windows.Forms.DataGridView();
-            this.DeleteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.NewMailToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -63,6 +64,7 @@
             // FileToolStripMenuItem
             // 
             this.FileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.NewMailToolStripMenuItem,
             this.ContactToolStripMenuItem});
             this.FileToolStripMenuItem.Name = "FileToolStripMenuItem";
             this.FileToolStripMenuItem.Size = new System.Drawing.Size(53, 20);
@@ -82,6 +84,12 @@
             this.EditToolStripMenuItem.Name = "EditToolStripMenuItem";
             this.EditToolStripMenuItem.Size = new System.Drawing.Size(53, 20);
             this.EditToolStripMenuItem.Text = "编辑(&E)";
+            // 
+            // DeleteToolStripMenuItem
+            // 
+            this.DeleteToolStripMenuItem.Name = "DeleteToolStripMenuItem";
+            this.DeleteToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.DeleteToolStripMenuItem.Text = "删除(&D)";
             // 
             // ViewToolStripMenuItem
             // 
@@ -141,19 +149,26 @@
             // 
             this.dataGridViewBoxContent.AllowUserToAddRows = false;
             this.dataGridViewBoxContent.AllowUserToDeleteRows = false;
+            this.dataGridViewBoxContent.AllowUserToResizeRows = false;
+            this.dataGridViewBoxContent.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
+            this.dataGridViewBoxContent.BackgroundColor = System.Drawing.SystemColors.Window;
+            this.dataGridViewBoxContent.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.dataGridViewBoxContent.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridViewBoxContent.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dataGridViewBoxContent.Location = new System.Drawing.Point(0, 0);
             this.dataGridViewBoxContent.Name = "dataGridViewBoxContent";
             this.dataGridViewBoxContent.ReadOnly = true;
+            this.dataGridViewBoxContent.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dataGridViewBoxContent.Size = new System.Drawing.Size(583, 496);
             this.dataGridViewBoxContent.TabIndex = 0;
+            this.dataGridViewBoxContent.CellMouseDoubleClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dataGridViewBoxContent_CellMouseDoubleClick);
             // 
-            // DeleteToolStripMenuItem
+            // NewMailToolStripMenuItem
             // 
-            this.DeleteToolStripMenuItem.Name = "DeleteToolStripMenuItem";
-            this.DeleteToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.DeleteToolStripMenuItem.Text = "删除(&D)";
+            this.NewMailToolStripMenuItem.Name = "NewMailToolStripMenuItem";
+            this.NewMailToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.NewMailToolStripMenuItem.Text = "写邮件(&N)";
+            this.NewMailToolStripMenuItem.Click += new System.EventHandler(this.NewMailToolStripMenuItem_Click);
             // 
             // MainForm
             // 
@@ -194,5 +209,6 @@
         private System.Windows.Forms.ToolStripMenuItem AboutToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem ContactToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem DeleteToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem NewMailToolStripMenuItem;
     }
 }
