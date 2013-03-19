@@ -16,6 +16,16 @@ namespace WebMailClient
             InitializeComponent();
         }
 
+        private string receiverlist;
+
+        public string TO
+        {
+            get
+            {
+                return receiverlist;
+            }
+        }
+
         private void Contact_Load(object sender, EventArgs e)
         {
             LoadContact();
@@ -126,20 +136,18 @@ namespace WebMailClient
 
         private void buttonSend_Click(object sender, EventArgs e)
         {
-            SendMail();
+            SetReceiverName();
+            DialogResult = DialogResult.OK;
+            Close();
         }
 
-        private void SendMail()
+        private void SetReceiverName()
         {
-            // display edit mail dialog
-            EditMail editMail = new EditMail();
-            string senderlist = null;
+            receiverlist = null;
             foreach (DataGridViewRow row in dataGridViewContact.SelectedRows)
             {
-                senderlist += row.Cells[1].Value.ToString() + ';';
+                receiverlist += row.Cells[1].Value.ToString() + ';';
             }
-            editMail.Sender = senderlist;
-            editMail.ShowDialog();
         }
     }
 }

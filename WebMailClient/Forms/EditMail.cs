@@ -13,15 +13,16 @@ namespace WebMailClient
     public partial class EditMail : Form
     {
         private MailMessage msg = null;
+        private SmtpClient client = null;
 
-        List<string> attachList = new List<string>();
+        private List<string> attachList = new List<string>();
 
         public EditMail()
         {
             InitializeComponent();
         }
 
-        public string Sender
+        public string Receiver
         {
             get
             {
@@ -33,9 +34,27 @@ namespace WebMailClient
             }
         }
 
+        public MailMessage MSG
+        {
+            get
+            {
+                return msg;
+            }
+        }
+
+        public SmtpClient Client
+        {
+            get
+            {
+                return client;
+            }
+        }
+
         private void buttonSendMail_Click(object sender, EventArgs e)
         {
-            SendMail();
+            PrepareMail();
+            DialogResult = DialogResult.OK;
+            Close();
         }
 
         private void buttonAddAttachment_Click(object sender, EventArgs e)
@@ -48,7 +67,7 @@ namespace WebMailClient
             RemoveAttachment();
         }
 
-        private void SendMail()
+        private void PrepareMail()
         {
             msg = new MailMessage();
             if (textBoxReceive.Text.Length == 0)
@@ -94,19 +113,10 @@ namespace WebMailClient
             msg.BodyEncoding = System.Text.Encoding.UTF8;
             msg.IsBodyHtml = true;
             msg.Priority = MailPriority.Normal;
-            SmtpClient client = new SmtpClient();
+            client = new SmtpClient();
             client.Credentials = new System.Net.NetworkCredential(Session.AccountName, Session.AccountPass);
             client.Host = "smtp.163.com";
             client.EnableSsl = false;
-            try
-            {
-                client.Send(msg);
-                MessageBox.Show("发送成功");
-            }
-            catch (System.Net.Mail.SmtpException ex)
-            {
-                MessageBox.Show(ex.Message, "发送邮件出错");
-            }
         }
 
         private void LoadAttachmentList()

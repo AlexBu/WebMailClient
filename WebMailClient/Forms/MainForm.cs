@@ -6,6 +6,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using System.Net.Mail;
 
 namespace WebMailClient
 {
@@ -32,6 +33,7 @@ namespace WebMailClient
 
         private void MainForm_Load(object sender, EventArgs e)
         {
+            statusStripApplication.Items[0].Alignment = ToolStripItemAlignment.Right;
             // load email database
             LoadEmailDB();
             // load data grid view
@@ -39,11 +41,8 @@ namespace WebMailClient
             // load tree view
             LoadTreeView();
             // receive email from web
-            DownloadEmailData();
-            // reload inbox data
-            LoadInboxDB();
-            // reload datagrid
-            dataGridViewBoxContent.DataSource = datatableInbox;
+            //DownloadEmailData();
+            backgroundWorkerRecv.RunWorkerAsync();
         }
 
         private void LoadDataGridView()
@@ -52,13 +51,16 @@ namespace WebMailClient
             dataGridViewBoxContent.DataSource = null;
         }
 
-        private void DownloadEmailData()
+        private void DownloadEmailData(BackgroundWorker worker)
         {
             // download email data and fill into database
             Pop3 mailbox = new Pop3("pop3.163.com");
+            worker.ReportProgress(1, "connecting to mail server");
             mailbox.Connect(Session.AccountName, Session.AccountPass);
+            worker.ReportProgress(50, "retrieving email");
             mailbox.RetrieveEmail(datatableInbox);
             mailbox.DisConnect();
+            worker.ReportProgress(99, "disconnected from mail server");
         }
 
         private void LoadTreeView()
@@ -151,6 +153,17 @@ namespace WebMailClient
             // show contact dialog
             Contact contact = new Contact();
             contact.ShowDialog();
+            if (contact.DialogResult == DialogResult.OK)
+            {
+                // open edit mail form to edit email
+                EditMail editMail = new EditMail();
+                editMail.Receiver = contact.TO;
+                editMail.ShowDialog();
+                if (editMail.DialogResult == DialogResult.OK)
+                {
+                    backgroundWorkerSend.RunWorkerAsync(editMail);
+                }
+            }
         }
 
         private void treeViewMailBox_AfterSelect(object sender, TreeViewEventArgs e)
@@ -212,14 +225,50 @@ namespace WebMailClient
 
         private void NewMailToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            // display edit mail dialog
+            // open edit mail form to edit email
             EditMail editMail = new EditMail();
             editMail.ShowDialog();
+            if (editMail.DialogResult == DialogResult.OK)
+            {
+                backgroundWorkerSend.RunWorkerAsync(editMail);
+            }
         }
 
         private void backgroundWorkerRecv_DoWork(object sender, DoWorkEventArgs e)
         {
-            //
+            BackgroundWorker worker = sender as BackgroundWorker;
+            DownloadEmailData(worker);
+        }
+
+        private void backgroundWorkerRecv_ProgressChanged(object sender, ProgressChangedEventArgs e)
+        {
+            statusStripApplication.Items[0].Text = (string)e.UserState;
+        }
+
+        private void backgroundWorkerRecv_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            if(e.Error != null)
+                return;
+            if (e.Cancelled == true)
+                return;
+            // reload inbox data
+            LoadInboxDB();
+            // reload datagrid
+            dataGridViewBoxContent.DataSource = datatableInbox;
+        }
+
+        private void backgroundWorkerSend_DoWork(object sender, DoWorkEventArgs e)
+        {
+            EditMail editMail = e.Argument as EditMail;
+            MailMessage msg = editMail.MSG;
+            SmtpClient client = editMail.Client;
+            statusStripApplication.Items[0].Text = "sending email";
+            client.Send(msg);
+        }
+
+        private void backgroundWorkerSend_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            statusStripApplication.Items[0].Text = "send success";
         }
     }
 }

@@ -37,13 +37,15 @@
             this.ViewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.AboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
-            this.statusStrip1 = new System.Windows.Forms.StatusStrip();
+            this.statusStripApplication = new System.Windows.Forms.StatusStrip();
+            this.toolStripStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.treeViewMailBox = new System.Windows.Forms.TreeView();
             this.dataGridViewBoxContent = new System.Windows.Forms.DataGridView();
             this.backgroundWorkerRecv = new System.ComponentModel.BackgroundWorker();
             this.backgroundWorkerSend = new System.ComponentModel.BackgroundWorker();
             this.menuStrip1.SuspendLayout();
+            this.statusStripApplication.SuspendLayout();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
@@ -69,20 +71,20 @@
             this.NewMailToolStripMenuItem,
             this.ContactToolStripMenuItem});
             this.FileToolStripMenuItem.Name = "FileToolStripMenuItem";
-            this.FileToolStripMenuItem.Size = new System.Drawing.Size(53, 20);
+            this.FileToolStripMenuItem.Size = new System.Drawing.Size(57, 20);
             this.FileToolStripMenuItem.Text = "文件(&F)";
             // 
             // NewMailToolStripMenuItem
             // 
             this.NewMailToolStripMenuItem.Name = "NewMailToolStripMenuItem";
-            this.NewMailToolStripMenuItem.Size = new System.Drawing.Size(119, 22);
+            this.NewMailToolStripMenuItem.Size = new System.Drawing.Size(127, 22);
             this.NewMailToolStripMenuItem.Text = "写邮件(&N)";
             this.NewMailToolStripMenuItem.Click += new System.EventHandler(this.NewMailToolStripMenuItem_Click);
             // 
             // ContactToolStripMenuItem
             // 
             this.ContactToolStripMenuItem.Name = "ContactToolStripMenuItem";
-            this.ContactToolStripMenuItem.Size = new System.Drawing.Size(119, 22);
+            this.ContactToolStripMenuItem.Size = new System.Drawing.Size(127, 22);
             this.ContactToolStripMenuItem.Text = "通讯录(&C)";
             this.ContactToolStripMenuItem.Click += new System.EventHandler(this.ContactToolStripMenuItem_Click);
             // 
@@ -91,25 +93,25 @@
             this.EditToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.DeleteToolStripMenuItem});
             this.EditToolStripMenuItem.Name = "EditToolStripMenuItem";
-            this.EditToolStripMenuItem.Size = new System.Drawing.Size(53, 20);
+            this.EditToolStripMenuItem.Size = new System.Drawing.Size(57, 20);
             this.EditToolStripMenuItem.Text = "编辑(&E)";
             // 
             // DeleteToolStripMenuItem
             // 
             this.DeleteToolStripMenuItem.Name = "DeleteToolStripMenuItem";
-            this.DeleteToolStripMenuItem.Size = new System.Drawing.Size(109, 22);
+            this.DeleteToolStripMenuItem.Size = new System.Drawing.Size(114, 22);
             this.DeleteToolStripMenuItem.Text = "删除(&D)";
             // 
             // ViewToolStripMenuItem
             // 
             this.ViewToolStripMenuItem.Name = "ViewToolStripMenuItem";
-            this.ViewToolStripMenuItem.Size = new System.Drawing.Size(53, 20);
+            this.ViewToolStripMenuItem.Size = new System.Drawing.Size(58, 20);
             this.ViewToolStripMenuItem.Text = "查看(&V)";
             // 
             // AboutToolStripMenuItem
             // 
             this.AboutToolStripMenuItem.Name = "AboutToolStripMenuItem";
-            this.AboutToolStripMenuItem.Size = new System.Drawing.Size(54, 20);
+            this.AboutToolStripMenuItem.Size = new System.Drawing.Size(59, 20);
             this.AboutToolStripMenuItem.Text = "关于(&A)";
             // 
             // toolStrip1
@@ -120,13 +122,20 @@
             this.toolStrip1.TabIndex = 1;
             this.toolStrip1.Text = "toolStrip1";
             // 
-            // statusStrip1
+            // statusStripApplication
             // 
-            this.statusStrip1.Location = new System.Drawing.Point(0, 545);
-            this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(791, 22);
-            this.statusStrip1.TabIndex = 2;
-            this.statusStrip1.Text = "statusStrip1";
+            this.statusStripApplication.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripStatusLabel});
+            this.statusStripApplication.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.HorizontalStackWithOverflow;
+            this.statusStripApplication.Location = new System.Drawing.Point(0, 545);
+            this.statusStripApplication.Name = "statusStripApplication";
+            this.statusStripApplication.Size = new System.Drawing.Size(791, 22);
+            this.statusStripApplication.TabIndex = 2;
+            // 
+            // toolStripStatusLabel
+            // 
+            this.toolStripStatusLabel.Name = "toolStripStatusLabel";
+            this.toolStripStatusLabel.Size = new System.Drawing.Size(0, 17);
             // 
             // splitContainer1
             // 
@@ -174,7 +183,16 @@
             // 
             // backgroundWorkerRecv
             // 
+            this.backgroundWorkerRecv.WorkerReportsProgress = true;
             this.backgroundWorkerRecv.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundWorkerRecv_DoWork);
+            this.backgroundWorkerRecv.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.backgroundWorkerRecv_RunWorkerCompleted);
+            this.backgroundWorkerRecv.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.backgroundWorkerRecv_ProgressChanged);
+            // 
+            // backgroundWorkerSend
+            // 
+            this.backgroundWorkerSend.WorkerReportsProgress = true;
+            this.backgroundWorkerSend.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundWorkerSend_DoWork);
+            this.backgroundWorkerSend.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.backgroundWorkerSend_RunWorkerCompleted);
             // 
             // MainForm
             // 
@@ -182,7 +200,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(791, 567);
             this.Controls.Add(this.splitContainer1);
-            this.Controls.Add(this.statusStrip1);
+            this.Controls.Add(this.statusStripApplication);
             this.Controls.Add(this.toolStrip1);
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
@@ -192,6 +210,8 @@
             this.Load += new System.EventHandler(this.MainForm_Load);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
+            this.statusStripApplication.ResumeLayout(false);
+            this.statusStripApplication.PerformLayout();
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel2.ResumeLayout(false);
             this.splitContainer1.ResumeLayout(false);
@@ -205,7 +225,7 @@
 
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStrip toolStrip1;
-        private System.Windows.Forms.StatusStrip statusStrip1;
+        private System.Windows.Forms.StatusStrip statusStripApplication;
         private System.Windows.Forms.SplitContainer splitContainer1;
         private System.Windows.Forms.TreeView treeViewMailBox;
         private System.Windows.Forms.DataGridView dataGridViewBoxContent;
@@ -218,5 +238,6 @@
         private System.Windows.Forms.ToolStripMenuItem NewMailToolStripMenuItem;
         private System.ComponentModel.BackgroundWorker backgroundWorkerRecv;
         private System.ComponentModel.BackgroundWorker backgroundWorkerSend;
+        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel;
     }
 }
