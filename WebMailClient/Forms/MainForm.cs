@@ -216,5 +216,10 @@ namespace WebMailClient
             EditMail editMail = new EditMail();
             editMail.ShowDialog();
         }
+
+        private void backgroundWorkerRecv_DoWork(object sender, DoWorkEventArgs e)
+        {
+            //
+        }
     }
 }

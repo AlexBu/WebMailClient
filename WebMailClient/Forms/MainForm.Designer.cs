@@ -30,6 +30,7 @@
         {
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.FileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.NewMailToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ContactToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.EditToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.DeleteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -40,7 +41,8 @@
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.treeViewMailBox = new System.Windows.Forms.TreeView();
             this.dataGridViewBoxContent = new System.Windows.Forms.DataGridView();
-            this.NewMailToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.backgroundWorkerRecv = new System.ComponentModel.BackgroundWorker();
+            this.backgroundWorkerSend = new System.ComponentModel.BackgroundWorker();
             this.menuStrip1.SuspendLayout();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -70,10 +72,17 @@
             this.FileToolStripMenuItem.Size = new System.Drawing.Size(53, 20);
             this.FileToolStripMenuItem.Text = "文件(&F)";
             // 
+            // NewMailToolStripMenuItem
+            // 
+            this.NewMailToolStripMenuItem.Name = "NewMailToolStripMenuItem";
+            this.NewMailToolStripMenuItem.Size = new System.Drawing.Size(119, 22);
+            this.NewMailToolStripMenuItem.Text = "写邮件(&N)";
+            this.NewMailToolStripMenuItem.Click += new System.EventHandler(this.NewMailToolStripMenuItem_Click);
+            // 
             // ContactToolStripMenuItem
             // 
             this.ContactToolStripMenuItem.Name = "ContactToolStripMenuItem";
-            this.ContactToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.ContactToolStripMenuItem.Size = new System.Drawing.Size(119, 22);
             this.ContactToolStripMenuItem.Text = "通讯录(&C)";
             this.ContactToolStripMenuItem.Click += new System.EventHandler(this.ContactToolStripMenuItem_Click);
             // 
@@ -88,7 +97,7 @@
             // DeleteToolStripMenuItem
             // 
             this.DeleteToolStripMenuItem.Name = "DeleteToolStripMenuItem";
-            this.DeleteToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.DeleteToolStripMenuItem.Size = new System.Drawing.Size(109, 22);
             this.DeleteToolStripMenuItem.Text = "删除(&D)";
             // 
             // ViewToolStripMenuItem
@@ -163,12 +172,9 @@
             this.dataGridViewBoxContent.TabIndex = 0;
             this.dataGridViewBoxContent.CellMouseDoubleClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dataGridViewBoxContent_CellMouseDoubleClick);
             // 
-            // NewMailToolStripMenuItem
+            // backgroundWorkerRecv
             // 
-            this.NewMailToolStripMenuItem.Name = "NewMailToolStripMenuItem";
-            this.NewMailToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.NewMailToolStripMenuItem.Text = "写邮件(&N)";
-            this.NewMailToolStripMenuItem.Click += new System.EventHandler(this.NewMailToolStripMenuItem_Click);
+            this.backgroundWorkerRecv.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundWorkerRecv_DoWork);
             // 
             // MainForm
             // 
@@ -210,5 +216,7 @@
         private System.Windows.Forms.ToolStripMenuItem ContactToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem DeleteToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem NewMailToolStripMenuItem;
+        private System.ComponentModel.BackgroundWorker backgroundWorkerRecv;
+        private System.ComponentModel.BackgroundWorker backgroundWorkerSend;
     }
 }

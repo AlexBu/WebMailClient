@@ -39,11 +39,11 @@
             this.textBoxBCC = new System.Windows.Forms.TextBox();
             this.textBoxTitle = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
+            this.listBoxAttachment = new System.Windows.Forms.ListBox();
             this.buttonSendMail = new System.Windows.Forms.Button();
             this.buttonSaveDraft = new System.Windows.Forms.Button();
             this.buttonAddAttachment = new System.Windows.Forms.Button();
             this.buttonRemoveAttachment = new System.Windows.Forms.Button();
-            this.listBoxAttachment = new System.Windows.Forms.ListBox();
             this.tableLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -158,6 +158,16 @@
             this.label5.TabIndex = 8;
             this.label5.Text = "附件";
             // 
+            // listBoxAttachment
+            // 
+            this.listBoxAttachment.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.listBoxAttachment.FormattingEnabled = true;
+            this.listBoxAttachment.Location = new System.Drawing.Point(131, 103);
+            this.listBoxAttachment.Name = "listBoxAttachment";
+            this.listBoxAttachment.SelectionMode = System.Windows.Forms.SelectionMode.MultiSimple;
+            this.listBoxAttachment.Size = new System.Drawing.Size(510, 56);
+            this.listBoxAttachment.TabIndex = 9;
+            // 
             // buttonSendMail
             // 
             this.buttonSendMail.Location = new System.Drawing.Point(582, 531);
@@ -196,16 +206,6 @@
             this.buttonRemoveAttachment.Text = "删除附件";
             this.buttonRemoveAttachment.UseVisualStyleBackColor = true;
             this.buttonRemoveAttachment.Click += new System.EventHandler(this.buttonRemoveAttachment_Click);
-            // 
-            // listBoxAttachment
-            // 
-            this.listBoxAttachment.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.listBoxAttachment.FormattingEnabled = true;
-            this.listBoxAttachment.Location = new System.Drawing.Point(131, 103);
-            this.listBoxAttachment.Name = "listBoxAttachment";
-            this.listBoxAttachment.SelectionMode = System.Windows.Forms.SelectionMode.MultiSimple;
-            this.listBoxAttachment.Size = new System.Drawing.Size(510, 56);
-            this.listBoxAttachment.TabIndex = 9;
             // 
             // EditMail
             // 

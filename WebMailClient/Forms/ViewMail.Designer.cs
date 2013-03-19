@@ -38,8 +38,8 @@
             this.textBoxCC = new System.Windows.Forms.TextBox();
             this.textBoxBCC = new System.Windows.Forms.TextBox();
             this.textBoxTitle = new System.Windows.Forms.TextBox();
-            this.label5 = new System.Windows.Forms.Label();
             this.listBoxAttachment = new System.Windows.Forms.ListBox();
+            this.label5 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.textBoxTime = new System.Windows.Forms.TextBox();
             this.webBrowserContent = new System.Windows.Forms.WebBrowser();
@@ -155,15 +155,6 @@
             this.textBoxTitle.Size = new System.Drawing.Size(510, 20);
             this.textBoxTitle.TabIndex = 7;
             // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(3, 145);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(27, 13);
-            this.label5.TabIndex = 8;
-            this.label5.Text = "附件";
-            // 
             // listBoxAttachment
             // 
             this.listBoxAttachment.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -173,6 +164,15 @@
             this.listBoxAttachment.Size = new System.Drawing.Size(510, 43);
             this.listBoxAttachment.TabIndex = 9;
             this.listBoxAttachment.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.listBoxAttachment_MouseDoubleClick);
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(3, 145);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(27, 13);
+            this.label5.TabIndex = 8;
+            this.label5.Text = "附件";
             // 
             // label6
             // 
