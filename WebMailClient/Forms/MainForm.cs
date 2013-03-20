@@ -34,14 +34,24 @@ namespace WebMailClient
 
         private void MainForm_Load(object sender, EventArgs e)
         {
-            statusStripApplication.Items[0].Alignment = ToolStripItemAlignment.Right;
+            // load setting
+            LoadSetting();
             // load email database
             LoadEmailDB();
+            // init status strip
+            InitStatusStrip();
             // load data grid view
             LoadDataGridView();
             // load tree view
             LoadTreeView();
+            // get email
             ReceiveEmail();
+        }
+
+        private void InitStatusStrip()
+        {
+            // set status strip
+            statusStripApplication.Items[0].Alignment = ToolStripItemAlignment.Right;
         }
 
         private void ReceiveEmail()
@@ -58,18 +68,21 @@ namespace WebMailClient
 
         private void DownloadEmailData(BackgroundWorker worker)
         {
+            if (Session.SettingIsValid() == false)
+                return;
             // download email data and fill into database
-            Pop3 mailbox = new Pop3("pop3.163.com");
-            worker.ReportProgress(1, "connecting to mail server");
+            Pop3 mailbox = new Pop3(Session.Pop3Server, Session.Pop3Port);
+            worker.ReportProgress(1, "连接到邮件服务器...");
             mailbox.Connect(Session.AccountName, Session.AccountPass);
-            worker.ReportProgress(50, "retrieving email");
+            worker.ReportProgress(50, "接收邮件...");
             mailbox.RetrieveEmail(datatableIncome);
             mailbox.DisConnect();
-            worker.ReportProgress(99, "disconnected from mail server");
+            worker.ReportProgress(99, "从邮件服务器断开");
         }
 
         private void LoadTreeView()
         {
+            treeViewMailBox.Nodes.Clear();
             // add nodes to the tree view
             TreeNode rootNode = new TreeNode(Session.AccountName);
             treeViewMailBox.Nodes.Add(rootNode);
@@ -92,19 +105,6 @@ namespace WebMailClient
 
         private void LoadEmailDB()
         {
-            string queryStr = String.Format("SELECT [ID], [Accountname], [Accountpass] FROM [Account] WHERE [UserID] = {0}", Session.LoginID);
-            // get account
-            object[] values = {null, null, null};
-            if (DBAccess.QuerySingleRecord(queryStr, ref values) == 3)
-            {
-                Session.AccountID = (int)values[0];
-                Session.AccountName = (string)values[1];
-                Session.AccountPass = (string)values[2];
-            }
-
-            if (Session.AccountName == null)
-                return;
-
             // load mail data into different datatable
             LoadAllIncomeDB();
             LoadInboxDB();
@@ -264,13 +264,13 @@ namespace WebMailClient
             EditMail editMail = e.Argument as EditMail;
             MailMessage msg = editMail.MSG;
             SmtpClient client = editMail.Client;
-            statusStripApplication.Items[0].Text = "sending email";
+            statusStripApplication.Items[0].Text = "发送邮件...";
             client.Send(msg);
         }
 
         private void backgroundWorkerSend_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
-            statusStripApplication.Items[0].Text = "send success";
+            statusStripApplication.Items[0].Text = "发送邮件成功";
         }
 
         private void DeleteToolStripMenuItem_Click(object sender, EventArgs e)
@@ -303,7 +303,7 @@ namespace WebMailClient
         private void DeleteFromServer()
         {
             // download email data and fill into database
-            Pop3 mailbox = new Pop3("pop3.163.com");
+            Pop3 mailbox = new Pop3(Session.Pop3Server, Session.Pop3Port);
             mailbox.Connect(Session.AccountName, Session.AccountPass);
 
             foreach (DataGridViewRow row in dataGridViewBoxContent.SelectedRows)
@@ -424,6 +424,42 @@ namespace WebMailClient
         private void ReceiveToolStripMenuItem_Click(object sender, EventArgs e)
         {
             ReceiveEmail();
+        }
+
+        private void SettingToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Settings settings = new Settings();
+            LoadSetting();
+            settings.ShowDialog();
+            if (settings.DialogResult == DialogResult.OK)
+            {
+                LoadSetting();
+                LoadTreeView();
+            }
+        }
+
+        private void LoadSetting()
+        {
+            string queryStr = String.Format("SELECT * FROM [Account] WHERE [UserID] = {0}", Session.LoginID);
+            // get account
+            object[] values = { null, null, null, null, null, null, null, null };
+            if (DBAccess.QuerySingleRecord(queryStr, ref values) == 8)
+            {
+                if (values[1] != DBNull.Value)
+                    Session.AccountID = (int)values[1];
+                if (values[2] != DBNull.Value)
+                    Session.AccountName = (string)values[2];
+                if (values[3] != DBNull.Value)
+                    Session.AccountPass = (string)values[3];
+                if (values[4] != DBNull.Value)
+                    Session.Pop3Server = (string)values[4];
+                if (values[5] != DBNull.Value)
+                    Session.Pop3Port = (int)values[5];
+                if (values[6] != DBNull.Value)
+                    Session.SMTPServer = (string)values[6];
+                if (values[7] != DBNull.Value)
+                    Session.SMTPPort = (int)values[7];
+            }
         }
     }
 }

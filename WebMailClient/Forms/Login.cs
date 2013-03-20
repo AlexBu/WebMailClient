@@ -34,7 +34,7 @@ namespace WebMailClient
             {
                 MessageBox.Show("登录失败!", "Webmail", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
                 // save session
-                Session.LoginName = null;
+                Session.LoginName = "";
                 Session.LoginID = -1;
                 // reset input
                 ResetInput();

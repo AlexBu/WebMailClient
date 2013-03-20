@@ -81,7 +81,7 @@
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(3, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(114, 13);
+            this.label1.Size = new System.Drawing.Size(128, 13);
             this.label1.TabIndex = 0;
             this.label1.Text = "收信服务器地址(POP3):";
             // 
@@ -90,7 +90,7 @@
             this.label2.AutoSize = true;
             this.label2.Location = new System.Drawing.Point(3, 68);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(116, 13);
+            this.label2.Size = new System.Drawing.Size(130, 13);
             this.label2.TabIndex = 1;
             this.label2.Text = "发信服务器地址(SMTP):";
             // 
@@ -99,7 +99,7 @@
             this.label3.AutoSize = true;
             this.label3.Location = new System.Drawing.Point(3, 34);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(74, 13);
+            this.label3.Size = new System.Drawing.Size(80, 13);
             this.label3.TabIndex = 2;
             this.label3.Text = "端口号(POP3):";
             // 
@@ -108,7 +108,7 @@
             this.label4.AutoSize = true;
             this.label4.Location = new System.Drawing.Point(3, 102);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(76, 13);
+            this.label4.Size = new System.Drawing.Size(82, 13);
             this.label4.TabIndex = 3;
             this.label4.Text = "端口号(SMTP):";
             // 
@@ -117,7 +117,7 @@
             this.label5.AutoSize = true;
             this.label5.Location = new System.Drawing.Point(3, 136);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(60, 13);
+            this.label5.Size = new System.Drawing.Size(70, 13);
             this.label5.TabIndex = 4;
             this.label5.Text = "邮箱用户名:";
             // 
@@ -126,63 +126,70 @@
             this.label6.AutoSize = true;
             this.label6.Location = new System.Drawing.Point(3, 170);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(50, 13);
+            this.label6.Size = new System.Drawing.Size(58, 13);
             this.label6.TabIndex = 5;
             this.label6.Text = "邮箱密码:";
             // 
             // textBoxPOP3Server
             // 
+            this.textBoxPOP3Server.Dock = System.Windows.Forms.DockStyle.Fill;
             this.textBoxPOP3Server.Location = new System.Drawing.Point(159, 3);
             this.textBoxPOP3Server.Name = "textBoxPOP3Server";
-            this.textBoxPOP3Server.Size = new System.Drawing.Size(100, 20);
+            this.textBoxPOP3Server.Size = new System.Drawing.Size(361, 20);
             this.textBoxPOP3Server.TabIndex = 6;
             // 
             // textBoxPOP3Port
             // 
+            this.textBoxPOP3Port.Dock = System.Windows.Forms.DockStyle.Fill;
             this.textBoxPOP3Port.Location = new System.Drawing.Point(159, 37);
             this.textBoxPOP3Port.Name = "textBoxPOP3Port";
-            this.textBoxPOP3Port.Size = new System.Drawing.Size(100, 20);
+            this.textBoxPOP3Port.Size = new System.Drawing.Size(361, 20);
             this.textBoxPOP3Port.TabIndex = 7;
             this.textBoxPOP3Port.Text = "110";
             // 
             // textBoxSMTPServer
             // 
+            this.textBoxSMTPServer.Dock = System.Windows.Forms.DockStyle.Fill;
             this.textBoxSMTPServer.Location = new System.Drawing.Point(159, 71);
             this.textBoxSMTPServer.Name = "textBoxSMTPServer";
-            this.textBoxSMTPServer.Size = new System.Drawing.Size(100, 20);
+            this.textBoxSMTPServer.Size = new System.Drawing.Size(361, 20);
             this.textBoxSMTPServer.TabIndex = 8;
             // 
             // textBoxSMTPPort
             // 
+            this.textBoxSMTPPort.Dock = System.Windows.Forms.DockStyle.Fill;
             this.textBoxSMTPPort.Location = new System.Drawing.Point(159, 105);
             this.textBoxSMTPPort.Name = "textBoxSMTPPort";
-            this.textBoxSMTPPort.Size = new System.Drawing.Size(100, 20);
+            this.textBoxSMTPPort.Size = new System.Drawing.Size(361, 20);
             this.textBoxSMTPPort.TabIndex = 9;
             this.textBoxSMTPPort.Text = "25";
             // 
             // textBoxUsername
             // 
+            this.textBoxUsername.Dock = System.Windows.Forms.DockStyle.Fill;
             this.textBoxUsername.Location = new System.Drawing.Point(159, 139);
             this.textBoxUsername.Name = "textBoxUsername";
-            this.textBoxUsername.Size = new System.Drawing.Size(100, 20);
+            this.textBoxUsername.Size = new System.Drawing.Size(361, 20);
             this.textBoxUsername.TabIndex = 10;
             // 
             // textBoxPassword
             // 
+            this.textBoxPassword.Dock = System.Windows.Forms.DockStyle.Fill;
             this.textBoxPassword.Location = new System.Drawing.Point(159, 173);
             this.textBoxPassword.Name = "textBoxPassword";
-            this.textBoxPassword.Size = new System.Drawing.Size(100, 20);
+            this.textBoxPassword.Size = new System.Drawing.Size(361, 20);
             this.textBoxPassword.TabIndex = 11;
             this.textBoxPassword.UseSystemPasswordChar = true;
             // 
             // buttonOK
             // 
-            this.buttonOK.Location = new System.Drawing.Point(178, 286);
+            this.buttonOK.Location = new System.Drawing.Point(178, 285);
             this.buttonOK.Name = "buttonOK";
             this.buttonOK.Size = new System.Drawing.Size(75, 23);
             this.buttonOK.TabIndex = 1;
             this.buttonOK.Text = "保存";
             this.buttonOK.UseVisualStyleBackColor = true;
+            this.buttonOK.Click += new System.EventHandler(this.buttonOK_Click);
             // 
             // buttonDefault
             // 
@@ -192,9 +199,11 @@
             this.buttonDefault.TabIndex = 2;
             this.buttonDefault.Text = "恢复默认";
             this.buttonDefault.UseVisualStyleBackColor = true;
+            this.buttonDefault.Click += new System.EventHandler(this.buttonDefault_Click);
             // 
             // Settings
             // 
+            this.AcceptButton = this.buttonOK;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(662, 324);
@@ -203,6 +212,7 @@
             this.Controls.Add(this.tableLayoutPanel1);
             this.Name = "Settings";
             this.Text = "设置";
+            this.Load += new System.EventHandler(this.Settings_Load);
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();
             this.ResumeLayout(false);

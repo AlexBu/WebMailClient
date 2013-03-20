@@ -34,6 +34,18 @@ namespace WebMailClient
             }
         }
 
+        public string Subject
+        {
+            get
+            {
+                return textBoxTitle.Text;
+            }
+            set
+            {
+                textBoxTitle.Text = value;
+            }
+        }
+
         public MailMessage MSG
         {
             get
@@ -123,8 +135,8 @@ namespace WebMailClient
             msg.Priority = MailPriority.Normal;
             client = new SmtpClient();
             client.Credentials = new System.Net.NetworkCredential(Session.AccountName, Session.AccountPass);
-            client.Host = "smtp.163.com";
-            client.Port = 25;
+            client.Host = Session.SMTPServer;
+            client.Port = Session.SMTPPort;
             client.EnableSsl = false;
         }
 

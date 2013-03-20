@@ -101,6 +101,9 @@ namespace WebMailClient
             webBrowserContent.Document.ExecCommand("SelectAll", false, null);
             webBrowserContent.Document.ExecCommand("Copy", false, null);
             editMail.MailBody.Paste();
+            editMail.Receiver = textBoxFrom.Text;
+            editMail.Subject = "RE: " + textBoxTitle.Text;
+            editMail.ShowDialog();
         }
 
     }

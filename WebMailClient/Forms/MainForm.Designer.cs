@@ -33,6 +33,7 @@
             this.FileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.NewMailToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.OpenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.ReceiveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.EditToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.DeleteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.RevertToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -50,7 +51,6 @@
             this.toolStripMenuItemDelete = new System.Windows.Forms.ToolStripMenuItem();
             this.backgroundWorkerRecv = new System.ComponentModel.BackgroundWorker();
             this.backgroundWorkerSend = new System.ComponentModel.BackgroundWorker();
-            this.ReceiveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStripApplication.SuspendLayout();
             this.statusStripApplication.SuspendLayout();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -80,22 +80,29 @@
             this.OpenToolStripMenuItem,
             this.ReceiveToolStripMenuItem});
             this.FileToolStripMenuItem.Name = "FileToolStripMenuItem";
-            this.FileToolStripMenuItem.Size = new System.Drawing.Size(53, 20);
+            this.FileToolStripMenuItem.Size = new System.Drawing.Size(57, 20);
             this.FileToolStripMenuItem.Text = "文件(&F)";
             // 
             // NewMailToolStripMenuItem
             // 
             this.NewMailToolStripMenuItem.Name = "NewMailToolStripMenuItem";
-            this.NewMailToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.NewMailToolStripMenuItem.Size = new System.Drawing.Size(127, 22);
             this.NewMailToolStripMenuItem.Text = "写邮件(&N)";
             this.NewMailToolStripMenuItem.Click += new System.EventHandler(this.NewMailToolStripMenuItem_Click);
             // 
             // OpenToolStripMenuItem
             // 
             this.OpenToolStripMenuItem.Name = "OpenToolStripMenuItem";
-            this.OpenToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.OpenToolStripMenuItem.Size = new System.Drawing.Size(127, 22);
             this.OpenToolStripMenuItem.Text = "打开(&O)";
             this.OpenToolStripMenuItem.Click += new System.EventHandler(this.OpenToolStripMenuItem_Click);
+            // 
+            // ReceiveToolStripMenuItem
+            // 
+            this.ReceiveToolStripMenuItem.Name = "ReceiveToolStripMenuItem";
+            this.ReceiveToolStripMenuItem.Size = new System.Drawing.Size(127, 22);
+            this.ReceiveToolStripMenuItem.Text = "收邮件(&R)";
+            this.ReceiveToolStripMenuItem.Click += new System.EventHandler(this.ReceiveToolStripMenuItem_Click);
             // 
             // EditToolStripMenuItem
             // 
@@ -103,20 +110,20 @@
             this.DeleteToolStripMenuItem,
             this.RevertToolStripMenuItem});
             this.EditToolStripMenuItem.Name = "EditToolStripMenuItem";
-            this.EditToolStripMenuItem.Size = new System.Drawing.Size(53, 20);
+            this.EditToolStripMenuItem.Size = new System.Drawing.Size(57, 20);
             this.EditToolStripMenuItem.Text = "编辑(&E)";
             // 
             // DeleteToolStripMenuItem
             // 
             this.DeleteToolStripMenuItem.Name = "DeleteToolStripMenuItem";
-            this.DeleteToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.DeleteToolStripMenuItem.Size = new System.Drawing.Size(114, 22);
             this.DeleteToolStripMenuItem.Text = "删除(&D)";
             this.DeleteToolStripMenuItem.Click += new System.EventHandler(this.DeleteToolStripMenuItem_Click);
             // 
             // RevertToolStripMenuItem
             // 
             this.RevertToolStripMenuItem.Name = "RevertToolStripMenuItem";
-            this.RevertToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.RevertToolStripMenuItem.Size = new System.Drawing.Size(114, 22);
             this.RevertToolStripMenuItem.Text = "还原(&R)";
             this.RevertToolStripMenuItem.Click += new System.EventHandler(this.RevertToolStripMenuItem_Click);
             // 
@@ -126,7 +133,7 @@
             this.SettingToolStripMenuItem,
             this.ContactToolStripMenuItem});
             this.ViewToolStripMenuItem.Name = "ViewToolStripMenuItem";
-            this.ViewToolStripMenuItem.Size = new System.Drawing.Size(53, 20);
+            this.ViewToolStripMenuItem.Size = new System.Drawing.Size(58, 20);
             this.ViewToolStripMenuItem.Text = "查看(&V)";
             // 
             // SettingToolStripMenuItem
@@ -134,6 +141,7 @@
             this.SettingToolStripMenuItem.Name = "SettingToolStripMenuItem";
             this.SettingToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.SettingToolStripMenuItem.Text = "设置(&S)";
+            this.SettingToolStripMenuItem.Click += new System.EventHandler(this.SettingToolStripMenuItem_Click);
             // 
             // ContactToolStripMenuItem
             // 
@@ -145,7 +153,7 @@
             // AboutToolStripMenuItem
             // 
             this.AboutToolStripMenuItem.Name = "AboutToolStripMenuItem";
-            this.AboutToolStripMenuItem.Size = new System.Drawing.Size(54, 20);
+            this.AboutToolStripMenuItem.Size = new System.Drawing.Size(59, 20);
             this.AboutToolStripMenuItem.Text = "关于(&A)";
             // 
             // toolStrip1
@@ -221,12 +229,12 @@
             this.contextMenuStripGridView.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripMenuItemDelete});
             this.contextMenuStripGridView.Name = "contextMenuStripGridView";
-            this.contextMenuStripGridView.Size = new System.Drawing.Size(110, 26);
+            this.contextMenuStripGridView.Size = new System.Drawing.Size(115, 26);
             // 
             // toolStripMenuItemDelete
             // 
             this.toolStripMenuItemDelete.Name = "toolStripMenuItemDelete";
-            this.toolStripMenuItemDelete.Size = new System.Drawing.Size(109, 22);
+            this.toolStripMenuItemDelete.Size = new System.Drawing.Size(114, 22);
             this.toolStripMenuItemDelete.Text = "删除(&D)";
             this.toolStripMenuItemDelete.Click += new System.EventHandler(this.toolStripMenuItemDelete_Click);
             // 
@@ -242,13 +250,6 @@
             this.backgroundWorkerSend.WorkerReportsProgress = true;
             this.backgroundWorkerSend.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundWorkerSend_DoWork);
             this.backgroundWorkerSend.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.backgroundWorkerSend_RunWorkerCompleted);
-            // 
-            // ReceiveToolStripMenuItem
-            // 
-            this.ReceiveToolStripMenuItem.Name = "ReceiveToolStripMenuItem";
-            this.ReceiveToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.ReceiveToolStripMenuItem.Text = "收邮件(&R)";
-            this.ReceiveToolStripMenuItem.Click += new System.EventHandler(this.ReceiveToolStripMenuItem_Click);
             // 
             // MainForm
             // 
