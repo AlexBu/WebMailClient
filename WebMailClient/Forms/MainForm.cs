@@ -17,6 +17,7 @@ namespace WebMailClient
         private DataTable datatableDraft = null;
         private DataTable datatableRecycle = null;
         private DataTable datatableSentbox = null;
+        private DataTable datatableIncome = null;
 
         enum MAILBOXTYPE
         {
@@ -40,8 +41,12 @@ namespace WebMailClient
             LoadDataGridView();
             // load tree view
             LoadTreeView();
+            ReceiveEmail();
+        }
+
+        private void ReceiveEmail()
+        {
             // receive email from web
-            //DownloadEmailData();
             backgroundWorkerRecv.RunWorkerAsync();
         }
 
@@ -58,7 +63,7 @@ namespace WebMailClient
             worker.ReportProgress(1, "connecting to mail server");
             mailbox.Connect(Session.AccountName, Session.AccountPass);
             worker.ReportProgress(50, "retrieving email");
-            mailbox.RetrieveEmail(datatableInbox);
+            mailbox.RetrieveEmail(datatableIncome);
             mailbox.DisConnect();
             worker.ReportProgress(99, "disconnected from mail server");
         }
@@ -101,6 +106,7 @@ namespace WebMailClient
                 return;
 
             // load mail data into different datatable
+            LoadAllIncomeDB();
             LoadInboxDB();
             LoadOutboxDB();
             LoadDraftDB();
@@ -111,59 +117,49 @@ namespace WebMailClient
         private void LoadSentboxDB()
         {
             datatableSentbox = new DataTable();
-            string queryStr = String.Format(@"SELECT [UIDL], [ReadFlag], [From], [Date], [Subject], [Size] 
-                FROM [Mail] WHERE [AccountID] = {0} AND [Folder] = {1}", Session.AccountID, MAILBOXTYPE.Sentbox);
-            DBAccess.FillDataTable(queryStr, ref datatableSentbox);
+//            string queryStr = String.Format(@"SELECT [UIDL], [DeleteFlag], [From], [Date], [Subject], [Size] 
+//                FROM [Mail] WHERE [AccountID] = {0} AND [Folder] = {1}", Session.AccountID, MAILBOXTYPE.Sentbox);
+//            DBAccess.FillDataTable(queryStr, ref datatableSentbox);
         }
 
         private void LoadRecycleDB()
         {
             datatableRecycle = new DataTable();
-            string queryStr = String.Format(@"SELECT [UIDL], [ReadFlag], [From], [Date], [Subject], [Size] 
-                FROM [Mail] WHERE [AccountID] = {0} AND [Folder] = {1}", Session.AccountID, MAILBOXTYPE.Recycle);
+            string queryStr = String.Format(@"SELECT [UIDL], [From], [Date], [Subject], [Size] 
+                FROM [Mail] WHERE ([AccountID] = {0} AND [DeleteFlag] = {1}) ORDER BY [Date] DESC", Session.AccountID, "Yes");
             DBAccess.FillDataTable(queryStr, ref datatableRecycle);
         }
 
         private void LoadDraftDB()
         {
             datatableDraft = new DataTable();
-            string queryStr = String.Format(@"SELECT [UIDL], [ReadFlag], [From], [Date], [Subject], [Size] 
-                FROM [Mail] WHERE [AccountID] = {0} AND [Folder] = {1}", Session.AccountID, MAILBOXTYPE.Draft);
-            DBAccess.FillDataTable(queryStr, ref datatableDraft);
+//            string queryStr = String.Format(@"SELECT [UIDL], [DeleteFlag], [From], [Date], [Subject], [Size] 
+//                FROM [Mail] WHERE [AccountID] = {0} AND [Folder] = {1}", Session.AccountID, MAILBOXTYPE.Draft);
+//            DBAccess.FillDataTable(queryStr, ref datatableDraft);
         }
 
         private void LoadOutboxDB()
         {
             datatableOutbox = new DataTable();
-            string queryStr = String.Format(@"SELECT [UIDL], [ReadFlag], [From], [Date], [Subject], [Size] 
-                FROM [Mail] WHERE [AccountID] = {0} AND [Folder] = {1}", Session.AccountID, MAILBOXTYPE.Outbox);
-            DBAccess.FillDataTable(queryStr, ref datatableOutbox);
+//            string queryStr = String.Format(@"SELECT [UIDL], [DeleteFlag], [From], [Date], [Subject], [Size] 
+//                FROM [Mail] WHERE [AccountID] = {0} AND [Folder] = {1}", Session.AccountID, MAILBOXTYPE.Outbox);
+//            DBAccess.FillDataTable(queryStr, ref datatableOutbox);
         }
 
         private void LoadInboxDB()
         {
             datatableInbox = new DataTable();
-            string queryStr = String.Format(@"SELECT [UIDL], [ReadFlag], [From], [Date], [Subject], [Size] 
-                FROM [Mail] WHERE [AccountID] = {0} AND [Folder] = {1}", Session.AccountID, (int)MAILBOXTYPE.Inbox);
+            string queryStr = String.Format(@"SELECT [UIDL], [From], [Date], [Subject], [Size] 
+                FROM [Mail] WHERE ([AccountID] = {0} AND [DeleteFlag] = {1}) ORDER BY [Date] DESC", Session.AccountID, "No");
             DBAccess.FillDataTable(queryStr, ref datatableInbox);
         }
 
-        private void ContactToolStripMenuItem_Click(object sender, EventArgs e)
+        private void LoadAllIncomeDB()
         {
-            // show contact dialog
-            Contact contact = new Contact();
-            contact.ShowDialog();
-            if (contact.DialogResult == DialogResult.OK)
-            {
-                // open edit mail form to edit email
-                EditMail editMail = new EditMail();
-                editMail.Receiver = contact.TO;
-                editMail.ShowDialog();
-                if (editMail.DialogResult == DialogResult.OK)
-                {
-                    backgroundWorkerSend.RunWorkerAsync(editMail);
-                }
-            }
+            datatableIncome = new DataTable();
+            string queryStr = String.Format(@"SELECT [UIDL], [From], [Date], [Subject], [Size] 
+                FROM [Mail] WHERE ([AccountID] = {0}) ORDER BY [Date] DESC", Session.AccountID);
+            DBAccess.FillDataTable(queryStr, ref datatableIncome);
         }
 
         private void treeViewMailBox_AfterSelect(object sender, TreeViewEventArgs e)
@@ -199,27 +195,28 @@ namespace WebMailClient
             {
                 dataGridViewBoxContent.DataSource = null;
             }
-            // hide uidl and readflag column
-            if (dataGridViewBoxContent.ColumnCount >= 2)
+            // hide uidl column
+            if (dataGridViewBoxContent.ColumnCount >= 1)
             {
                 dataGridViewBoxContent.Columns[0].Visible = false;
-                dataGridViewBoxContent.Columns[1].Visible = false;
             }
         }
 
         private void dataGridViewBoxContent_CellMouseDoubleClick(object sender, DataGridViewCellMouseEventArgs e)
         {
             if (e.RowIndex == -1)
-            {
                 return;
-            }
-            ViewMail(e.RowIndex);
+            if (e.Button != MouseButtons.Left)
+                return;
+            string uidl = dataGridViewBoxContent.Rows[e.RowIndex].Cells[0].Value.ToString();
+            // the row being double clicked rather than the selected
+            ViewMail(uidl);
         }
 
-        private void ViewMail(int row)
+        private void ViewMail(string id)
         {
             ViewMail viewMail = new ViewMail();
-            viewMail.ID = dataGridViewBoxContent.Rows[row].Cells[0].Value.ToString();
+            viewMail.ID = id;
             viewMail.ShowDialog();
         }
 
@@ -253,7 +250,12 @@ namespace WebMailClient
                 return;
             // reload inbox data
             LoadInboxDB();
-            // reload datagrid
+            UpdateInboxGridView();
+        }
+
+        private void UpdateInboxGridView()
+        {
+            // reload datagrid for inbox
             dataGridViewBoxContent.DataSource = datatableInbox;
         }
 
@@ -269,6 +271,159 @@ namespace WebMailClient
         private void backgroundWorkerSend_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
             statusStripApplication.Items[0].Text = "send success";
+        }
+
+        private void DeleteToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            DeleteSelectedMail();
+        }
+
+        private void DeleteSelectedMail()
+        {
+            // set delete flag for selected email
+
+            // check if the current view is inbox
+            TreeNode currentNode = treeViewMailBox.SelectedNode;
+            if (currentNode.Text == "收件箱")
+            {
+                DeleteToRecycle();
+                LoadInboxDB();
+                LoadRecycleDB();
+                UpdateInboxGridView();
+            }
+            else if (currentNode.Text == "回收站")
+            {
+                DeleteFromServer();
+                LoadInboxDB();
+                LoadRecycleDB();
+                UpdateRecycleGridView();
+            }
+        }
+
+        private void DeleteFromServer()
+        {
+            // download email data and fill into database
+            Pop3 mailbox = new Pop3("pop3.163.com");
+            mailbox.Connect(Session.AccountName, Session.AccountPass);
+
+            foreach (DataGridViewRow row in dataGridViewBoxContent.SelectedRows)
+            {
+                string uidl = row.Cells[0].Value.ToString();
+                if (mailbox.DeleteMail(uidl) == true)
+                {
+                    // remove the record from database
+                    string deleteStr = string.Format("DELETE FROM [Mail] WHERE [UIDL] = '{0}'", uidl);
+                    if (DBAccess.ExecuteSQL(deleteStr) == false)
+                    {
+                        MessageBox.Show("删除邮件失败!", "Webmail", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+                    }
+                }
+            }
+
+            mailbox.DisConnect();
+        }
+
+        private void DeleteToRecycle()
+        {
+            string updateStr = null;
+            StringBuilder builder = new StringBuilder();
+            // need to process multi rows
+            builder.AppendFormat("UPDATE [Mail] SET [DeleteFlag] = {0} WHERE ", "Yes");
+            foreach (DataGridViewRow row in dataGridViewBoxContent.SelectedRows)
+            {
+                builder.AppendFormat("[UIDL] = '{0}' OR ", row.Cells[0].Value.ToString());
+            }
+            builder.AppendFormat("0");  // meaningless
+
+            updateStr = builder.ToString();
+            if (DBAccess.ExecuteSQL(updateStr) == false)
+            {
+                MessageBox.Show("删除邮件失败!", "Webmail", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+            }
+        }
+
+        private void toolStripMenuItemDelete_Click(object sender, EventArgs e)
+        {
+            DeleteSelectedMail();
+        }
+
+        private void OpenToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            OpenSelectedMail();
+        }
+
+        private void OpenSelectedMail()
+        {
+            // select the first selected mail to display
+            int selectedrowscount = dataGridViewBoxContent.SelectedRows.Count;
+            if (selectedrowscount > 0)
+            {
+                string uidl = dataGridViewBoxContent.Rows[0].Cells[0].Value.ToString();
+                ViewMail(uidl);
+            }
+        }
+
+        private void RevertToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            RevertSelectedMail();
+        }
+
+        private void RevertSelectedMail()
+        {
+            // clear delete flag for selected email
+
+            // check if the current view is inbox
+            TreeNode currentNode = treeViewMailBox.SelectedNode;
+            if (currentNode.Text != "回收站")
+                return;
+
+            string insertStr = null;
+            StringBuilder builder = new StringBuilder();
+            // need to process multi rows
+            builder.AppendFormat("UPDATE [Mail] SET [DeleteFlag] = {0} WHERE ", "No");
+            foreach (DataGridViewRow row in dataGridViewBoxContent.SelectedRows)
+            {
+                builder.AppendFormat("[UIDL] = '{0}' OR ", row.Cells[0].Value.ToString());
+            }
+            builder.AppendFormat("0");  // meaningless
+
+            insertStr = builder.ToString();
+            if (DBAccess.ExecuteSQL(insertStr) == false)
+            {
+                MessageBox.Show("还原邮件失败!", "Webmail", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+            }
+            LoadInboxDB();
+            LoadRecycleDB();
+            UpdateRecycleGridView();
+        }
+
+        private void UpdateRecycleGridView()
+        {
+            // reload datagrid for recycle
+            dataGridViewBoxContent.DataSource = datatableRecycle;
+        }
+
+        private void ContactToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            // show contact dialog
+            Contact contact = new Contact();
+            contact.ShowDialog();
+            if (contact.DialogResult == DialogResult.OK)
+            {
+                // open edit mail form to edit email
+                EditMail editMail = new EditMail();
+                editMail.Receiver = contact.TO;
+                editMail.ShowDialog();
+                if (editMail.DialogResult == DialogResult.OK)
+                {
+                    backgroundWorkerSend.RunWorkerAsync(editMail);
+                }
+            }
+        }
+
+        private void ReceiveToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ReceiveEmail();
         }
     }
 }

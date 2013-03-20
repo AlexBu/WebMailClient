@@ -50,6 +50,14 @@ namespace WebMailClient
             }
         }
 
+        public RichTextBox MailBody
+        {
+            get
+            {
+                return richTextBoxContent;
+            }
+        }
+
         private void buttonSendMail_Click(object sender, EventArgs e)
         {
             PrepareMail();
@@ -116,6 +124,7 @@ namespace WebMailClient
             client = new SmtpClient();
             client.Credentials = new System.Net.NetworkCredential(Session.AccountName, Session.AccountPass);
             client.Host = "smtp.163.com";
+            client.Port = 25;
             client.EnableSsl = false;
         }
 

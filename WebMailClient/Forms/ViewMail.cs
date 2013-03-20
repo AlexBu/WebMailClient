@@ -39,7 +39,11 @@ namespace WebMailClient
                 return;
             }
             eml = new EML();
-            eml.ParseEML(uidl);
+            if (eml.ParseEML(uidl) == false)
+            {
+                eml.Close();
+                return;
+            }
 
             textBoxFrom.Text = eml.From;
             textBoxCC.Text = eml.CC;
@@ -88,6 +92,15 @@ namespace WebMailClient
             {
                 eml.SaveAttachment(index, dialog.FileName);
             }
+        }
+
+        private void buttonReplyMail_Click(object sender, EventArgs e)
+        {
+            // add a seperate line: <HR tabIndex=-1>
+            EditMail editMail = new EditMail();
+            webBrowserContent.Document.ExecCommand("SelectAll", false, null);
+            webBrowserContent.Document.ExecCommand("Copy", false, null);
+            editMail.MailBody.Paste();
         }
 
     }

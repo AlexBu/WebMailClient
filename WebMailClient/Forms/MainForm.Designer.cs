@@ -28,13 +28,17 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.menuStrip1 = new System.Windows.Forms.MenuStrip();
+            this.components = new System.ComponentModel.Container();
+            this.menuStripApplication = new System.Windows.Forms.MenuStrip();
             this.FileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.NewMailToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.ContactToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.OpenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.EditToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.DeleteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.RevertToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ViewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.SettingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.ContactToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.AboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.statusStripApplication = new System.Windows.Forms.StatusStrip();
@@ -42,76 +46,106 @@
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.treeViewMailBox = new System.Windows.Forms.TreeView();
             this.dataGridViewBoxContent = new System.Windows.Forms.DataGridView();
+            this.contextMenuStripGridView = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.toolStripMenuItemDelete = new System.Windows.Forms.ToolStripMenuItem();
             this.backgroundWorkerRecv = new System.ComponentModel.BackgroundWorker();
             this.backgroundWorkerSend = new System.ComponentModel.BackgroundWorker();
-            this.menuStrip1.SuspendLayout();
+            this.ReceiveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.menuStripApplication.SuspendLayout();
             this.statusStripApplication.SuspendLayout();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewBoxContent)).BeginInit();
+            this.contextMenuStripGridView.SuspendLayout();
             this.SuspendLayout();
             // 
-            // menuStrip1
+            // menuStripApplication
             // 
-            this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.menuStripApplication.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.FileToolStripMenuItem,
             this.EditToolStripMenuItem,
             this.ViewToolStripMenuItem,
             this.AboutToolStripMenuItem});
-            this.menuStrip1.Location = new System.Drawing.Point(0, 0);
-            this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(791, 24);
-            this.menuStrip1.TabIndex = 0;
-            this.menuStrip1.Text = "menuStrip1";
+            this.menuStripApplication.Location = new System.Drawing.Point(0, 0);
+            this.menuStripApplication.Name = "menuStripApplication";
+            this.menuStripApplication.Size = new System.Drawing.Size(791, 24);
+            this.menuStripApplication.TabIndex = 0;
+            this.menuStripApplication.Text = "menuStrip1";
             // 
             // FileToolStripMenuItem
             // 
             this.FileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.NewMailToolStripMenuItem,
-            this.ContactToolStripMenuItem});
+            this.OpenToolStripMenuItem,
+            this.ReceiveToolStripMenuItem});
             this.FileToolStripMenuItem.Name = "FileToolStripMenuItem";
-            this.FileToolStripMenuItem.Size = new System.Drawing.Size(57, 20);
+            this.FileToolStripMenuItem.Size = new System.Drawing.Size(53, 20);
             this.FileToolStripMenuItem.Text = "文件(&F)";
             // 
             // NewMailToolStripMenuItem
             // 
             this.NewMailToolStripMenuItem.Name = "NewMailToolStripMenuItem";
-            this.NewMailToolStripMenuItem.Size = new System.Drawing.Size(127, 22);
+            this.NewMailToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.NewMailToolStripMenuItem.Text = "写邮件(&N)";
             this.NewMailToolStripMenuItem.Click += new System.EventHandler(this.NewMailToolStripMenuItem_Click);
             // 
-            // ContactToolStripMenuItem
+            // OpenToolStripMenuItem
             // 
-            this.ContactToolStripMenuItem.Name = "ContactToolStripMenuItem";
-            this.ContactToolStripMenuItem.Size = new System.Drawing.Size(127, 22);
-            this.ContactToolStripMenuItem.Text = "通讯录(&C)";
-            this.ContactToolStripMenuItem.Click += new System.EventHandler(this.ContactToolStripMenuItem_Click);
+            this.OpenToolStripMenuItem.Name = "OpenToolStripMenuItem";
+            this.OpenToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.OpenToolStripMenuItem.Text = "打开(&O)";
+            this.OpenToolStripMenuItem.Click += new System.EventHandler(this.OpenToolStripMenuItem_Click);
             // 
             // EditToolStripMenuItem
             // 
             this.EditToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.DeleteToolStripMenuItem});
+            this.DeleteToolStripMenuItem,
+            this.RevertToolStripMenuItem});
             this.EditToolStripMenuItem.Name = "EditToolStripMenuItem";
-            this.EditToolStripMenuItem.Size = new System.Drawing.Size(57, 20);
+            this.EditToolStripMenuItem.Size = new System.Drawing.Size(53, 20);
             this.EditToolStripMenuItem.Text = "编辑(&E)";
             // 
             // DeleteToolStripMenuItem
             // 
             this.DeleteToolStripMenuItem.Name = "DeleteToolStripMenuItem";
-            this.DeleteToolStripMenuItem.Size = new System.Drawing.Size(114, 22);
+            this.DeleteToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.DeleteToolStripMenuItem.Text = "删除(&D)";
+            this.DeleteToolStripMenuItem.Click += new System.EventHandler(this.DeleteToolStripMenuItem_Click);
+            // 
+            // RevertToolStripMenuItem
+            // 
+            this.RevertToolStripMenuItem.Name = "RevertToolStripMenuItem";
+            this.RevertToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.RevertToolStripMenuItem.Text = "还原(&R)";
+            this.RevertToolStripMenuItem.Click += new System.EventHandler(this.RevertToolStripMenuItem_Click);
             // 
             // ViewToolStripMenuItem
             // 
+            this.ViewToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.SettingToolStripMenuItem,
+            this.ContactToolStripMenuItem});
             this.ViewToolStripMenuItem.Name = "ViewToolStripMenuItem";
-            this.ViewToolStripMenuItem.Size = new System.Drawing.Size(58, 20);
+            this.ViewToolStripMenuItem.Size = new System.Drawing.Size(53, 20);
             this.ViewToolStripMenuItem.Text = "查看(&V)";
+            // 
+            // SettingToolStripMenuItem
+            // 
+            this.SettingToolStripMenuItem.Name = "SettingToolStripMenuItem";
+            this.SettingToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.SettingToolStripMenuItem.Text = "设置(&S)";
+            // 
+            // ContactToolStripMenuItem
+            // 
+            this.ContactToolStripMenuItem.Name = "ContactToolStripMenuItem";
+            this.ContactToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.ContactToolStripMenuItem.Text = "通讯录(&C)";
+            this.ContactToolStripMenuItem.Click += new System.EventHandler(this.ContactToolStripMenuItem_Click);
             // 
             // AboutToolStripMenuItem
             // 
             this.AboutToolStripMenuItem.Name = "AboutToolStripMenuItem";
-            this.AboutToolStripMenuItem.Size = new System.Drawing.Size(59, 20);
+            this.AboutToolStripMenuItem.Size = new System.Drawing.Size(54, 20);
             this.AboutToolStripMenuItem.Text = "关于(&A)";
             // 
             // toolStrip1
@@ -172,6 +206,7 @@
             this.dataGridViewBoxContent.BackgroundColor = System.Drawing.SystemColors.Window;
             this.dataGridViewBoxContent.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.dataGridViewBoxContent.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridViewBoxContent.ContextMenuStrip = this.contextMenuStripGridView;
             this.dataGridViewBoxContent.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dataGridViewBoxContent.Location = new System.Drawing.Point(0, 0);
             this.dataGridViewBoxContent.Name = "dataGridViewBoxContent";
@@ -180,6 +215,20 @@
             this.dataGridViewBoxContent.Size = new System.Drawing.Size(583, 496);
             this.dataGridViewBoxContent.TabIndex = 0;
             this.dataGridViewBoxContent.CellMouseDoubleClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dataGridViewBoxContent_CellMouseDoubleClick);
+            // 
+            // contextMenuStripGridView
+            // 
+            this.contextMenuStripGridView.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripMenuItemDelete});
+            this.contextMenuStripGridView.Name = "contextMenuStripGridView";
+            this.contextMenuStripGridView.Size = new System.Drawing.Size(110, 26);
+            // 
+            // toolStripMenuItemDelete
+            // 
+            this.toolStripMenuItemDelete.Name = "toolStripMenuItemDelete";
+            this.toolStripMenuItemDelete.Size = new System.Drawing.Size(109, 22);
+            this.toolStripMenuItemDelete.Text = "删除(&D)";
+            this.toolStripMenuItemDelete.Click += new System.EventHandler(this.toolStripMenuItemDelete_Click);
             // 
             // backgroundWorkerRecv
             // 
@@ -194,6 +243,13 @@
             this.backgroundWorkerSend.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundWorkerSend_DoWork);
             this.backgroundWorkerSend.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.backgroundWorkerSend_RunWorkerCompleted);
             // 
+            // ReceiveToolStripMenuItem
+            // 
+            this.ReceiveToolStripMenuItem.Name = "ReceiveToolStripMenuItem";
+            this.ReceiveToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.ReceiveToolStripMenuItem.Text = "收邮件(&R)";
+            this.ReceiveToolStripMenuItem.Click += new System.EventHandler(this.ReceiveToolStripMenuItem_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -202,20 +258,21 @@
             this.Controls.Add(this.splitContainer1);
             this.Controls.Add(this.statusStripApplication);
             this.Controls.Add(this.toolStrip1);
-            this.Controls.Add(this.menuStrip1);
-            this.MainMenuStrip = this.menuStrip1;
+            this.Controls.Add(this.menuStripApplication);
+            this.MainMenuStrip = this.menuStripApplication;
             this.Name = "MainForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "主菜单";
             this.Load += new System.EventHandler(this.MainForm_Load);
-            this.menuStrip1.ResumeLayout(false);
-            this.menuStrip1.PerformLayout();
+            this.menuStripApplication.ResumeLayout(false);
+            this.menuStripApplication.PerformLayout();
             this.statusStripApplication.ResumeLayout(false);
             this.statusStripApplication.PerformLayout();
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel2.ResumeLayout(false);
             this.splitContainer1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewBoxContent)).EndInit();
+            this.contextMenuStripGridView.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -223,7 +280,7 @@
 
         #endregion
 
-        private System.Windows.Forms.MenuStrip menuStrip1;
+        private System.Windows.Forms.MenuStrip menuStripApplication;
         private System.Windows.Forms.ToolStrip toolStrip1;
         private System.Windows.Forms.StatusStrip statusStripApplication;
         private System.Windows.Forms.SplitContainer splitContainer1;
@@ -233,11 +290,17 @@
         private System.Windows.Forms.ToolStripMenuItem EditToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem ViewToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem AboutToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem ContactToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem DeleteToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem NewMailToolStripMenuItem;
         private System.ComponentModel.BackgroundWorker backgroundWorkerRecv;
         private System.ComponentModel.BackgroundWorker backgroundWorkerSend;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel;
+        private System.Windows.Forms.ContextMenuStrip contextMenuStripGridView;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemDelete;
+        private System.Windows.Forms.ToolStripMenuItem OpenToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem RevertToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem SettingToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem ContactToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem ReceiveToolStripMenuItem;
     }
 }

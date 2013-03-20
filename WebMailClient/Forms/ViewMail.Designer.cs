@@ -90,6 +90,7 @@
             this.buttonReplyMail.TabIndex = 7;
             this.buttonReplyMail.Text = "回复邮件";
             this.buttonReplyMail.UseVisualStyleBackColor = true;
+            this.buttonReplyMail.Click += new System.EventHandler(this.buttonReplyMail_Click);
             // 
             // textBoxFrom
             // 

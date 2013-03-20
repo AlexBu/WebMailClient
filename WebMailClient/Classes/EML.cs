@@ -5,6 +5,7 @@ using System.Text;
 using CDO;
 using ADODB;
 using System.Collections;
+using System.IO;
 
 namespace WebMailClient
 {
@@ -101,10 +102,16 @@ namespace WebMailClient
             stm.Close();
         }
 
-        public void ParseEML(string file)
+        public bool ParseEML(string file)
         {
+            FileInfo info = new FileInfo(file);
+            if (info.Exists == false)
+                return false;
+            if (info.Length == 0)
+                return false;
             stm.LoadFromFile(file);
             msg.DataSource.OpenObject(stm, "_stream");
+            return true;
         }
 
         public string GetAttachmentName(int index)

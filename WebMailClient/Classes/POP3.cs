@@ -120,9 +120,9 @@ namespace WebMailClient
 
         private bool SaveEmailInfo(string uidl, string from, string timestamp, string subject, int filesize)
         {
-            string queryStr = String.Format(@"INSERT INTO [Mail] ([AccountID], [UIDL], [ReadFlag], [Folder], [From], [Date], [Subject], [Size]) 
-                VALUES({0}, '{1}', {2}, {3}, '{4}', '{5}', '{6}', {7})",
-                Session.AccountID, uidl, "No", 0, from, timestamp, subject, filesize);
+            string queryStr = String.Format(@"INSERT INTO [Mail] ([AccountID], [UIDL], [DeleteFlag], [From], [Date], [Subject], [Size]) 
+                VALUES({0}, '{1}', {2}, '{3}', '{4}', '{5}', {6})",
+                Session.AccountID, uidl, "No", from, timestamp, subject, filesize);
             return DBAccess.ExecuteSQL(queryStr);
         }
 
@@ -151,11 +151,6 @@ namespace WebMailClient
         private bool LIST(int index)
         {
             return SendCmd("LIST" + index.ToString());
-        }
-
-        private bool LIST(string uidl)
-        {
-            return SendCmd("LIST" + uidl);
         }
 
         private bool UIDL()
@@ -187,20 +182,17 @@ namespace WebMailClient
             return false;
         }
 
-        private bool RETR(string uidl, StreamWriter writer)
-        {
-            if (SendCmd("RETR " + uidl) == true)
-            {
-                SaveDataIntoStream(writer);
-                return true;
-            }
-            return false;
-        }
-
         private bool DELE(string uidl)
         {
             // effect after QUIT command
-            return SendCmd("DELE " + uidl);
+            // find the match index
+            if (UIDL() == false)
+                return false;
+            int index = mailList.IndexOf(uidl);
+            index++;
+            if(index == 0)
+                return false;
+            return SendCmd("DELE " + index.ToString());
         }
 
         private bool QUIT()
@@ -236,6 +228,7 @@ namespace WebMailClient
 
         public void DisConnect()
         {
+            QUIT();
             if (m_stmReader != null)
                 m_stmReader.Close();
             if (mnetStream != null)
@@ -283,16 +276,16 @@ namespace WebMailClient
 
                     // parse email
                     EML eml = new EML();
-                    eml.ParseEML(str);
-                    SaveEmailInfo(str, eml.From, eml.TimeStamp, eml.Subject, eml.Size);
+                    if(eml.ParseEML(str) == true)
+                        SaveEmailInfo(str, eml.From, eml.TimeStamp, eml.Subject, eml.Size);
                     eml.Close();
                 }
             }
         }
 
-        public void DeleteMail(string uidl)
+        public bool DeleteMail(string uidl)
         {
-            DELE(uidl);
+            return DELE(uidl);
         }
 
         private void DownloadEmail(int index, StreamWriter writer)
