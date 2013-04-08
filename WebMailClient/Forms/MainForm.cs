@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using System.Net.Mail;
+using System.IO;
 
 namespace WebMailClient
 {
@@ -218,6 +219,24 @@ namespace WebMailClient
             ViewMail viewMail = new ViewMail();
             viewMail.ID = id;
             viewMail.ShowDialog();
+
+            if (viewMail.DialogResult == DialogResult.OK)
+            {
+                EditMail editMail = new EditMail();
+                editMail.MailBody.AppendText("\n\n\n");
+                editMail.MailBody.AppendText("-------------------------------------------");
+                editMail.MailBody.AppendText("\n");
+                editMail.MailBody.Paste();
+                editMail.MailBody.Select(0, 0);
+                editMail.Receiver = viewMail.To;
+                editMail.Subject = "RE: " + viewMail.Title;
+                editMail.ShowDialog();
+
+                if (editMail.DialogResult == DialogResult.OK)
+                {
+                    backgroundWorkerSend.RunWorkerAsync(editMail);
+                }
+            }
         }
 
         private void NewMailToolStripMenuItem_Click(object sender, EventArgs e)
@@ -265,6 +284,18 @@ namespace WebMailClient
             MailMessage msg = editMail.MSG;
             SmtpClient client = editMail.Client;
             statusStripApplication.Items[0].Text = "发送邮件...";
+            client.Send(msg);
+            // also send one copy to local file storage
+            client.DeliveryMethod = SmtpDeliveryMethod.SpecifiedPickupDirectory;
+            // app dir\mail\user\account\sent\mail list
+            string filepath = string.Format("{0}\\Mail\\{1}\\{2}\\Sent\\",
+                Directory.GetCurrentDirectory(),
+                Session.LoginName,
+                Session.AccountName);
+            if (Directory.Exists(filepath) == false)
+                Directory.CreateDirectory(filepath);
+            client.PickupDirectoryLocation = filepath;
+            client.EnableSsl = false;
             client.Send(msg);
         }
 
@@ -428,7 +459,7 @@ namespace WebMailClient
 
         private void SettingToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Settings settings = new Settings();
+            SettingForm settings = new SettingForm();
             LoadSetting();
             settings.ShowDialog();
             if (settings.DialogResult == DialogResult.OK)
@@ -442,8 +473,8 @@ namespace WebMailClient
         {
             string queryStr = String.Format("SELECT * FROM [Account] WHERE [UserID] = {0}", Session.LoginID);
             // get account
-            object[] values = { null, null, null, null, null, null, null, null };
-            if (DBAccess.QuerySingleRecord(queryStr, ref values) == 8)
+            object[] values = { null, null, null, null, null, null, null, null, null };
+            if (DBAccess.QuerySingleRecord(queryStr, ref values) == 9)
             {
                 if (values[1] != DBNull.Value)
                     Session.AccountID = (int)values[1];
@@ -459,6 +490,8 @@ namespace WebMailClient
                     Session.SMTPServer = (string)values[6];
                 if (values[7] != DBNull.Value)
                     Session.SMTPPort = (int)values[7];
+                if (values[8] != DBNull.Value)
+                    Session.MaxEmailCount = (int)values[8];
             }
         }
     }

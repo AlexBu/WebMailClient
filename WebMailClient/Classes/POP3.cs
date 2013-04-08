@@ -239,7 +239,8 @@ namespace WebMailClient
 
         public void RetrieveEmail(DataTable locallist)
         {
-            for (int i = 0; i < mailList.Count; i++ )
+            int downloadcount = 0;
+            for ( int i = 0; i < mailList.Count; i++ )
             {
                 bool found = false;
                 string str = mailList[i];
@@ -253,12 +254,25 @@ namespace WebMailClient
                 }
                 if (found == false)
                 {
+                    downloadcount++;
+                    if (downloadcount > Session.MaxEmailCount)
+                        break;
                     // save email data to file
+                    // app dir\mail\user\account\Inbox\mail list
+                    string filepath = string.Format("{0}\\Mail\\{1}\\{2}\\Inbox\\",
+                        Directory.GetCurrentDirectory(),
+                        Session.LoginName,
+                        Session.AccountName);
                     FileStream fs = null;
                     StreamWriter writer = null;
                     try
                     {
-                        fs = new FileStream(str, FileMode.Create, FileAccess.Write, FileShare.Read);
+
+                        if (Directory.Exists(filepath) == false)
+                        {
+                            Directory.CreateDirectory(filepath);
+                        }
+                        fs = new FileStream(filepath + str, FileMode.Create, FileAccess.Write, FileShare.Read);
                         writer = new StreamWriter(fs);
                         // pop3 uidl index starts from 1 not 0
                         DownloadEmail(i + 1, writer);
@@ -276,7 +290,7 @@ namespace WebMailClient
 
                     // parse email
                     EML eml = new EML();
-                    if(eml.ParseEML(str) == true)
+                    if (eml.ParseEML(filepath + str) == true)
                         SaveEmailInfo(str, eml.From, eml.TimeStamp, eml.Subject, eml.Size);
                     eml.Close();
                 }

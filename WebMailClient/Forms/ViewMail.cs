@@ -6,6 +6,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using System.IO;
 
 namespace WebMailClient
 {
@@ -18,6 +19,8 @@ namespace WebMailClient
 
         private string uidl = "";
         private EML eml = null;
+        private string to = "";
+        private string title = "";
 
         public string ID
         {
@@ -31,6 +34,30 @@ namespace WebMailClient
             }
         }
 
+        public string To
+        {
+            get
+            {
+                return to;
+            }
+            set
+            {
+                to = value;
+            }
+        }
+
+        public string Title
+        {
+            get
+            {
+                return title;
+            }
+            set
+            {
+                title = value;
+            }
+        }
+
         private void ViewMail_Load(object sender, EventArgs e)
         {
             // load email content from file, file name: uidl
@@ -38,8 +65,13 @@ namespace WebMailClient
             {
                 return;
             }
+            // app dir\mail\user\account\Inbox\mail list
+            string filepath = string.Format("{0}\\Mail\\{1}\\{2}\\Inbox\\",
+                Directory.GetCurrentDirectory(),
+                Session.LoginName,
+                Session.AccountName);
             eml = new EML();
-            if (eml.ParseEML(uidl) == false)
+            if (eml.ParseEML(filepath + uidl) == false)
             {
                 eml.Close();
                 return;
@@ -97,13 +129,16 @@ namespace WebMailClient
         private void buttonReplyMail_Click(object sender, EventArgs e)
         {
             // add a seperate line: <HR tabIndex=-1>
-            EditMail editMail = new EditMail();
             webBrowserContent.Document.ExecCommand("SelectAll", false, null);
             webBrowserContent.Document.ExecCommand("Copy", false, null);
-            editMail.MailBody.Paste();
-            editMail.Receiver = textBoxFrom.Text;
-            editMail.Subject = "RE: " + textBoxTitle.Text;
-            editMail.ShowDialog();
+            webBrowserContent.Document.ExecCommand("Unselect", false, null);
+
+            to = textBoxFrom.Text;
+            title = textBoxTitle.Text;
+
+            DialogResult = DialogResult.OK;
+
+            Close();
         }
 
     }

@@ -10,6 +10,7 @@ namespace WebMailClient
     public class DBAccess
     {
         static private string ConnectionString = "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=..\\..\\webmaildb.mdb";
+        //static private string ConnectionString = Properties.Settings.Default.webmaildbConnectionString;
         static public bool ExecuteSQL(string SQLCommand)
         {
             OleDbConnection MdbConnection = null;

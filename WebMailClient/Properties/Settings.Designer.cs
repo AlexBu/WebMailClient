@@ -27,9 +27,9 @@ namespace WebMailClient.Properties {
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
         [global::System.Configuration.DefaultSettingValueAttribute("Provider=Microsoft.Jet.OLEDB.4.0;Data Source=|DataDirectory|\\webmaildb.mdb")]
-        public string webmaildbConnectionString1 {
+        public string webmaildbConnectionString {
             get {
-                return ((string)(this["webmaildbConnectionString1"]));
+                return ((string)(this["webmaildbConnectionString"]));
             }
         }
     }

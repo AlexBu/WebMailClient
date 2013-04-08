@@ -16,6 +16,7 @@ namespace WebMailClient
         private static int pop3port;
         private static string smtpserver;
         private static int smtpport;
+        private static int maxemailcount;
 
         public static string LoginName
         {
@@ -122,6 +123,18 @@ namespace WebMailClient
             set
             {
                 smtpport = value;
+            }
+        }
+
+        public static int MaxEmailCount
+        {
+            get
+            {
+                return maxemailcount;
+            }
+            set
+            {
+                maxemailcount = value;
             }
         }
 
