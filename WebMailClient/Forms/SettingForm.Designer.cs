@@ -41,10 +41,10 @@
             this.textBoxSMTPPort = new System.Windows.Forms.TextBox();
             this.textBoxUsername = new System.Windows.Forms.TextBox();
             this.textBoxPassword = new System.Windows.Forms.TextBox();
-            this.buttonOK = new System.Windows.Forms.Button();
-            this.buttonDefault = new System.Windows.Forms.Button();
             this.label7 = new System.Windows.Forms.Label();
             this.textBoxMaxEmailCount = new System.Windows.Forms.TextBox();
+            this.buttonOK = new System.Windows.Forms.Button();
+            this.buttonDefault = new System.Windows.Forms.Button();
             this.tableLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -185,6 +185,23 @@
             this.textBoxPassword.TabIndex = 11;
             this.textBoxPassword.UseSystemPasswordChar = true;
             // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(3, 204);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(103, 13);
+            this.label7.TabIndex = 12;
+            this.label7.Text = "最大接收邮件数目";
+            // 
+            // textBoxMaxEmailCount
+            // 
+            this.textBoxMaxEmailCount.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.textBoxMaxEmailCount.Location = new System.Drawing.Point(159, 207);
+            this.textBoxMaxEmailCount.Name = "textBoxMaxEmailCount";
+            this.textBoxMaxEmailCount.Size = new System.Drawing.Size(361, 20);
+            this.textBoxMaxEmailCount.TabIndex = 13;
+            // 
             // buttonOK
             // 
             this.buttonOK.Location = new System.Drawing.Point(178, 285);
@@ -204,23 +221,6 @@
             this.buttonDefault.Text = "恢复默认";
             this.buttonDefault.UseVisualStyleBackColor = true;
             this.buttonDefault.Click += new System.EventHandler(this.buttonDefault_Click);
-            // 
-            // label7
-            // 
-            this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(3, 204);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(103, 13);
-            this.label7.TabIndex = 12;
-            this.label7.Text = "最大接收邮件数目";
-            // 
-            // textBoxMaxEmailCount
-            // 
-            this.textBoxMaxEmailCount.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.textBoxMaxEmailCount.Location = new System.Drawing.Point(159, 207);
-            this.textBoxMaxEmailCount.Name = "textBoxMaxEmailCount";
-            this.textBoxMaxEmailCount.Size = new System.Drawing.Size(361, 20);
-            this.textBoxMaxEmailCount.TabIndex = 13;
             // 
             // SettingForm
             // 

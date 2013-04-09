@@ -291,7 +291,7 @@ namespace WebMailClient
                     // parse email
                     EML eml = new EML();
                     if (eml.ParseEML(filepath + str) == true)
-                        SaveEmailInfo(str, eml.From, eml.TimeStamp, eml.Subject, eml.Size);
+                        SaveEmailInfo(str, eml.From, eml.TimeStampRecv, eml.Subject, eml.Size);
                     eml.Close();
                 }
             }

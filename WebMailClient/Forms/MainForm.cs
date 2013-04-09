@@ -118,9 +118,42 @@ namespace WebMailClient
         private void LoadSentboxDB()
         {
             datatableSentbox = new DataTable();
-//            string queryStr = String.Format(@"SELECT [UIDL], [DeleteFlag], [From], [Date], [Subject], [Size] 
-//                FROM [Mail] WHERE [AccountID] = {0} AND [Folder] = {1}", Session.AccountID, MAILBOXTYPE.Sentbox);
-//            DBAccess.FillDataTable(queryStr, ref datatableSentbox);
+
+            // search through sent folder
+            string filepath = string.Format("{0}\\Mail\\{1}\\{2}\\Sent\\",
+                Directory.GetCurrentDirectory(),
+                Session.LoginName,
+                Session.AccountName);
+            string[] sentFileList = Directory.GetFiles(filepath, "*.eml");
+            if (sentFileList.Length == 0)
+                return;
+
+            DataColumn workCol = datatableSentbox.Columns.Add("GUID", typeof(string));
+            workCol.AllowDBNull = false;
+            workCol.Unique = true;
+
+            datatableSentbox.Columns.Add("To", typeof(string));
+            datatableSentbox.Columns.Add("Date", typeof(string));
+            datatableSentbox.Columns.Add("Subject", typeof(string));
+            datatableSentbox.Columns.Add("Size", typeof(int));
+
+            foreach (string file in sentFileList)
+            {
+                // load eml file
+                EML eml = new EML();
+                if (eml.ParseEML(file) == true)
+                {
+                    DataRow row = datatableSentbox.NewRow();
+                    FileInfo fileinfo = new FileInfo(file);
+                    row["GUID"] = fileinfo.Name;
+                    row["To"] = eml.To;
+                    row["Date"] = eml.TimeStampSent;
+                    row["Subject"] = eml.Subject;
+                    row["Size"] = eml.Size;
+                    datatableSentbox.Rows.Add(row);
+                }
+                eml.Close();
+            }
         }
 
         private void LoadRecycleDB()

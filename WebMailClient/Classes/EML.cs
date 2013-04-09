@@ -22,6 +22,14 @@ namespace WebMailClient
             }
         }
 
+        public string To
+        {
+            get
+            {
+                return msg.To;
+            }
+        }
+
         public string Subject
         {
             get
@@ -30,11 +38,19 @@ namespace WebMailClient
             }
         }
 
-        public string TimeStamp
+        public string TimeStampRecv
         {
             get
             {
                 return msg.ReceivedTime.ToString();
+            }
+        }
+
+        public string TimeStampSent
+        {
+            get
+            {
+                return msg.SentOn.ToString();
             }
         }
 
