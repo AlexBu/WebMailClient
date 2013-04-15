@@ -77,6 +77,7 @@ namespace WebMailClient
             mailbox.Connect(Session.AccountName, Session.AccountPass);
             worker.ReportProgress(50, "接收邮件...");
             mailbox.RetrieveEmail(datatableIncome);
+            LoadAllIncomeDB();
             mailbox.DisConnect();
             worker.ReportProgress(99, "从邮件服务器断开");
         }
@@ -120,10 +121,7 @@ namespace WebMailClient
             datatableSentbox = new DataTable();
 
             // search through sent folder
-            string filepath = string.Format("{0}\\Mail\\{1}\\{2}\\Sent\\",
-                Directory.GetCurrentDirectory(),
-                Session.LoginName,
-                Session.AccountName);
+            string filepath = Utility.GetSentBoxPath();
             string[] sentFileList = Directory.GetFiles(filepath, "*.eml");
             if (sentFileList.Length == 0)
                 return;
@@ -196,7 +194,7 @@ namespace WebMailClient
             DBAccess.FillDataTable(queryStr, ref datatableIncome);
         }
 
-        private void treeViewMailBox_AfterSelect(object sender, TreeViewEventArgs e)
+        private void UpdateGridView()
         {
             // display content according to the current mailbox
             TreeNode currentNode = treeViewMailBox.SelectedNode;
@@ -236,18 +234,55 @@ namespace WebMailClient
             }
         }
 
+        private void treeViewMailBox_AfterSelect(object sender, TreeViewEventArgs e)
+        {
+            UpdateGridView();
+        }
+
         private void dataGridViewBoxContent_CellMouseDoubleClick(object sender, DataGridViewCellMouseEventArgs e)
         {
             if (e.RowIndex == -1)
                 return;
             if (e.Button != MouseButtons.Left)
                 return;
-            string uidl = dataGridViewBoxContent.Rows[e.RowIndex].Cells[0].Value.ToString();
-            // the row being double clicked rather than the selected
-            ViewMail(uidl);
+
+            // check the current mailbox
+            TreeNode currentNode = treeViewMailBox.SelectedNode;
+            if (currentNode.Text == "收件箱")
+            {
+                // inbox
+                string id = dataGridViewBoxContent.Rows[e.RowIndex].Cells[0].Value.ToString();
+                // the row being double clicked rather than the selected
+                string inboxPath = Utility.GetInboxBoxPath();
+                ShowMail(inboxPath + id);
+            }
+            else if (currentNode.Text == "发件箱")
+            {
+                // outbox
+                
+            }
+            else if (currentNode.Text == "草稿箱")
+            {
+                // draft
+                //
+            }
+            else if (currentNode.Text == "回收站")
+            {
+                // recycle
+                //
+            }
+            else if (currentNode.Text == "已发送")
+            {
+                // sent
+                string id = dataGridViewBoxContent.Rows[e.RowIndex].Cells[0].Value.ToString();
+                // the row being double clicked rather than the selected
+                string inboxPath = Utility.GetSentBoxPath();
+                ShowMail(inboxPath + id);
+            }
+
         }
 
-        private void ViewMail(string id)
+        private void ShowMail(string id)
         {
             ViewMail viewMail = new ViewMail();
             viewMail.ID = id;
@@ -259,7 +294,7 @@ namespace WebMailClient
                 editMail.MailBody.AppendText("\n\n\n");
                 editMail.MailBody.AppendText("-------------------------------------------");
                 editMail.MailBody.AppendText("\n");
-                editMail.MailBody.Paste();
+                editMail.MailBody.AppendText(viewMail.GetContent());
                 editMail.MailBody.Select(0, 0);
                 editMail.Receiver = viewMail.To;
                 editMail.Subject = "RE: " + viewMail.Title;
@@ -302,13 +337,7 @@ namespace WebMailClient
                 return;
             // reload inbox data
             LoadInboxDB();
-            UpdateInboxGridView();
-        }
-
-        private void UpdateInboxGridView()
-        {
-            // reload datagrid for inbox
-            dataGridViewBoxContent.DataSource = datatableInbox;
+            UpdateGridView();
         }
 
         private void backgroundWorkerSend_DoWork(object sender, DoWorkEventArgs e)
@@ -321,12 +350,7 @@ namespace WebMailClient
             // also send one copy to local file storage
             client.DeliveryMethod = SmtpDeliveryMethod.SpecifiedPickupDirectory;
             // app dir\mail\user\account\sent\mail list
-            string filepath = string.Format("{0}\\Mail\\{1}\\{2}\\Sent\\",
-                Directory.GetCurrentDirectory(),
-                Session.LoginName,
-                Session.AccountName);
-            if (Directory.Exists(filepath) == false)
-                Directory.CreateDirectory(filepath);
+            string filepath = Utility.GetSentBoxPath();
             client.PickupDirectoryLocation = filepath;
             client.EnableSsl = false;
             client.Send(msg);
@@ -351,17 +375,14 @@ namespace WebMailClient
             if (currentNode.Text == "收件箱")
             {
                 DeleteToRecycle();
-                LoadInboxDB();
-                LoadRecycleDB();
-                UpdateInboxGridView();
             }
             else if (currentNode.Text == "回收站")
             {
                 DeleteFromServer();
-                LoadInboxDB();
-                LoadRecycleDB();
-                UpdateRecycleGridView();
             }
+            LoadInboxDB();
+            LoadRecycleDB();
+            UpdateGridView();
         }
 
         private void DeleteFromServer()
@@ -423,7 +444,7 @@ namespace WebMailClient
             if (selectedrowscount > 0)
             {
                 string uidl = dataGridViewBoxContent.Rows[0].Cells[0].Value.ToString();
-                ViewMail(uidl);
+                ShowMail(uidl);
             }
         }
 
@@ -458,13 +479,7 @@ namespace WebMailClient
             }
             LoadInboxDB();
             LoadRecycleDB();
-            UpdateRecycleGridView();
-        }
-
-        private void UpdateRecycleGridView()
-        {
-            // reload datagrid for recycle
-            dataGridViewBoxContent.DataSource = datatableRecycle;
+            UpdateGridView();
         }
 
         private void ContactToolStripMenuItem_Click(object sender, EventArgs e)

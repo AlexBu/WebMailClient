@@ -258,20 +258,11 @@ namespace WebMailClient
                     if (downloadcount > Session.MaxEmailCount)
                         break;
                     // save email data to file
-                    // app dir\mail\user\account\Inbox\mail list
-                    string filepath = string.Format("{0}\\Mail\\{1}\\{2}\\Inbox\\",
-                        Directory.GetCurrentDirectory(),
-                        Session.LoginName,
-                        Session.AccountName);
+                    string filepath = Utility.GetInboxBoxPath();
                     FileStream fs = null;
                     StreamWriter writer = null;
                     try
                     {
-
-                        if (Directory.Exists(filepath) == false)
-                        {
-                            Directory.CreateDirectory(filepath);
-                        }
                         fs = new FileStream(filepath + str, FileMode.Create, FileAccess.Write, FileShare.Read);
                         writer = new StreamWriter(fs);
                         // pop3 uidl index starts from 1 not 0

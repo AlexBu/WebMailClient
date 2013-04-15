@@ -17,7 +17,7 @@ namespace WebMailClient
             InitializeComponent();
         }
 
-        private string uidl = "";
+        private string filename = "";
         private EML eml = null;
         private string to = "";
         private string title = "";
@@ -26,11 +26,11 @@ namespace WebMailClient
         {
             get
             {
-                return uidl;
+                return filename;
             }
             set
             {
-                uidl = value;
+                filename = value;
             }
         }
 
@@ -61,17 +61,13 @@ namespace WebMailClient
         private void ViewMail_Load(object sender, EventArgs e)
         {
             // load email content from file, file name: uidl
-            if (uidl == "")
+            if (filename == "")
             {
                 return;
             }
-            // app dir\mail\user\account\Inbox\mail list
-            string filepath = string.Format("{0}\\Mail\\{1}\\{2}\\Inbox\\",
-                Directory.GetCurrentDirectory(),
-                Session.LoginName,
-                Session.AccountName);
+
             eml = new EML();
-            if (eml.ParseEML(filepath + uidl) == false)
+            if (eml.ParseEML(filename) == false)
             {
                 eml.Close();
                 return;
@@ -129,7 +125,7 @@ namespace WebMailClient
         private void buttonReplyMail_Click(object sender, EventArgs e)
         {
             // add a seperate line: <HR tabIndex=-1>
-            webBrowserContent.Document.ExecCommand("SelectAll", false, null);
+            webBrowserContent.Document.ExecCommand("SelectAll", true, null);
             webBrowserContent.Document.ExecCommand("Copy", false, null);
             webBrowserContent.Document.ExecCommand("Unselect", false, null);
 
@@ -141,5 +137,10 @@ namespace WebMailClient
             Close();
         }
 
+
+        public string GetContent()
+        {
+            return webBrowserContent.DocumentText;
+        }
     }
 }
