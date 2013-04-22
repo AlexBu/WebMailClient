@@ -15,7 +15,7 @@
     <IsWebBootstrapper>false</IsWebBootstrapper>
     <ManifestCertificateThumbprint>E62BDA8ED54AB66716BD83D81A73584A7226A15E</ManifestCertificateThumbprint>
     <ManifestKeyFile>WebMailClient_TemporaryKey.pfx</ManifestKeyFile>
-    <GenerateManifests>true</GenerateManifests>
+    <GenerateManifests>false</GenerateManifests>
     <SignManifests>false</SignManifests>
     <PublishUrl>D:\My Documents\projects\WebMailClientPublish\</PublishUrl>
     <Install>false</Install>

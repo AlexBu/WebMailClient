@@ -542,5 +542,10 @@ namespace WebMailClient
                     Session.MaxEmailCount = (int)values[8];
             }
         }
+
+        private void ExitToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Close();
+        }
     }
 }
