@@ -35,18 +35,23 @@ namespace WebMailClient
 
         private void MainForm_Load(object sender, EventArgs e)
         {
-            // load setting
-            LoadSetting();
-            // load email database
-            LoadEmailDB();
             // init status strip
             InitStatusStrip();
             // load data grid view
             LoadDataGridView();
-            // load tree view
-            LoadTreeView();
-            // get email
-            ReceiveEmail();
+
+            // load setting
+            LoadSetting();
+            // only if email address exist...
+            if (Session.AccountName != "")
+            {
+                // load email database
+                LoadEmailDB();
+                // load tree view
+                LoadTreeView();
+                // get email
+                ReceiveEmail();
+            }
         }
 
         private void InitStatusStrip()
@@ -85,6 +90,8 @@ namespace WebMailClient
         private void LoadTreeView()
         {
             treeViewMailBox.Nodes.Clear();
+            if (Session.AccountName == "")
+                return;
             // add nodes to the tree view
             TreeNode rootNode = new TreeNode(Session.AccountName);
             treeViewMailBox.Nodes.Add(rootNode);
@@ -513,7 +520,12 @@ namespace WebMailClient
             if (settings.DialogResult == DialogResult.OK)
             {
                 LoadSetting();
+                // load email database
+                LoadEmailDB();
+                // load tree view
                 LoadTreeView();
+                // get email
+                ReceiveEmail();
             }
         }
 

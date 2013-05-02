@@ -21,9 +21,15 @@ namespace WebMailClient
             textBoxUsername.Text = Session.AccountName;
             textBoxPassword.Text = Session.AccountPass;
             textBoxPOP3Server.Text = Session.Pop3Server;
-            textBoxPOP3Port.Text = Session.Pop3Port.ToString();
+            if (Session.Pop3Port == 0)
+                textBoxPOP3Port.Text = "110";
+            else
+                textBoxPOP3Port.Text = Session.Pop3Port.ToString();
             textBoxSMTPServer.Text = Session.SMTPServer;
-            textBoxSMTPPort.Text = Session.SMTPPort.ToString();
+            if (Session.SMTPPort == 0)
+                textBoxSMTPPort.Text = "25";
+            else
+                textBoxSMTPPort.Text = Session.SMTPPort.ToString();
             textBoxMaxEmailCount.Text = Session.MaxEmailCount.ToString();
         }
 
@@ -31,7 +37,6 @@ namespace WebMailClient
         {
             textBoxPOP3Port.Text = "110";
             textBoxSMTPPort.Text = "25";
-            DialogResult = DialogResult.Cancel;
         }
 
         private void buttonOK_Click(object sender, EventArgs e)

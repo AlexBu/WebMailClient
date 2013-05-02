@@ -239,7 +239,9 @@ namespace WebMailClient
 
         public void RetrieveEmail(DataTable locallist)
         {
-            int downloadcount = 0;
+            int downloadcount = locallist.Rows.Count;
+            if (downloadcount > Session.MaxEmailCount)
+                return;
             for ( int i = 0; i < mailList.Count; i++ )
             {
                 bool found = false;
