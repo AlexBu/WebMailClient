@@ -51,7 +51,7 @@
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(3, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(40, 13);
+            this.label1.Size = new System.Drawing.Size(46, 13);
             this.label1.TabIndex = 0;
             this.label1.Text = "发件人:";
             // 
@@ -60,7 +60,7 @@
             this.label2.AutoSize = true;
             this.label2.Location = new System.Drawing.Point(3, 29);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(30, 13);
+            this.label2.Size = new System.Drawing.Size(34, 13);
             this.label2.TabIndex = 1;
             this.label2.Text = "抄送:";
             // 
@@ -69,7 +69,7 @@
             this.label3.AutoSize = true;
             this.label3.Location = new System.Drawing.Point(3, 58);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(30, 13);
+            this.label3.Size = new System.Drawing.Size(34, 13);
             this.label3.TabIndex = 2;
             this.label3.Text = "密件:";
             // 
@@ -78,7 +78,7 @@
             this.label4.AutoSize = true;
             this.label4.Location = new System.Drawing.Point(3, 87);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(30, 13);
+            this.label4.Size = new System.Drawing.Size(34, 13);
             this.label4.TabIndex = 3;
             this.label4.Text = "主题:";
             // 
@@ -171,7 +171,7 @@
             this.label5.AutoSize = true;
             this.label5.Location = new System.Drawing.Point(3, 145);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(27, 13);
+            this.label5.Size = new System.Drawing.Size(31, 13);
             this.label5.TabIndex = 8;
             this.label5.Text = "附件";
             // 
@@ -180,7 +180,7 @@
             this.label6.AutoSize = true;
             this.label6.Location = new System.Drawing.Point(3, 116);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(30, 13);
+            this.label6.Size = new System.Drawing.Size(34, 13);
             this.label6.TabIndex = 10;
             this.label6.Text = "时间:";
             // 

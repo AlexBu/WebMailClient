@@ -124,11 +124,6 @@ namespace WebMailClient
 
         private void buttonReplyMail_Click(object sender, EventArgs e)
         {
-            // add a seperate line: <HR tabIndex=-1>
-            webBrowserContent.Document.ExecCommand("SelectAll", true, null);
-            webBrowserContent.Document.ExecCommand("Copy", false, null);
-            webBrowserContent.Document.ExecCommand("Unselect", false, null);
-
             to = textBoxFrom.Text;
             title = textBoxTitle.Text;
 
