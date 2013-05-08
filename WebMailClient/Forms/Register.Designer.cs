@@ -169,9 +169,11 @@
             this.buttonCancel.TabIndex = 2;
             this.buttonCancel.Text = "清除";
             this.buttonCancel.UseVisualStyleBackColor = true;
+            this.buttonCancel.Click += new System.EventHandler(this.buttonCancel_Click);
             // 
             // Register
             // 
+            this.AcceptButton = this.buttonConfirm;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(499, 281);

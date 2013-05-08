@@ -38,5 +38,12 @@ namespace WebMailClient
                 Close();
             }
         }
+
+        private void buttonCancel_Click(object sender, EventArgs e)
+        {
+            textBoxUserName.Text = "";
+            textBoxPassword.Text = "";
+            textBoxReEnterPassword.Text = "";
+        }
     }
 }

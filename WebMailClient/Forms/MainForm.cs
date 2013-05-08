@@ -28,6 +28,7 @@ namespace WebMailClient
             Sentbox = 3,
             Recycle = 4
         }
+
         public MainForm()
         {
             InitializeComponent();
@@ -43,7 +44,7 @@ namespace WebMailClient
             // load setting
             LoadSetting();
             // only if email address exist...
-            if (Session.AccountName != "")
+            if (Session.AccountName != "" && Session.AccountName != null)
             {
                 // load email database
                 LoadEmailDB();
@@ -90,7 +91,7 @@ namespace WebMailClient
         private void LoadTreeView()
         {
             treeViewMailBox.Nodes.Clear();
-            if (Session.AccountName == "")
+            if (Session.AccountName == "" || Session.AccountName == null)
                 return;
             // add nodes to the tree view
             TreeNode rootNode = new TreeNode(Session.AccountName);
@@ -108,6 +109,7 @@ namespace WebMailClient
             rootNode.Expand();
 
             // select the first item
+            // set selectednode will trigger afterselect event
             treeViewMailBox.SelectedNode = treeViewMailBox.Nodes[0].Nodes[0];
             dataGridViewBoxContent.DataSource = datatableInbox;
         }
@@ -241,54 +243,6 @@ namespace WebMailClient
             }
         }
 
-        private void treeViewMailBox_AfterSelect(object sender, TreeViewEventArgs e)
-        {
-            UpdateGridView();
-        }
-
-        private void dataGridViewBoxContent_CellMouseDoubleClick(object sender, DataGridViewCellMouseEventArgs e)
-        {
-            if (e.RowIndex == -1)
-                return;
-            if (e.Button != MouseButtons.Left)
-                return;
-
-            // check the current mailbox
-            TreeNode currentNode = treeViewMailBox.SelectedNode;
-            if (currentNode.Text == "收件箱")
-            {
-                // inbox
-                string id = dataGridViewBoxContent.Rows[e.RowIndex].Cells[0].Value.ToString();
-                // the row being double clicked rather than the selected
-                string inboxPath = Utility.GetInboxBoxPath();
-                ShowMail(inboxPath + id);
-            }
-            else if (currentNode.Text == "发件箱")
-            {
-                // outbox
-                
-            }
-            else if (currentNode.Text == "草稿箱")
-            {
-                // draft
-                //
-            }
-            else if (currentNode.Text == "回收站")
-            {
-                // recycle
-                //
-            }
-            else if (currentNode.Text == "已发送")
-            {
-                // sent
-                string id = dataGridViewBoxContent.Rows[e.RowIndex].Cells[0].Value.ToString();
-                // the row being double clicked rather than the selected
-                string inboxPath = Utility.GetSentBoxPath();
-                ShowMail(inboxPath + id);
-            }
-
-        }
-
         private void ShowMail(string id)
         {
             ViewMail viewMail = new ViewMail();
@@ -312,65 +266,6 @@ namespace WebMailClient
                     backgroundWorkerSend.RunWorkerAsync(editMail);
                 }
             }
-        }
-
-        private void NewMailToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            // open edit mail form to edit email
-            EditMail editMail = new EditMail();
-            editMail.ShowDialog();
-            if (editMail.DialogResult == DialogResult.OK)
-            {
-                backgroundWorkerSend.RunWorkerAsync(editMail);
-            }
-        }
-
-        private void backgroundWorkerRecv_DoWork(object sender, DoWorkEventArgs e)
-        {
-            BackgroundWorker worker = sender as BackgroundWorker;
-            DownloadEmailData(worker);
-        }
-
-        private void backgroundWorkerRecv_ProgressChanged(object sender, ProgressChangedEventArgs e)
-        {
-            statusStripApplication.Items[0].Text = (string)e.UserState;
-        }
-
-        private void backgroundWorkerRecv_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
-        {
-            if(e.Error != null)
-                return;
-            if (e.Cancelled == true)
-                return;
-            // reload inbox data
-            LoadInboxDB();
-            UpdateGridView();
-        }
-
-        private void backgroundWorkerSend_DoWork(object sender, DoWorkEventArgs e)
-        {
-            EditMail editMail = e.Argument as EditMail;
-            MailMessage msg = editMail.MSG;
-            SmtpClient client = editMail.Client;
-            statusStripApplication.Items[0].Text = "发送邮件...";
-            client.Send(msg);
-            // also send one copy to local file storage
-            client.DeliveryMethod = SmtpDeliveryMethod.SpecifiedPickupDirectory;
-            // app dir\mail\user\account\sent\mail list
-            string filepath = Utility.GetSentBoxPath();
-            client.PickupDirectoryLocation = filepath;
-            client.EnableSsl = false;
-            client.Send(msg);
-        }
-
-        private void backgroundWorkerSend_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
-        {
-            statusStripApplication.Items[0].Text = "发送邮件成功";
-        }
-
-        private void DeleteToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            DeleteSelectedMail();
         }
 
         private void DeleteSelectedMail()
@@ -434,16 +329,6 @@ namespace WebMailClient
             }
         }
 
-        private void toolStripMenuItemDelete_Click(object sender, EventArgs e)
-        {
-            DeleteSelectedMail();
-        }
-
-        private void OpenToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            OpenSelectedMail();
-        }
-
         private void OpenSelectedMail()
         {
             // select the first selected mail to display
@@ -453,11 +338,6 @@ namespace WebMailClient
                 string uidl = dataGridViewBoxContent.Rows[0].Cells[0].Value.ToString();
                 ShowMail(uidl);
             }
-        }
-
-        private void RevertToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            RevertSelectedMail();
         }
 
         private void RevertSelectedMail()
@@ -489,46 +369,6 @@ namespace WebMailClient
             UpdateGridView();
         }
 
-        private void ContactToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            // show contact dialog
-            Contact contact = new Contact();
-            contact.ShowDialog();
-            if (contact.DialogResult == DialogResult.OK)
-            {
-                // open edit mail form to edit email
-                EditMail editMail = new EditMail();
-                editMail.Receiver = contact.TO;
-                editMail.ShowDialog();
-                if (editMail.DialogResult == DialogResult.OK)
-                {
-                    backgroundWorkerSend.RunWorkerAsync(editMail);
-                }
-            }
-        }
-
-        private void ReceiveToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            ReceiveEmail();
-        }
-
-        private void SettingToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            SettingForm settings = new SettingForm();
-            LoadSetting();
-            settings.ShowDialog();
-            if (settings.DialogResult == DialogResult.OK)
-            {
-                LoadSetting();
-                // load email database
-                LoadEmailDB();
-                // load tree view
-                LoadTreeView();
-                // get email
-                ReceiveEmail();
-            }
-        }
-
         private void LoadSetting()
         {
             string queryStr = String.Format("SELECT * FROM [Account] WHERE [UserID] = {0}", Session.LoginID);
@@ -552,6 +392,173 @@ namespace WebMailClient
                     Session.SMTPPort = (int)values[7];
                 if (values[8] != DBNull.Value)
                     Session.MaxEmailCount = (int)values[8];
+            }
+        }
+
+        private void treeViewMailBox_AfterSelect(object sender, TreeViewEventArgs e)
+        {
+            UpdateGridView();
+        }
+
+        private void dataGridViewBoxContent_CellMouseDoubleClick(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            if (e.RowIndex == -1)
+                return;
+            if (e.Button != MouseButtons.Left)
+                return;
+
+            // check the current mailbox
+            TreeNode currentNode = treeViewMailBox.SelectedNode;
+            if (currentNode.Text == "收件箱")
+            {
+                // inbox
+                string id = dataGridViewBoxContent.Rows[e.RowIndex].Cells[0].Value.ToString();
+                // the row being double clicked rather than the selected
+                string inboxPath = Utility.GetInboxBoxPath();
+                ShowMail(inboxPath + id);
+            }
+            else if (currentNode.Text == "发件箱")
+            {
+                // outbox
+                
+            }
+            else if (currentNode.Text == "草稿箱")
+            {
+                // draft
+                //
+            }
+            else if (currentNode.Text == "回收站")
+            {
+                // recycle
+                //
+            }
+            else if (currentNode.Text == "已发送")
+            {
+                // sent
+                string id = dataGridViewBoxContent.Rows[e.RowIndex].Cells[0].Value.ToString();
+                // the row being double clicked rather than the selected
+                string inboxPath = Utility.GetSentBoxPath();
+                ShowMail(inboxPath + id);
+            }
+
+        }
+
+        private void backgroundWorkerRecv_DoWork(object sender, DoWorkEventArgs e)
+        {
+            BackgroundWorker worker = sender as BackgroundWorker;
+            DownloadEmailData(worker);
+        }
+
+        private void backgroundWorkerRecv_ProgressChanged(object sender, ProgressChangedEventArgs e)
+        {
+            statusStripApplication.Items[0].Text = (string)e.UserState;
+        }
+
+        private void backgroundWorkerRecv_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            if(e.Error != null)
+                return;
+            if (e.Cancelled == true)
+                return;
+            // reload inbox data
+            LoadInboxDB();
+            UpdateGridView();
+        }
+
+        private void backgroundWorkerSend_DoWork(object sender, DoWorkEventArgs e)
+        {
+            EditMail editMail = e.Argument as EditMail;
+            MailMessage msg = editMail.MSG;
+            SmtpClient client = editMail.Client;
+            statusStripApplication.Items[0].Text = "发送邮件...";
+            client.Send(msg);
+            // also send one copy to local file storage
+            client.DeliveryMethod = SmtpDeliveryMethod.SpecifiedPickupDirectory;
+            // app dir\mail\user\account\sent\mail list
+            string filepath = Utility.GetSentBoxPath();
+            client.PickupDirectoryLocation = filepath;
+            client.EnableSsl = false;
+            client.Send(msg);
+        }
+
+        private void backgroundWorkerSend_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            statusStripApplication.Items[0].Text = "发送邮件成功";
+        }
+
+        private void NewMailToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            // open edit mail form to edit email
+            EditMail editMail = new EditMail();
+            editMail.ShowDialog();
+            if (editMail.DialogResult == DialogResult.OK)
+            {
+                backgroundWorkerSend.RunWorkerAsync(editMail);
+            }
+        }
+
+        private void DeleteToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            DeleteSelectedMail();
+        }
+
+        private void toolStripMenuItemDelete_Click(object sender, EventArgs e)
+        {
+            DeleteSelectedMail();
+        }
+
+        private void OpenToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            OpenSelectedMail();
+        }
+
+        private void RevertToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            RevertSelectedMail();
+        }
+
+        private void ContactToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            // show contact dialog
+            Contact contact = new Contact();
+            contact.ShowDialog();
+            if (contact.DialogResult == DialogResult.OK)
+            {
+                // open edit mail form to edit email
+                EditMail editMail = new EditMail();
+                editMail.Receiver = contact.TO;
+                editMail.ShowDialog();
+                if (editMail.DialogResult == DialogResult.OK)
+                {
+                    backgroundWorkerSend.RunWorkerAsync(editMail);
+                }
+            }
+        }
+
+        private void ReceiveToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            LoadAllIncomeDB();
+            ReceiveEmail();
+        }
+
+        private void SettingToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            SettingForm settings = new SettingForm();
+            LoadSetting();
+            settings.ShowDialog();
+            if (settings.DialogResult == DialogResult.OK)
+            {
+                LoadSetting();
+                // only if email address exist...
+                if (Session.AccountName != "" && Session.AccountName != null)
+                {
+                    // load email database
+                    LoadEmailDB();
+                    // load tree view
+                    LoadTreeView();
+                    // get email
+                    ReceiveEmail();
+                }
             }
         }
 
