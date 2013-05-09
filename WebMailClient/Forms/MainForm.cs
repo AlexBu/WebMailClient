@@ -174,9 +174,39 @@ namespace WebMailClient
         private void LoadDraftDB()
         {
             datatableDraft = new DataTable();
-//            string queryStr = String.Format(@"SELECT [UIDL], [DeleteFlag], [From], [Date], [Subject], [Size] 
-//                FROM [Mail] WHERE [AccountID] = {0} AND [Folder] = {1}", Session.AccountID, MAILBOXTYPE.Draft);
-//            DBAccess.FillDataTable(queryStr, ref datatableDraft);
+
+            // search through draft folder
+            string filepath = Utility.GetDraftPath();
+            string[] sentFileList = Directory.GetFiles(filepath, "*.eml");
+            if (sentFileList.Length == 0)
+                return;
+
+            DataColumn workCol = datatableSentbox.Columns.Add("GUID", typeof(string));
+            workCol.AllowDBNull = false;
+            workCol.Unique = true;
+
+            datatableSentbox.Columns.Add("To", typeof(string));
+            datatableSentbox.Columns.Add("Date", typeof(string));
+            datatableSentbox.Columns.Add("Subject", typeof(string));
+            datatableSentbox.Columns.Add("Size", typeof(int));
+
+            foreach (string file in sentFileList)
+            {
+                // load eml file
+                EML eml = new EML();
+                if (eml.ParseEML(file) == true)
+                {
+                    DataRow row = datatableSentbox.NewRow();
+                    FileInfo fileinfo = new FileInfo(file);
+                    row["GUID"] = fileinfo.Name;
+                    row["To"] = eml.To;
+                    row["Date"] = eml.TimeStampSent;
+                    row["Subject"] = eml.Subject;
+                    row["Size"] = eml.Size;
+                    datatableSentbox.Rows.Add(row);
+                }
+                eml.Close();
+            }
         }
 
         private void LoadOutboxDB()
@@ -282,32 +312,64 @@ namespace WebMailClient
             {
                 DeleteFromServer();
             }
-            LoadInboxDB();
-            LoadRecycleDB();
+            else if (currentNode.Text == "草稿箱")
+            {
+                DeleteFromDraft();
+            }
+            else if (currentNode.Text == "已发送")
+            {
+                DeleteFromSent();
+            }
+            else if (currentNode.Text == "发件箱")
+            {
+                DeleteFromOutbox();
+            }
+            LoadEmailDB();
             UpdateGridView();
+        }
+
+        private void DeleteFromOutbox()
+        {
+            foreach (DataGridViewRow row in dataGridViewBoxContent.SelectedRows)
+            {
+                string fullpath = Utility.GetOutBoxPath() + row.Cells[0].Value.ToString();
+                if (File.Exists(fullpath))
+                {
+                    // delete it
+                    File.Delete(fullpath);
+                }
+            }
+        }
+
+        private void DeleteFromSent()
+        {
+            foreach (DataGridViewRow row in dataGridViewBoxContent.SelectedRows)
+            {
+                string fullpath = Utility.GetSentBoxPath() + row.Cells[0].Value.ToString();
+                if (File.Exists(fullpath))
+                {
+                    // delete it
+                    File.Delete(fullpath);
+                }
+            }
+        }
+
+        private void DeleteFromDraft()
+        {
+            foreach (DataGridViewRow row in dataGridViewBoxContent.SelectedRows)
+            {
+                string fullpath = Utility.GetDraftPath() + row.Cells[0].Value.ToString();
+                if(File.Exists(fullpath))
+                {
+                    // delete it
+                    File.Delete(fullpath);
+                }
+            }
         }
 
         private void DeleteFromServer()
         {
-            // download email data and fill into database
-            Pop3 mailbox = new Pop3(Session.Pop3Server, Session.Pop3Port);
-            mailbox.Connect(Session.AccountName, Session.AccountPass);
-
-            foreach (DataGridViewRow row in dataGridViewBoxContent.SelectedRows)
-            {
-                string uidl = row.Cells[0].Value.ToString();
-                if (mailbox.DeleteMail(uidl) == true)
-                {
-                    // remove the record from database
-                    string deleteStr = string.Format("DELETE FROM [Mail] WHERE [UIDL] = '{0}'", uidl);
-                    if (DBAccess.ExecuteSQL(deleteStr) == false)
-                    {
-                        MessageBox.Show("删除邮件失败!", "Webmail", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
-                    }
-                }
-            }
-
-            mailbox.DisConnect();
+            backgroundWorkerDelete.RunWorkerAsync();
         }
 
         private void DeleteToRecycle()
@@ -420,17 +482,27 @@ namespace WebMailClient
             else if (currentNode.Text == "发件箱")
             {
                 // outbox
-                
+                string id = dataGridViewBoxContent.Rows[e.RowIndex].Cells[0].Value.ToString();
+                // the row being double clicked rather than the selected
+                string inboxPath = Utility.GetOutBoxPath();
+                ShowMail(inboxPath + id);
             }
             else if (currentNode.Text == "草稿箱")
             {
                 // draft
-                //
+                string id = dataGridViewBoxContent.Rows[e.RowIndex].Cells[0].Value.ToString();
+                // the row being double clicked rather than the selected
+                string inboxPath = Utility.GetDraftPath();
+                ShowMail(inboxPath + id);
             }
             else if (currentNode.Text == "回收站")
             {
                 // recycle
-                //
+                // still search files inside inbox
+                string id = dataGridViewBoxContent.Rows[e.RowIndex].Cells[0].Value.ToString();
+                // the row being double clicked rather than the selected
+                string inboxPath = Utility.GetInboxBoxPath();
+                ShowMail(inboxPath + id);
             }
             else if (currentNode.Text == "已发送")
             {
@@ -486,6 +558,33 @@ namespace WebMailClient
             statusStripApplication.Items[0].Text = "发送邮件成功";
         }
 
+        private void backgroundWorkerDelete_DoWork(object sender, DoWorkEventArgs e)
+        {
+            // download email data and fill into database
+            Pop3 mailbox = new Pop3(Session.Pop3Server, Session.Pop3Port);
+            mailbox.Connect(Session.AccountName, Session.AccountPass);
+
+            foreach (DataGridViewRow row in dataGridViewBoxContent.SelectedRows)
+            {
+                string uidl = row.Cells[0].Value.ToString();
+                if (mailbox.DeleteMail(uidl) == true)
+                {
+                    // remove the record from database
+                    string deleteStr = string.Format("DELETE FROM [Mail] WHERE [UIDL] = '{0}'", uidl);
+                    if (DBAccess.ExecuteSQL(deleteStr) == false)
+                    {
+                        MessageBox.Show("删除邮件失败!", "Webmail", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+                    }
+                }
+            }
+
+            mailbox.DisConnect();
+        }
+
+        private void backgroundWorkerDelete_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            statusStripApplication.Items[0].Text = "删除邮件成功";
+        }
         private void NewMailToolStripMenuItem_Click(object sender, EventArgs e)
         {
             // open edit mail form to edit email
@@ -566,5 +665,6 @@ namespace WebMailClient
         {
             Close();
         }
+
     }
 }

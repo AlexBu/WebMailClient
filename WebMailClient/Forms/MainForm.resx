@@ -135,4 +135,7 @@
   <metadata name="backgroundWorkerSend.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>205, 14</value>
   </metadata>
+  <metadata name="backgroundWorkerDelete.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>187, 51</value>
+  </metadata>
 </root>

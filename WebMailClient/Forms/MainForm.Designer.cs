@@ -34,6 +34,7 @@
             this.NewMailToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.OpenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ReceiveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.ExitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.EditToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.DeleteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.RevertToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -51,7 +52,7 @@
             this.toolStripMenuItemDelete = new System.Windows.Forms.ToolStripMenuItem();
             this.backgroundWorkerRecv = new System.ComponentModel.BackgroundWorker();
             this.backgroundWorkerSend = new System.ComponentModel.BackgroundWorker();
-            this.ExitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.backgroundWorkerDelete = new System.ComponentModel.BackgroundWorker();
             this.menuStripApplication.SuspendLayout();
             this.statusStripApplication.SuspendLayout();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -88,23 +89,30 @@
             // NewMailToolStripMenuItem
             // 
             this.NewMailToolStripMenuItem.Name = "NewMailToolStripMenuItem";
-            this.NewMailToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.NewMailToolStripMenuItem.Size = new System.Drawing.Size(119, 22);
             this.NewMailToolStripMenuItem.Text = "写邮件(&N)";
             this.NewMailToolStripMenuItem.Click += new System.EventHandler(this.NewMailToolStripMenuItem_Click);
             // 
             // OpenToolStripMenuItem
             // 
             this.OpenToolStripMenuItem.Name = "OpenToolStripMenuItem";
-            this.OpenToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.OpenToolStripMenuItem.Size = new System.Drawing.Size(119, 22);
             this.OpenToolStripMenuItem.Text = "打开(&O)";
             this.OpenToolStripMenuItem.Click += new System.EventHandler(this.OpenToolStripMenuItem_Click);
             // 
             // ReceiveToolStripMenuItem
             // 
             this.ReceiveToolStripMenuItem.Name = "ReceiveToolStripMenuItem";
-            this.ReceiveToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.ReceiveToolStripMenuItem.Size = new System.Drawing.Size(119, 22);
             this.ReceiveToolStripMenuItem.Text = "收邮件(&R)";
             this.ReceiveToolStripMenuItem.Click += new System.EventHandler(this.ReceiveToolStripMenuItem_Click);
+            // 
+            // ExitToolStripMenuItem
+            // 
+            this.ExitToolStripMenuItem.Name = "ExitToolStripMenuItem";
+            this.ExitToolStripMenuItem.Size = new System.Drawing.Size(119, 22);
+            this.ExitToolStripMenuItem.Text = "退出(&X)";
+            this.ExitToolStripMenuItem.Click += new System.EventHandler(this.ExitToolStripMenuItem_Click);
             // 
             // EditToolStripMenuItem
             // 
@@ -253,12 +261,10 @@
             this.backgroundWorkerSend.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundWorkerSend_DoWork);
             this.backgroundWorkerSend.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.backgroundWorkerSend_RunWorkerCompleted);
             // 
-            // ExitToolStripMenuItem
+            // backgroundWorkerDelete
             // 
-            this.ExitToolStripMenuItem.Name = "ExitToolStripMenuItem";
-            this.ExitToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.ExitToolStripMenuItem.Text = "退出(&X)";
-            this.ExitToolStripMenuItem.Click += new System.EventHandler(this.ExitToolStripMenuItem_Click);
+            this.backgroundWorkerDelete.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundWorkerDelete_DoWork);
+            this.backgroundWorkerDelete.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.backgroundWorkerDelete_RunWorkerCompleted);
             // 
             // MainForm
             // 
@@ -313,5 +319,6 @@
         private System.Windows.Forms.ToolStripMenuItem ContactToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem ReceiveToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem ExitToolStripMenuItem;
+        private System.ComponentModel.BackgroundWorker backgroundWorkerDelete;
     }
 }

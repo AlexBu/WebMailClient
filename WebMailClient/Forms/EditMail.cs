@@ -200,5 +200,20 @@ namespace WebMailClient
                 }
             }
         }
+
+        private void buttonSaveDraft_Click(object sender, EventArgs e)
+        {
+            // save to draft but not close this form
+            PrepareMail();
+            
+            // save to draft box
+            client.DeliveryMethod = SmtpDeliveryMethod.SpecifiedPickupDirectory;
+            string filepath = Utility.GetDraftPath();
+            client.PickupDirectoryLocation = filepath;
+            client.EnableSsl = false;
+            client.Send(msg);
+
+            MessageBox.Show("保存草稿成功!", "WebMailClient", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+        }
     }
 }

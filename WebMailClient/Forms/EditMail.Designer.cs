@@ -186,6 +186,7 @@
             this.buttonSaveDraft.TabIndex = 3;
             this.buttonSaveDraft.Text = "保存为草稿";
             this.buttonSaveDraft.UseVisualStyleBackColor = true;
+            this.buttonSaveDraft.Click += new System.EventHandler(this.buttonSaveDraft_Click);
             // 
             // buttonAddAttachment
             // 
