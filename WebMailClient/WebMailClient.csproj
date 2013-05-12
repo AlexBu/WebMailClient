@@ -72,6 +72,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Classes\EML.cs" />
+    <Compile Include="Classes\MailBox.cs" />
     <Compile Include="Classes\POP3.cs" />
     <Compile Include="Classes\Session.cs" />
     <Compile Include="Classes\Utility.cs" />

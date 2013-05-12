@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Data;
 
 namespace WebMailClient
 {
@@ -17,6 +18,7 @@ namespace WebMailClient
         private static string smtpserver;
         private static int smtpport;
         private static int maxemailcount;
+        //private static DataTable drafttable;
 
         public static string LoginName
         {
@@ -137,6 +139,18 @@ namespace WebMailClient
                 maxemailcount = value;
             }
         }
+
+        //public static DataTable datatableDraft
+        //{
+        //    get
+        //    {
+        //        return drafttable;
+        //    }
+        //    set
+        //    {
+        //        drafttable = value;
+        //    }
+        //}
 
         public static bool SettingIsValid()
         {

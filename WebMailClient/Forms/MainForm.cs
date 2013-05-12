@@ -125,6 +125,43 @@ namespace WebMailClient
             LoadSentboxDB();
         }
 
+        private void LoadDraftDB()
+        {
+            datatableDraft = new DataTable();
+            // search through draft folder
+            string filepath = Utility.GetDraftPath();
+            string[] sentFileList = Directory.GetFiles(filepath, "*.eml");
+            if (sentFileList.Length == 0)
+                return;
+
+            DataColumn workCol = datatableDraft.Columns.Add("GUID", typeof(string));
+            workCol.AllowDBNull = false;
+            workCol.Unique = true;
+
+            datatableDraft.Columns.Add("To", typeof(string));
+            datatableDraft.Columns.Add("Date", typeof(string));
+            datatableDraft.Columns.Add("Subject", typeof(string));
+            datatableDraft.Columns.Add("Size", typeof(int));
+
+            foreach (string file in sentFileList)
+            {
+                // load eml file
+                EML eml = new EML();
+                if (eml.ParseEML(file) == true)
+                {
+                    DataRow row = datatableDraft.NewRow();
+                    FileInfo fileinfo = new FileInfo(file);
+                    row["GUID"] = fileinfo.Name;
+                    row["To"] = eml.To;
+                    row["Date"] = eml.TimeStampSent;
+                    row["Subject"] = eml.Subject;
+                    row["Size"] = eml.Size;
+                    datatableDraft.Rows.Add(row);
+                }
+                eml.Close();
+            }
+        }
+
         private void LoadSentboxDB()
         {
             datatableSentbox = new DataTable();
@@ -171,43 +208,7 @@ namespace WebMailClient
             DBAccess.FillDataTable(queryStr, ref datatableRecycle);
         }
 
-        private void LoadDraftDB()
-        {
-            datatableDraft = new DataTable();
 
-            // search through draft folder
-            string filepath = Utility.GetDraftPath();
-            string[] sentFileList = Directory.GetFiles(filepath, "*.eml");
-            if (sentFileList.Length == 0)
-                return;
-
-            DataColumn workCol = datatableSentbox.Columns.Add("GUID", typeof(string));
-            workCol.AllowDBNull = false;
-            workCol.Unique = true;
-
-            datatableSentbox.Columns.Add("To", typeof(string));
-            datatableSentbox.Columns.Add("Date", typeof(string));
-            datatableSentbox.Columns.Add("Subject", typeof(string));
-            datatableSentbox.Columns.Add("Size", typeof(int));
-
-            foreach (string file in sentFileList)
-            {
-                // load eml file
-                EML eml = new EML();
-                if (eml.ParseEML(file) == true)
-                {
-                    DataRow row = datatableSentbox.NewRow();
-                    FileInfo fileinfo = new FileInfo(file);
-                    row["GUID"] = fileinfo.Name;
-                    row["To"] = eml.To;
-                    row["Date"] = eml.TimeStampSent;
-                    row["Subject"] = eml.Subject;
-                    row["Size"] = eml.Size;
-                    datatableSentbox.Rows.Add(row);
-                }
-                eml.Close();
-            }
-        }
 
         private void LoadOutboxDB()
         {
@@ -592,7 +593,23 @@ namespace WebMailClient
             editMail.ShowDialog();
             if (editMail.DialogResult == DialogResult.OK)
             {
-                backgroundWorkerSend.RunWorkerAsync(editMail);
+                if (editMail.SendTarget == EditMail.Target.Remote)
+                    backgroundWorkerSend.RunWorkerAsync(editMail);
+                else
+                {
+                    // save to draft box
+                    MailMessage msg = editMail.MSG;
+                    SmtpClient client = editMail.Client;
+                    client.DeliveryMethod = SmtpDeliveryMethod.SpecifiedPickupDirectory;
+                    string filepath = Utility.GetDraftPath();
+                    client.PickupDirectoryLocation = filepath;
+                    client.EnableSsl = false;
+                    client.Send(msg);
+
+                    // update view
+                    LoadEmailDB();
+                    UpdateGridView();
+                }
             }
         }
 
@@ -627,9 +644,26 @@ namespace WebMailClient
                 EditMail editMail = new EditMail();
                 editMail.Receiver = contact.TO;
                 editMail.ShowDialog();
+
                 if (editMail.DialogResult == DialogResult.OK)
                 {
-                    backgroundWorkerSend.RunWorkerAsync(editMail);
+                    if (editMail.SendTarget == EditMail.Target.Remote)
+                        backgroundWorkerSend.RunWorkerAsync(editMail);
+                    else
+                    {
+                        // save to draft box
+                        MailMessage msg = editMail.MSG;
+                        SmtpClient client = editMail.Client;
+                        client.DeliveryMethod = SmtpDeliveryMethod.SpecifiedPickupDirectory;
+                        string filepath = Utility.GetDraftPath();
+                        client.PickupDirectoryLocation = filepath;
+                        client.EnableSsl = false;
+                        client.Send(msg);
+
+                        // update view
+                        LoadEmailDB();
+                        UpdateGridView();
+                    }
                 }
             }
         }

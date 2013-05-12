@@ -14,8 +14,15 @@ namespace WebMailClient
     {
         private MailMessage msg = null;
         private SmtpClient client = null;
-
+        
         private List<string> attachList = new List<string>();
+
+        public enum Target
+        {
+            Remote, Draft
+        }
+
+        private Target target = Target.Remote;
 
         public EditMail()
         {
@@ -70,10 +77,19 @@ namespace WebMailClient
             }
         }
 
+        public Target SendTarget
+        {
+            get
+            {
+                return target;
+            }
+        }
+
         private void buttonSendMail_Click(object sender, EventArgs e)
         {
             PrepareMail();
             DialogResult = DialogResult.OK;
+            target = Target.Remote;
             Close();
         }
 
@@ -205,15 +221,9 @@ namespace WebMailClient
         {
             // save to draft but not close this form
             PrepareMail();
-            
-            // save to draft box
-            client.DeliveryMethod = SmtpDeliveryMethod.SpecifiedPickupDirectory;
-            string filepath = Utility.GetDraftPath();
-            client.PickupDirectoryLocation = filepath;
-            client.EnableSsl = false;
-            client.Send(msg);
-
-            MessageBox.Show("保存草稿成功!", "WebMailClient", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+            DialogResult = DialogResult.OK;
+            target = Target.Draft;
+            Close();
         }
     }
 }

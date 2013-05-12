@@ -72,5 +72,18 @@ namespace WebMailClient
 
             return filepath;
         }
+
+        public static string GetRootPath()
+        {
+            if (Session.AccountName == null || Session.AccountName == "")
+                return "";
+            string filepath = string.Format("{0}\\Mail\\{1}\\{2}\\",
+                Directory.GetCurrentDirectory(),
+                Session.LoginName,
+                Session.AccountName);
+
+            return filepath;
+        }
+
     }
 }

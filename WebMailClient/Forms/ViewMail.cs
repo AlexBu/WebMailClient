@@ -77,7 +77,12 @@ namespace WebMailClient
             textBoxCC.Text = eml.CC;
             textBoxBCC.Text = eml.BCC;
             textBoxTitle.Text = eml.Subject;
-            textBoxTime.Text = eml.TimeStampRecv;
+            DateTime recvtime = DateTime.Parse(eml.TimeStampRecv);
+            DateTime senttime = DateTime.Parse(eml.TimeStampSent);
+            if(recvtime > senttime)
+                textBoxTime.Text = eml.TimeStampRecv;
+            else
+                textBoxTime.Text = eml.TimeStampSent;
 
             if (eml.HTMLBody != "")
             {

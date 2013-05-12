@@ -242,7 +242,7 @@ namespace WebMailClient
             int downloadcount = locallist.Rows.Count;
             if (downloadcount > Session.MaxEmailCount)
                 return;
-            for ( int i = 0; i < mailList.Count; i++ )
+            for (int i = mailList.Count - 1; i >= 0; i--)
             {
                 bool found = false;
                 string str = mailList[i];

@@ -6,6 +6,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using System.IO;
 
 namespace WebMailClient
 {
@@ -41,8 +42,24 @@ namespace WebMailClient
 
         private void buttonOK_Click(object sender, EventArgs e)
         {
-            SaveSetting();
-            DialogResult = DialogResult.OK;
+            if (Session.AccountName == null)
+            {
+                // first time, save directly
+                SaveSetting();
+                DialogResult = DialogResult.OK;
+            }
+            // clear all mail data if email address changed
+            else if (textBoxUsername.Text != Session.AccountName)
+            {
+                if(MessageBox.Show("切换邮箱所有已经保存到本地的邮件将会丢失, 继续吗?", "Webmail", MessageBoxButtons.OKCancel, MessageBoxIcon.Asterisk)
+                    == DialogResult.OK)
+                {
+                    MailBox.CleanRootFolder();
+                    MailBox.CleanDataInDB();
+                    SaveSetting();
+                    DialogResult = DialogResult.OK;
+                }
+            }
         }
 
         private void SaveSetting()
