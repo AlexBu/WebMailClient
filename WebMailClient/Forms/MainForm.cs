@@ -557,6 +557,8 @@ namespace WebMailClient
         private void backgroundWorkerSend_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
             statusStripApplication.Items[0].Text = "发送邮件成功";
+            LoadEmailDB();
+            UpdateGridView();
         }
 
         private void backgroundWorkerDelete_DoWork(object sender, DoWorkEventArgs e)
