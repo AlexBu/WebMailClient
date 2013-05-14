@@ -49,7 +49,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(3, 0);
+            this.label1.Location = new System.Drawing.Point(13, 10);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(46, 13);
             this.label1.TabIndex = 0;
@@ -58,7 +58,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(3, 29);
+            this.label2.Location = new System.Drawing.Point(13, 38);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(34, 13);
             this.label2.TabIndex = 1;
@@ -67,7 +67,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(3, 58);
+            this.label3.Location = new System.Drawing.Point(13, 66);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(34, 13);
             this.label3.TabIndex = 2;
@@ -76,7 +76,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(3, 87);
+            this.label4.Location = new System.Drawing.Point(13, 94);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(34, 13);
             this.label4.TabIndex = 3;
@@ -84,9 +84,10 @@
             // 
             // buttonReplyMail
             // 
-            this.buttonReplyMail.Location = new System.Drawing.Point(551, 522);
+            this.buttonReplyMail.Dock = System.Windows.Forms.DockStyle.Right;
+            this.buttonReplyMail.Location = new System.Drawing.Point(637, 555);
             this.buttonReplyMail.Name = "buttonReplyMail";
-            this.buttonReplyMail.Size = new System.Drawing.Size(75, 23);
+            this.buttonReplyMail.Size = new System.Drawing.Size(75, 28);
             this.buttonReplyMail.TabIndex = 7;
             this.buttonReplyMail.Text = "回复邮件";
             this.buttonReplyMail.UseVisualStyleBackColor = true;
@@ -94,10 +95,11 @@
             // 
             // textBoxFrom
             // 
-            this.textBoxFrom.Location = new System.Drawing.Point(131, 3);
+            this.textBoxFrom.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.textBoxFrom.Location = new System.Drawing.Point(154, 13);
             this.textBoxFrom.Name = "textBoxFrom";
             this.textBoxFrom.ReadOnly = true;
-            this.textBoxFrom.Size = new System.Drawing.Size(510, 20);
+            this.textBoxFrom.Size = new System.Drawing.Size(558, 20);
             this.textBoxFrom.TabIndex = 4;
             // 
             // tableLayoutPanel1
@@ -105,6 +107,8 @@
             this.tableLayoutPanel1.ColumnCount = 2;
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 80F));
+            this.tableLayoutPanel1.Controls.Add(this.buttonReplyMail, 1, 7);
+            this.tableLayoutPanel1.Controls.Add(this.webBrowserContent, 0, 6);
             this.tableLayoutPanel1.Controls.Add(this.label1, 0, 0);
             this.tableLayoutPanel1.Controls.Add(this.label2, 0, 1);
             this.tableLayoutPanel1.Controls.Add(this.label3, 0, 2);
@@ -117,59 +121,63 @@
             this.tableLayoutPanel1.Controls.Add(this.label5, 0, 5);
             this.tableLayoutPanel1.Controls.Add(this.label6, 0, 4);
             this.tableLayoutPanel1.Controls.Add(this.textBoxTime, 1, 4);
-            this.tableLayoutPanel1.Location = new System.Drawing.Point(12, 10);
+            this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
-            this.tableLayoutPanel1.RowCount = 6;
+            this.tableLayoutPanel1.Padding = new System.Windows.Forms.Padding(10);
+            this.tableLayoutPanel1.RowCount = 8;
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 5F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 5F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 5F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 5F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 5F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 15F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 15F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 15F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 15F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 15F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(644, 197);
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 55F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 5F));
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(725, 596);
             this.tableLayoutPanel1.TabIndex = 6;
             // 
             // textBoxCC
             // 
             this.textBoxCC.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.textBoxCC.Location = new System.Drawing.Point(131, 32);
+            this.textBoxCC.Location = new System.Drawing.Point(154, 41);
             this.textBoxCC.Name = "textBoxCC";
             this.textBoxCC.ReadOnly = true;
-            this.textBoxCC.Size = new System.Drawing.Size(510, 20);
+            this.textBoxCC.Size = new System.Drawing.Size(558, 20);
             this.textBoxCC.TabIndex = 5;
             // 
             // textBoxBCC
             // 
             this.textBoxBCC.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.textBoxBCC.Location = new System.Drawing.Point(131, 61);
+            this.textBoxBCC.Location = new System.Drawing.Point(154, 69);
             this.textBoxBCC.Name = "textBoxBCC";
             this.textBoxBCC.ReadOnly = true;
-            this.textBoxBCC.Size = new System.Drawing.Size(510, 20);
+            this.textBoxBCC.Size = new System.Drawing.Size(558, 20);
             this.textBoxBCC.TabIndex = 6;
             // 
             // textBoxTitle
             // 
             this.textBoxTitle.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.textBoxTitle.Location = new System.Drawing.Point(131, 90);
+            this.textBoxTitle.Location = new System.Drawing.Point(154, 97);
             this.textBoxTitle.Name = "textBoxTitle";
             this.textBoxTitle.ReadOnly = true;
-            this.textBoxTitle.Size = new System.Drawing.Size(510, 20);
+            this.textBoxTitle.Size = new System.Drawing.Size(558, 20);
             this.textBoxTitle.TabIndex = 7;
             // 
             // listBoxAttachment
             // 
             this.listBoxAttachment.Dock = System.Windows.Forms.DockStyle.Fill;
             this.listBoxAttachment.FormattingEnabled = true;
-            this.listBoxAttachment.Location = new System.Drawing.Point(131, 148);
+            this.listBoxAttachment.Location = new System.Drawing.Point(154, 153);
             this.listBoxAttachment.Name = "listBoxAttachment";
-            this.listBoxAttachment.Size = new System.Drawing.Size(510, 43);
+            this.listBoxAttachment.Size = new System.Drawing.Size(558, 69);
             this.listBoxAttachment.TabIndex = 9;
             this.listBoxAttachment.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.listBoxAttachment_MouseDoubleClick);
             // 
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(3, 145);
+            this.label5.Location = new System.Drawing.Point(13, 150);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(31, 13);
             this.label5.TabIndex = 8;
@@ -178,7 +186,7 @@
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(3, 116);
+            this.label6.Location = new System.Drawing.Point(13, 122);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(34, 13);
             this.label6.TabIndex = 10;
@@ -187,31 +195,31 @@
             // textBoxTime
             // 
             this.textBoxTime.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.textBoxTime.Location = new System.Drawing.Point(131, 119);
+            this.textBoxTime.Location = new System.Drawing.Point(154, 125);
             this.textBoxTime.Name = "textBoxTime";
             this.textBoxTime.ReadOnly = true;
-            this.textBoxTime.Size = new System.Drawing.Size(510, 20);
+            this.textBoxTime.Size = new System.Drawing.Size(558, 20);
             this.textBoxTime.TabIndex = 11;
             // 
             // webBrowserContent
             // 
             this.webBrowserContent.AllowNavigation = false;
             this.webBrowserContent.AllowWebBrowserDrop = false;
+            this.tableLayoutPanel1.SetColumnSpan(this.webBrowserContent, 2);
+            this.webBrowserContent.Dock = System.Windows.Forms.DockStyle.Fill;
             this.webBrowserContent.IsWebBrowserContextMenuEnabled = false;
-            this.webBrowserContent.Location = new System.Drawing.Point(13, 227);
+            this.webBrowserContent.Location = new System.Drawing.Point(13, 239);
             this.webBrowserContent.MinimumSize = new System.Drawing.Size(20, 20);
             this.webBrowserContent.Name = "webBrowserContent";
             this.webBrowserContent.ScriptErrorsSuppressed = true;
-            this.webBrowserContent.Size = new System.Drawing.Size(643, 279);
+            this.webBrowserContent.Size = new System.Drawing.Size(699, 310);
             this.webBrowserContent.TabIndex = 8;
             // 
             // ViewMail
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(693, 584);
-            this.Controls.Add(this.webBrowserContent);
-            this.Controls.Add(this.buttonReplyMail);
+            this.ClientSize = new System.Drawing.Size(725, 596);
             this.Controls.Add(this.tableLayoutPanel1);
             this.Name = "ViewMail";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;

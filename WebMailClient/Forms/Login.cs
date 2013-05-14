@@ -22,7 +22,7 @@ namespace WebMailClient
             object[] values = { null };
             if(DBAccess.QuerySingleRecord(queryStr, ref values) == 1)
             {
-                MessageBox.Show("登录成功!", "Webmail", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+                MessageBox.Show("登录成功!", "邮件系统");
                 // set login result
                 DialogResult = DialogResult.OK;
                 // save session
@@ -32,7 +32,7 @@ namespace WebMailClient
             }
             else
             {
-                MessageBox.Show("登录失败!", "Webmail", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+                MessageBox.Show("登录失败!", "邮件系统");
                 // save session
                 Session.LoginName = "";
                 Session.LoginID = -1;
@@ -51,11 +51,11 @@ namespace WebMailClient
                 string insertStr = String.Format("INSERT INTO [User] ([Username], [Password]) VALUES ('{0}', '{1}')", regForm.GetUsername(), regForm.GetPassword());
                 if (DBAccess.ExecuteSQL(insertStr))
                 {
-                    MessageBox.Show("注册成功!", "Webmail", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+                    MessageBox.Show("注册成功!", "邮件系统");
                 }
                 else
                 {
-                    MessageBox.Show("注册失败!", "Webmail", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+                    MessageBox.Show("注册失败!", "邮件系统");
                 }
             }
         }

@@ -30,7 +30,7 @@ namespace WebMailClient
         {
             if(textBoxPassword.Text != textBoxReEnterPassword.Text)
             {
-                MessageBox.Show("密码不一致!", "Webmail", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+                MessageBox.Show("密码不一致!", "邮件系统");
             }
             else
             {

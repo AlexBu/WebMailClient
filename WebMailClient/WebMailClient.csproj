@@ -76,6 +76,12 @@
     <Compile Include="Classes\POP3.cs" />
     <Compile Include="Classes\Session.cs" />
     <Compile Include="Classes\Utility.cs" />
+    <Compile Include="Forms\About.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\About.Designer.cs">
+      <DependentUpon>About.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\Contact.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -122,6 +128,9 @@
       <DependentUpon>ViewMail.cs</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="Forms\About.resx">
+      <DependentUpon>About.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\Contact.resx">
       <DependentUpon>Contact.cs</DependentUpon>
     </EmbeddedResource>

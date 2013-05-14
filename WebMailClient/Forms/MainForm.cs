@@ -294,9 +294,61 @@ namespace WebMailClient
 
                 if (editMail.DialogResult == DialogResult.OK)
                 {
-                    backgroundWorkerSend.RunWorkerAsync(editMail);
+                    if (editMail.SendTarget == EditMail.Target.Remote)
+                        backgroundWorkerSend.RunWorkerAsync(editMail);
+                    else
+                    {
+                        // save to draft box
+                        MailMessage msg = editMail.MSG;
+                        SmtpClient client = editMail.Client;
+                        client.DeliveryMethod = SmtpDeliveryMethod.SpecifiedPickupDirectory;
+                        string filepath = Utility.GetDraftPath();
+                        client.PickupDirectoryLocation = filepath;
+                        client.EnableSsl = false;
+                        client.Send(msg);
+
+                        // update view
+                        LoadEmailDB();
+                        UpdateGridView();
+                    }
                 }
             }
+        }
+
+        private void EditDraft(string id)
+        {
+            EditMail editMail = new EditMail(id);
+            editMail.ShowDialog();
+
+            if (editMail.DialogResult == DialogResult.OK)
+            {
+                // draft will be deleted, whether it is been sent or drafted again
+                string fullpath = id;
+                if (File.Exists(fullpath))
+                {
+                    // delete it
+                    File.Delete(fullpath);
+                }
+
+                if (editMail.SendTarget == EditMail.Target.Remote)
+                    backgroundWorkerSend.RunWorkerAsync(editMail);
+                else
+                {
+                    // save to draft box
+                    MailMessage msg = editMail.MSG;
+                    SmtpClient client = editMail.Client;
+                    client.DeliveryMethod = SmtpDeliveryMethod.SpecifiedPickupDirectory;
+                    string filepath = Utility.GetDraftPath();
+                    client.PickupDirectoryLocation = filepath;
+                    client.EnableSsl = false;
+                    client.Send(msg);
+
+                    // update view
+                    LoadEmailDB();
+                    UpdateGridView();
+                }
+            }
+
         }
 
         private void DeleteSelectedMail()
@@ -388,7 +440,7 @@ namespace WebMailClient
             updateStr = builder.ToString();
             if (DBAccess.ExecuteSQL(updateStr) == false)
             {
-                MessageBox.Show("删除邮件失败!", "Webmail", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+                MessageBox.Show("删除邮件失败!", "邮件系统");
             }
         }
 
@@ -425,7 +477,7 @@ namespace WebMailClient
             insertStr = builder.ToString();
             if (DBAccess.ExecuteSQL(insertStr) == false)
             {
-                MessageBox.Show("还原邮件失败!", "Webmail", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+                MessageBox.Show("还原邮件失败!", "邮件系统");
             }
             LoadInboxDB();
             LoadRecycleDB();
@@ -485,16 +537,16 @@ namespace WebMailClient
                 // outbox
                 string id = dataGridViewBoxContent.Rows[e.RowIndex].Cells[0].Value.ToString();
                 // the row being double clicked rather than the selected
-                string inboxPath = Utility.GetOutBoxPath();
-                ShowMail(inboxPath + id);
+                string outboxPath = Utility.GetOutBoxPath();
+                ShowMail(outboxPath + id);
             }
             else if (currentNode.Text == "草稿箱")
             {
                 // draft
                 string id = dataGridViewBoxContent.Rows[e.RowIndex].Cells[0].Value.ToString();
                 // the row being double clicked rather than the selected
-                string inboxPath = Utility.GetDraftPath();
-                ShowMail(inboxPath + id);
+                string draftPath = Utility.GetDraftPath();
+                EditDraft(draftPath + id);
             }
             else if (currentNode.Text == "回收站")
             {
@@ -502,16 +554,16 @@ namespace WebMailClient
                 // still search files inside inbox
                 string id = dataGridViewBoxContent.Rows[e.RowIndex].Cells[0].Value.ToString();
                 // the row being double clicked rather than the selected
-                string inboxPath = Utility.GetInboxBoxPath();
-                ShowMail(inboxPath + id);
+                string recyclePath = Utility.GetInboxBoxPath();
+                ShowMail(recyclePath + id);
             }
             else if (currentNode.Text == "已发送")
             {
                 // sent
                 string id = dataGridViewBoxContent.Rows[e.RowIndex].Cells[0].Value.ToString();
                 // the row being double clicked rather than the selected
-                string inboxPath = Utility.GetSentBoxPath();
-                ShowMail(inboxPath + id);
+                string sentPath = Utility.GetSentBoxPath();
+                ShowMail(sentPath + id);
             }
 
         }
@@ -576,7 +628,7 @@ namespace WebMailClient
                     string deleteStr = string.Format("DELETE FROM [Mail] WHERE [UIDL] = '{0}'", uidl);
                     if (DBAccess.ExecuteSQL(deleteStr) == false)
                     {
-                        MessageBox.Show("删除邮件失败!", "Webmail", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+                        MessageBox.Show("删除邮件失败!", "邮件系统");
                     }
                 }
             }
@@ -700,6 +752,12 @@ namespace WebMailClient
         private void ExitToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Close();
+        }
+
+        private void AboutToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            About about = new About();
+            about.ShowDialog();
         }
 
     }

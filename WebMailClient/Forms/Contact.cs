@@ -66,11 +66,11 @@ namespace WebMailClient
                     editContact.EmailAddress, editContact.ContactName, editContact.Comment, editContact.ID);
                 if (DBAccess.ExecuteSQL(updateStr))
                 {
-                    MessageBox.Show("更新联系人成功!", "Webmail", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+                    MessageBox.Show("更新联系人成功!", "邮件系统");
                 }
                 else
                 {
-                    MessageBox.Show("更新联系人失败!", "Webmail", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+                    MessageBox.Show("更新联系人失败!", "邮件系统");
                 }
 
                 LoadContact();
@@ -88,11 +88,11 @@ namespace WebMailClient
                     editContact.EmailAddress, editContact.ContactName, editContact.Comment);
                 if (DBAccess.ExecuteSQL(insertStr))
                 {
-                    MessageBox.Show("添加联系人成功!", "Webmail", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+                    MessageBox.Show("添加联系人成功!", "邮件系统");
                 }
                 else
                 {
-                    MessageBox.Show("添加联系人失败!", "Webmail", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+                    MessageBox.Show("添加联系人失败!", "邮件系统");
                 }
 
                 LoadContact();
@@ -115,11 +115,11 @@ namespace WebMailClient
             insertStr = builder.ToString();
             if (DBAccess.ExecuteSQL(insertStr))
             {
-                MessageBox.Show("删除联系人成功!", "Webmail", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+                MessageBox.Show("删除联系人成功!", "邮件系统");
             }
             else
             {
-                MessageBox.Show("删除联系人失败!", "Webmail", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+                MessageBox.Show("删除联系人失败!", "邮件系统");
             }
 
             LoadContact();

@@ -16,8 +16,6 @@ namespace WebMailClient
             if (Directory.Exists(rootpath) == true)
             {
                 Directory.Delete(rootpath, true);
-                //DirectoryInfo info = new DirectoryInfo(rootpath);
-                //info.Delete(true);
             }
         }
 

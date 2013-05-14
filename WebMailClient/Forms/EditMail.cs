@@ -24,8 +24,18 @@ namespace WebMailClient
 
         private Target target = Target.Remote;
 
+        private string filename = "";
+
+        private EML eml = null;
+
         public EditMail()
         {
+            InitializeComponent();
+        }
+
+        public EditMail(string id)
+        {
+            filename = id;
             InitializeComponent();
         }
 
@@ -108,7 +118,7 @@ namespace WebMailClient
             msg = new MailMessage();
             if (textBoxReceive.Text.Length == 0)
             {
-                MessageBox.Show("收件地址不能为空!");
+                MessageBox.Show("收件地址不能为空!", "邮件系统");
                 return;
             }
             string[] addrlist = textBoxReceive.Text.Split(';');
@@ -224,6 +234,40 @@ namespace WebMailClient
             DialogResult = DialogResult.OK;
             target = Target.Draft;
             Close();
+        }
+
+        private void EditMail_Load(object sender, EventArgs e)
+        {
+            if (filename == "")
+                return;
+            
+            // load eml from parameter
+            eml = new EML();
+            if (eml.ParseEML(filename) == false)
+            {
+                eml.Close();
+                return;
+            }
+
+            textBoxReceive.Text = eml.To;
+            textBoxCC.Text = eml.CC;
+            textBoxBCC.Text = eml.BCC;
+            textBoxTitle.Text = eml.Subject;
+            DateTime recvtime = DateTime.Parse(eml.TimeStampRecv);
+            DateTime senttime = DateTime.Parse(eml.TimeStampSent);
+
+            if (eml.HTMLBody != "")
+            {
+                richTextBoxContent.Text = eml.HTMLBody;
+            }
+            else
+            {
+                richTextBoxContent.Text = eml.TextBody;
+            }
+
+            // do not load attachment, will be added in the next version
+
+            eml.Close();
         }
     }
 }

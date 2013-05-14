@@ -51,7 +51,7 @@ namespace WebMailClient
             // clear all mail data if email address changed
             else if (textBoxUsername.Text != Session.AccountName)
             {
-                if(MessageBox.Show("切换邮箱所有已经保存到本地的邮件将会丢失, 继续吗?", "Webmail", MessageBoxButtons.OKCancel, MessageBoxIcon.Asterisk)
+                if (MessageBox.Show("切换邮箱所有已经保存到本地的邮件将会丢失, 继续吗?", "邮件系统", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning)
                     == DialogResult.OK)
                 {
                     MailBox.CleanRootFolder();
